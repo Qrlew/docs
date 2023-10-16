@@ -1,6 +1,7 @@
-%File: anonymous-submission-latex-2024.tex
+%File: formatting-instructions-latex-2024.tex
+%release 2024.0
 \documentclass[letterpaper]{article} % DO NOT CHANGE THIS
-\usepackage[submission]{aaai24}  % DO NOT CHANGE THIS
+\usepackage{aaai24}  % DO NOT CHANGE THIS
 \usepackage{times}  % DO NOT CHANGE THIS
 \usepackage{helvet}  % DO NOT CHANGE THIS
 \usepackage{courier}  % DO NOT CHANGE THIS
@@ -11,8 +12,8 @@
 \usepackage{natbib}  % DO NOT CHANGE THIS AND DO NOT ADD ANY OPTIONS TO IT
 \usepackage{caption} % DO NOT CHANGE THIS AND DO NOT ADD ANY OPTIONS TO IT
 \frenchspacing  % DO NOT CHANGE THIS
-\setlength{\pdfpagewidth}{8.5in} % DO NOT CHANGE THIS
-\setlength{\pdfpageheight}{11in} % DO NOT CHANGE THIS
+\setlength{\pdfpagewidth}{8.5in}  % DO NOT CHANGE THIS
+\setlength{\pdfpageheight}{11in}  % DO NOT CHANGE THIS
 %
 % These are recommended to typeset algorithms but not required. See the subsubsection on algorithms. Remove them if you don't have algorithms in your paper.
 \usepackage{algorithm}
@@ -91,23 +92,28 @@
 % nouns, adverbs, adjectives should be capitalized, including both words in hyphenated terms, while
 % articles, conjunctions, and prepositions are lower case unless they
 % directly follow a colon or long dash
-\title{\emph{Qrlew} a framework for SQL query rewriting for privacy}
+\title{AAAI Press Formatting Instructions \\for Authors Using \LaTeX{} --- A Guide}
 \author{
     %Authors
-    % Authors
-    Nicolas Grislain\textsuperscript{\rm 1}
-    Paul Roussel\textsuperscript{\rm 1}
-    Victoria de Sainte-Agathe\textsuperscript{\rm 1}
+    % All authors must be in the same font size and format.
+    Written by AAAI Press Staff\textsuperscript{\rm 1}\thanks{With help from the AAAI Publications Committee.}\\
+    AAAI Style Contributions by Pater Patel Schneider,
+    Sunil Issar,\\
+    J. Scott Penberthy,
+    George Ferguson,
+    Hans Guesgen,
+    Francisco Cruz\equalcontrib,
+    Marc Pujol-Gonzalez\equalcontrib
 }
 \affiliations{
     %Afiliations
-    \textsuperscript{\rm 1}Sarus Technologies\\
+    \textsuperscript{\rm 1}Association for the Advancement of Artificial Intelligence\\
     % If you have multiple authors and multiple affiliations
     % use superscripts in text and roman font to identify them.
     % For example,
 
-    % Sunil Issar\textsuperscript{\rm 2},
-    % J. Scott Penberthy\textsuperscript{\rm 3},
+    % Sunil Issar\textsuperscript{\rm 2}, 
+    % J. Scott Penberthy\textsuperscript{\rm 3}, 
     % George Ferguson\textsuperscript{\rm 4},
     % Hans Guesgen\textsuperscript{\rm 5}
     % Note that the comma should be placed after the superscript
@@ -120,20 +126,41 @@
 % See more examples next
 }
 
+%Example, Single Author, ->> remove \iffalse,\fi and place them surrounding AAAI title to use it
+\iffalse
+\title{My Publication Title --- Single Author}
+\author {
+    Author Name
+}
+\affiliations{
+    Affiliation\\
+    Affiliation Line 2\\
+    name@example.com
+}
+\fi
+
 \iffalse
 %Example, Multiple Authors, ->> remove \iffalse,\fi and place them surrounding AAAI title to use it
 \title{My Publication Title --- Multiple Authors}
 \author {
     % Authors
-    Nicolas Grislain,
-    Paul Roussel,
-    Victoria de Sainte-Agathe,
+    First Author Name\textsuperscript{\rm 1,\rm 2},
+    Second Author Name\textsuperscript{\rm 2},
+    Third Author Name\textsuperscript{\rm 1}
 }
 \affiliations {
     % Affiliations
-    ng@sarus.tech, pr@sarus.tech, vdsa@sarus.tech
+    \textsuperscript{\rm 1}Affiliation 1\\
+    \textsuperscript{\rm 2}Affiliation 2\\
+    firstAuthor@affiliation1.com, secondAuthor@affilation2.com, thirdAuthor@affiliation1.com
 }
 \fi
+
+
+% REMOVE THIS: bibentry
+% This is only needed to show inline citations in the guidelines document. You should not need it and can safely delete it.
+\usepackage{bibentry}
+% END REMOVE bibentry
 
 \begin{document}
 
@@ -143,50 +170,7 @@
 AAAI creates proceedings, working notes, and technical reports directly from electronic source furnished by the authors. To ensure that all papers in the publication have a uniform appearance, authors must adhere to the following instructions.
 \end{abstract}
 
-\section*{Useful links}
-\subsection{PPAI}
-Last year papers:
-\url{https://aaai-ppai23.github.io/#sp2}
-This year program:
-\url{https://ppai-workshop.github.io/}
-
-\subsection{Comparable open-source projects}
-
-Automatic differentiation in PyTorch \url{https://openreview.net/pdf?id=BJJsrmfCZ}
-Frostig et al. 2018 - Compiling machine learning programs via high-level tracing \url{https://mlsys.org/Conferences/2019/doc/2018/146.pdf}
-
-\subsection{Comparable DP SQL papers}
-
-Wilson et al. 2019 - Differentially Private SQL with Bounded User Contribution \url{https://arxiv.org/pdf/1909.01917.pdf}
-\ref{wilson2019differentially}
-
 \section{Introduction}
-
-\section{Preparing an Anonymous Submission}
-
-This document details the formatting requirements for anonymous submissions. The requirements are the same as for camera ready papers but with a few notable differences:
-
-\begin{itemize}
-    \item Anonymous submissions must not include the author names and affiliations. Write ``Anonymous Submission'' as the ``sole author'' and leave the affiliations empty.
-    \item The PDF document's metadata should be cleared with a metadata-cleaning tool before submitting it. This is to prevent leaked information from revealing your identity.
-    \item References must be anonymized whenever the reader can infer that they are to the authors' previous work.
-    \item AAAI's copyright notice should not be included as a footer in the first page.
-    \item Only the PDF version is required at this stage. No source versions will be requested, nor any copyright transfer form.
-\end{itemize}
-
-You can achieve all of the above by enabling the \texttt{submission} option when loading the \texttt{aaai24} package:
-
-\begin{quote}\begin{scriptsize}\begin{verbatim}
-\documentclass[letterpaper]{article}
-\usepackage[submission]{aaai24}
-\end{verbatim}\end{scriptsize}\end{quote}
-
-The remainder of this document are the original camera-
-ready instructions. Any contradiction of the above points
-ought to be ignored while preparing anonymous submis-
-sions.
-
-\section{Camera-Ready Guidelines}
 
 Congratulations on having a paper selected for inclusion in an AAAI Press proceedings or technical report! This document details the requirements necessary to get your accepted paper published using PDF\LaTeX{}. If you are using Microsoft Word, instructions are provided in a different document. AAAI Press does not support any other formatting software.
 
@@ -253,7 +237,6 @@ Your \LaTeX{} source will be reviewed and recompiled on our system (if it does n
 Your files should work without any supporting files (other than the program itself) on any computer with a standard \LaTeX{} distribution.
 
 \textbf{Do not send files that are not actually used in the paper.} Avoid including any files not needed for compiling your paper, including, for example, this instructions file, unused graphics files, style files, additional material sent for the purpose of the paper review, intermediate build files and so forth.
-
 \textbf{Obsolete style files.} The commands for some common packages (such as some used for algorithms), may have changed. Please be certain that you are not compiling your paper using old or obsolete style files.
 
 \textbf{Final Archive.} Place your source files in a single archive which should be compressed using .zip. The final file size may not exceed 10 MB.
@@ -319,6 +302,7 @@ After the preamble above, you should prepare your paper as follows:
 \end{document}
 \end{verbatim}\end{scriptsize}
 \end{quote}
+
 
 \begin{quote}
 \begin{scriptsize}\begin{verbatim}
@@ -393,7 +377,7 @@ For your final camera ready copy, you must not use any page break commands. Refe
 \subsection{Paper Size, Margins, and Column Width}
 Papers must be formatted to print in two-column format on 8.5 x 11 inch US letter-sized paper. The margins must be exactly as follows:
 \begin{itemize}
-\item Top margin: 1.25 inches (first page), .75 inches (others)
+\item Top margin: .75 inches
 \item Left margin: .75 inches
 \item Right margin: .75 inches
 \item Bottom margin: 1.25 inches
@@ -457,7 +441,7 @@ Author information has to be set according to the following specification depend
 
 \begin{quote}\begin{scriptsize}\begin{verbatim}
 \author{
-    AuthorOne,\equalcontrib\textsuperscript{\rm 1,\rm 2}
+    AuthorOne,\equalcontrib\textsuperscript{\rm 1,\rm2}
     AuthorTwo,\equalcontrib\textsuperscript{\rm 2}
     AuthorThree,\textsuperscript{\rm 3}\\
     AuthorFour,\textsuperscript{\rm 4}
@@ -712,18 +696,77 @@ Palo Alto, California 94303-3310 USA\\
 \section{Reference Examples}
 \label{sec:reference_examples}
 
-\vspace{.2em}
+\nobibliography*
+Formatted bibliographies should look like the following examples. You should use BibTeX to generate the references. Missing fields are unacceptable when compiling references, and usually indicate that you are using the wrong type of entry (BibTeX class).
+
+\paragraph{Book with multiple authors~\nocite{em:86}} Use the \texttt{@book} class.\\[.2em]
+\bibentry{em:86}.
+
+\paragraph{Journal and magazine articles~\nocite{r:80, hcr:83}} Use the \texttt{@article} class.\\[.2em]
+\bibentry{r:80}.\\[.2em]
+\bibentry{hcr:83}.
+
+\paragraph{Proceedings paper published by a society, press or publisher~\nocite{c:83, c:84}} Use the \texttt{@inproceedings} class. You may abbreviate the \emph{booktitle} field, but make sure that the conference edition is clear.\\[.2em]
+\bibentry{c:84}.\\[.2em]
+\bibentry{c:83}.
+
+\paragraph{University technical report~\nocite{r:86}} Use the \texttt{@techreport} class.\\[.2em]
+\bibentry{r:86}.
+
+\paragraph{Dissertation or thesis~\nocite{c:79}} Use the \texttt{@phdthesis} class.\\[.2em]
+\bibentry{c:79}.
+
+\paragraph{Forthcoming publication~\nocite{c:21}} Use the \texttt{@misc} class with a \texttt{note="Forthcoming"} annotation.
+\begin{quote}
+\begin{footnotesize}
+\begin{verbatim}
+@misc(key,
+  [...]
+  note="Forthcoming",
+)
+\end{verbatim}
+\end{footnotesize}
+\end{quote}
+\bibentry{c:21}.
+
+\paragraph{ArXiv paper~\nocite{c:22}} Fetch the BibTeX entry from the "Export Bibtex Citation" link in the arXiv website. Notice it uses the \texttt{@misc} class instead of the \texttt{@article} one, and that it includes the \texttt{eprint} and \texttt{archivePrefix} keys.
+\begin{quote}
+\begin{footnotesize}
+\begin{verbatim}
+@misc(key,
+  [...]
+  eprint="xxxx.yyyy",
+  archivePrefix="arXiv",
+)
+\end{verbatim}
+\end{footnotesize}
+\end{quote}
+\bibentry{c:22}.
+
+\paragraph{Website or online resource~\nocite{c:23}} Use the \texttt{@misc} class. Add the url in the \texttt{howpublished} field and the date of access in the \texttt{note} field:
+\begin{quote}
+\begin{footnotesize}
+\begin{verbatim}
+@misc(key,
+  [...]
+  howpublished="\url{http://...}",
+  note="Accessed: YYYY-mm-dd",
+)
+\end{verbatim}
+\end{footnotesize}
+\end{quote}
+\bibentry{c:23}.
+
 For the most up to date version of the AAAI reference style, please consult the \textit{AI Magazine} Author Guidelines at \url{https://aaai.org/ojs/index.php/aimagazine/about/submissions#authorGuidelines}
 
 \section{Acknowledgments}
 AAAI is especially grateful to Peter Patel Schneider for his work in implementing the original aaai.sty file, liberally using the ideas of other style hackers, including Barbara Beeton. We also acknowledge with thanks the work of George Ferguson for his guide to using the style and BibTeX files --- which has been incorporated into this document --- and Hans Guesgen, who provided several timely modifications, as well as the many others who have, from time to time, sent in suggestions on improvements to the AAAI style. We are especially grateful to Francisco Cruz, Marc Pujol-Gonzalez, and Mico Loretan for the improvements to the Bib\TeX{} and \LaTeX{} files made in 2020.
 
-The preparation of the \LaTeX{} and Bib\TeX{} files that implement these instructions was supported by Schlumberger Palo Alto Research, AT\&T Bell Laboratories, Morgan Kaufmann Publishers, The Live Oak Press, LLC, and AAAI Press. Bibliography style changes were added by Sunil Issar. \verb+\+pubnote was added by J. Scott Penberthy. George Ferguson added support for printing the AAAI copyright slug. Additional changes to aaai24.sty and aaai24.bst have been made by Francisco Cruz and Marc Pujol-Gonzalez.
+The preparation of the \LaTeX{} and Bib\TeX{} files that implement these instructions was supported by Schlumberger Palo Alto Research, AT\&T Bell Laboratories, Morgan Kaufmann Publishers, The Live Oak Press, LLC, and AAAI Press. Bibliography style changes were added by Sunil Issar. \verb+\+pubnote was added by J. Scott Penberthy. George Ferguson added support for printing the AAAI copyright slug. Additional changes to aaai24.sty and aaai24.bst have been made by Francisco Cruz, Marc Pujol-Gonzalez, and Mico Loretan.
 
 \bigskip
 \noindent Thank you for reading these instructions carefully. We look forward to receiving your electronic files!
 
-% \bibliography{aaai24}
-\bibliography{qrlew}
+\bibliography{aaai24}
 
 \end{document}

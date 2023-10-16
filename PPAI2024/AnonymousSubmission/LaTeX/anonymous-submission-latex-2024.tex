@@ -91,17 +91,22 @@
 % nouns, adverbs, adjectives should be capitalized, including both words in hyphenated terms, while
 % articles, conjunctions, and prepositions are lower case unless they
 % directly follow a colon or long dash
-\title{\emph{Qrlew} a framework for SQL query rewriting for privacy}
+\title{AAAI Press Anonymous Submission\\Instructions for Authors Using \LaTeX{}}
 \author{
     %Authors
-    % Authors
-    Nicolas Grislain\textsuperscript{\rm 1}
-    Paul Roussel\textsuperscript{\rm 1}
-    Victoria de Sainte-Agathe\textsuperscript{\rm 1}
+    % All authors must be in the same font size and format.
+    Written by AAAI Press Staff\textsuperscript{\rm 1}\thanks{With help from the AAAI Publications Committee.}\\
+    AAAI Style Contributions by Pater Patel Schneider,
+    Sunil Issar,\\
+    J. Scott Penberthy,
+    George Ferguson,
+    Hans Guesgen,
+    Francisco Cruz\equalcontrib,
+    Marc Pujol-Gonzalez\equalcontrib
 }
 \affiliations{
     %Afiliations
-    \textsuperscript{\rm 1}Sarus Technologies\\
+    \textsuperscript{\rm 1}Association for the Advancement of Artificial Intelligence\\
     % If you have multiple authors and multiple affiliations
     % use superscripts in text and roman font to identify them.
     % For example,
@@ -120,20 +125,41 @@
 % See more examples next
 }
 
+%Example, Single Author, ->> remove \iffalse,\fi and place them surrounding AAAI title to use it
+\iffalse
+\title{My Publication Title --- Single Author}
+\author {
+    Author Name
+}
+\affiliations{
+    Affiliation\\
+    Affiliation Line 2\\
+    name@example.com
+}
+\fi
+
 \iffalse
 %Example, Multiple Authors, ->> remove \iffalse,\fi and place them surrounding AAAI title to use it
 \title{My Publication Title --- Multiple Authors}
 \author {
     % Authors
-    Nicolas Grislain,
-    Paul Roussel,
-    Victoria de Sainte-Agathe,
+    First Author Name\textsuperscript{\rm 1},
+    Second Author Name\textsuperscript{\rm 2},
+    Third Author Name\textsuperscript{\rm 1}
 }
 \affiliations {
     % Affiliations
-    ng@sarus.tech, pr@sarus.tech, vdsa@sarus.tech
+    \textsuperscript{\rm 1}Affiliation 1\\
+    \textsuperscript{\rm 2}Affiliation 2\\
+    firstAuthor@affiliation1.com, secondAuthor@affilation2.com, thirdAuthor@affiliation1.com
 }
 \fi
+
+
+% REMOVE THIS: bibentry
+% This is only needed to show inline citations in the guidelines document. You should not need it and can safely delete it.
+\usepackage{bibentry}
+% END REMOVE bibentry
 
 \begin{document}
 
@@ -142,25 +168,6 @@
 \begin{abstract}
 AAAI creates proceedings, working notes, and technical reports directly from electronic source furnished by the authors. To ensure that all papers in the publication have a uniform appearance, authors must adhere to the following instructions.
 \end{abstract}
-
-\section*{Useful links}
-\subsection{PPAI}
-Last year papers:
-\url{https://aaai-ppai23.github.io/#sp2}
-This year program:
-\url{https://ppai-workshop.github.io/}
-
-\subsection{Comparable open-source projects}
-
-Automatic differentiation in PyTorch \url{https://openreview.net/pdf?id=BJJsrmfCZ}
-Frostig et al. 2018 - Compiling machine learning programs via high-level tracing \url{https://mlsys.org/Conferences/2019/doc/2018/146.pdf}
-
-\subsection{Comparable DP SQL papers}
-
-Wilson et al. 2019 - Differentially Private SQL with Bounded User Contribution \url{https://arxiv.org/pdf/1909.01917.pdf}
-\ref{wilson2019differentially}
-
-\section{Introduction}
 
 \section{Preparing an Anonymous Submission}
 
@@ -712,6 +719,67 @@ Palo Alto, California 94303-3310 USA\\
 \section{Reference Examples}
 \label{sec:reference_examples}
 
+\nobibliography*
+Formatted bibliographies should look like the following examples. You should use BibTeX to generate the references. Missing fields are unacceptable when compiling references, and usually indicate that you are using the wrong type of entry (BibTeX class).
+
+\paragraph{Book with multiple authors~\nocite{em:86}} Use the \texttt{@book} class.\\[.2em]
+\bibentry{em:86}.
+
+\paragraph{Journal and magazine articles~\nocite{r:80, hcr:83}} Use the \texttt{@article} class.\\[.2em]
+\bibentry{r:80}.\\[.2em]
+\bibentry{hcr:83}.
+
+\paragraph{Proceedings paper published by a society, press or publisher~\nocite{c:83, c:84}} Use the \texttt{@inproceedings} class. You may abbreviate the \emph{booktitle} field, but make sure that the conference edition is clear.\\[.2em]
+\bibentry{c:84}.\\[.2em]
+\bibentry{c:83}.
+
+\paragraph{University technical report~\nocite{r:86}} Use the \texttt{@techreport} class.\\[.2em]
+\bibentry{r:86}.
+
+\paragraph{Dissertation or thesis~\nocite{c:79}} Use the \texttt{@phdthesis} class.\\[.2em]
+\bibentry{c:79}.
+
+\paragraph{Forthcoming publication~\nocite{c:21}} Use the \texttt{@misc} class with a \texttt{note="Forthcoming"} annotation.
+\begin{quote}
+\begin{footnotesize}
+\begin{verbatim}
+@misc(key,
+  [...]
+  note="Forthcoming",
+)
+\end{verbatim}
+\end{footnotesize}
+\end{quote}
+\bibentry{c:21}.
+
+\paragraph{ArXiv paper~\nocite{c:22}} Fetch the BibTeX entry from the "Export Bibtex Citation" link in the arXiv website. Notice it uses the \texttt{@misc} class instead of the \texttt{@article} one, and that it includes the \texttt{eprint} and \texttt{archivePrefix} keys.
+\begin{quote}
+\begin{footnotesize}
+\begin{verbatim}
+@misc(key,
+  [...]
+  eprint="xxxx.yyyy",
+  archivePrefix="arXiv",
+)
+\end{verbatim}
+\end{footnotesize}
+\end{quote}
+\bibentry{c:22}.
+
+\paragraph{Website or online resource~\nocite{c:23}} Use the \texttt{@misc} class. Add the url in the \texttt{howpublished} field and the date of access in the \texttt{note} field:
+\begin{quote}
+\begin{footnotesize}
+\begin{verbatim}
+@misc(key,
+  [...]
+  howpublished="\url{http://...}",
+  note="Accessed: YYYY-mm-dd",
+)
+\end{verbatim}
+\end{footnotesize}
+\end{quote}
+\bibentry{c:23}.
+
 \vspace{.2em}
 For the most up to date version of the AAAI reference style, please consult the \textit{AI Magazine} Author Guidelines at \url{https://aaai.org/ojs/index.php/aimagazine/about/submissions#authorGuidelines}
 
@@ -723,7 +791,6 @@ The preparation of the \LaTeX{} and Bib\TeX{} files that implement these instruc
 \bigskip
 \noindent Thank you for reading these instructions carefully. We look forward to receiving your electronic files!
 
-% \bibliography{aaai24}
-\bibliography{qrlew}
+\bibliography{aaai24}
 
 \end{document}

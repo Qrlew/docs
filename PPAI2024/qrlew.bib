@@ -1,3 +1,9 @@
+@article{garrido2022lessons,
+  title={Lessons learned: Surveying the practicality of differential privacy in the industry},
+  author={Garrido, Gonzalo Munilla and Liu, Xiaoyuan and Matthes, Florian and Song, Dawn},
+  journal={arXiv preprint arXiv:2211.03898},
+  year={2022}
+}
 
 @article{wilson2019differentially,
   title={Differentially private SQL with bounded user contribution},
@@ -6,7 +12,7 @@
   year={2019}
 }
 
-@article{10.1145/3187009.3177733,
+@article{johnson2018towards,
 author = {Johnson, Noah and Near, Joseph P. and Song, Dawn},
 title = {Towards Practical Differential Privacy for SQL Queries},
 year = {2018},
@@ -50,12 +56,74 @@ numpages = {14}
   url={https://www.cidrdb.org/cidr2019/papers/p125-kotsogiannis-cidr19.pdf}
 }
 
+% Comparable libraries
+@article{diffprivlib,
+  title={Diffprivlib: the {IBM} differential privacy library},
+  author={Holohan, Naoise and Braghin, Stefano and Mac Aonghusa, P{\'o}l and Levacher, Killian},
+  year={2019},
+  journal = {ArXiv e-prints},
+  archivePrefix = "arXiv",
+  volume = {1907.02444 [cs.CR]},
+  primaryClass = "cs.CR",
+  month = jul
+}
+
+@article{yousefpour2021opacus,
+  title={Opacus: User-friendly differential privacy library in PyTorch},
+  author={Yousefpour, Ashkan and Shilov, Igor and Sablayrolles, Alexandre and Testuggine, Davide and Prasad, Karthik and Malek, Mani and Nguyen, John and Ghosh, Sayan and Bharadwaj, Akash and Zhao, Jessica and others},
+  journal={arXiv preprint arXiv:2109.12298},
+  year={2021},
+  url={https://arxiv.org/pdf/2109.12298.pdf}
+}
+
+@software{OpenDP,
+author = {{The OpenDP Team}},
+license = {MIT},
+title = {{OpenDP Library}},
+url = {https://github.com/opendp/opendp}
+}
+
+@software{PipelineDP,
+author = {{Google}},
+license = {Apache License 2.0},
+title = {{PipelineDP Library}},
+url = {https://github.com/OpenMined/PipelineDP}
+}
+
+@software{ZetaSQL,
+author = {{OpenMined and Google}},
+license = {Apache License 2.0},
+title = {{ZetaSQL Library}},
+url = {https://github.com/google/differential-privacy/tree/main/examples/zetasql}
+}
+
+@software{PrivacyOnBeam,
+author = {{Google}},
+license = {Apache License 2.0},
+title = {{Privacy On Beam}},
+url = {https://github.com/google/differential-privacy/tree/main/privacy-on-beam}
+}
+
+@inproceedings{johnson2020chorus,
+  title={Chorus: a programming framework for building scalable differential privacy mechanisms},
+  author={Johnson, Noah and Near, Joseph P and Hellerstein, Joseph M and Song, Dawn},
+  booktitle={2020 IEEE European Symposium on Security and Privacy (EuroS\&P)},
+  pages={535--551},
+  year={2020},
+  organization={IEEE},
+  url={https://arxiv.org/pdf/1809.07750.pdf}
+}
+
+% Comparable frameworks
+
 @article{berghel2022tumult,
   title={Tumult Analytics: a robust, easy-to-use, scalable, and expressive framework for differential privacy},
   author={Berghel, Skye and Bohannon, Philip and Desfontaines, Damien and Estes, Charles and Haney, Sam and Hartman, Luke and Hay, Michael and Machanavajjhala, Ashwin and Magerlein, Tom and Miklau, Gerome and others},
   journal={arXiv preprint arXiv:2212.04133},
   year={2022}
 }
+
+% Comparable Open Source Software Papers
 
 @article{frostig2018compiling,
   title={Compiling machine learning programs via high-level tracing},
@@ -69,117 +137,3 @@ numpages = {14}
 
 
 % -------------------------------------------------------------------------------
-
-
-
-@book{em:86,
-  editor  = "Engelmore, Robert and Morgan, Anthony",
-  title   = "Blackboard Systems",
-  year    = 1986,
-  address = "Reading, Mass.",
-  publisher = "Addison-Wesley",
-}
-
-@inproceedings{c:83,
-  author  = "Clancey, William J.",
-  year    = 1983,
-  title   = "{Communication, Simulation, and Intelligent
-Agents: Implications of Personal Intelligent Machines
-for Medical Education}",
-  booktitle="Proceedings of the Eighth International Joint Conference on Artificial Intelligence {(IJCAI-83)}", 
-  pages   = "556-560",
-  address = "Menlo Park, Calif",
-  publisher = "{IJCAI Organization}",
-}
-@inproceedings{c:84,
-  author  = "Clancey, William J.",
-  year    = 1984,
-  title   = "{Classification Problem Solving}",
-  booktitle = "Proceedings of the Fourth National 
-              Conference on Artificial Intelligence",
-  pages   = "45-54",
-  address = "Menlo Park, Calif.",
-  publisher="AAAI Press",
-}
-@article{r:80,
-  author = {Robinson, Arthur L.},
-  title = {New Ways to Make Microcircuits Smaller},
-  volume = {208},
-  number = {4447},
-  pages = {1019--1022},
-  year = {1980},
-  doi = {10.1126/science.208.4447.1019},
-  publisher = {American Association for the Advancement of Science},
-  issn = {0036-8075},
-  URL = {https://science.sciencemag.org/content/208/4447/1019},
-  eprint = {https://science.sciencemag.org/content/208/4447/1019.full.pdf},
-  journal = {Science},
-}
-@article{r:80x,
-  author  = "Robinson, Arthur L.",
-  year    = 1980,
-  title   = "{New Ways to Make Microcircuits Smaller---Duplicate Entry}",
-  journal = "Science",
-  volume  =  208,
-  pages   = "1019-1026",
-}
-@article{hcr:83,
-title = {Strategic explanations for a diagnostic consultation system},
-journal = {International Journal of Man-Machine Studies},
-volume = {20},
-number = {1},
-pages = {3-19},
-year = {1984},
-issn = {0020-7373},
-doi = {https://doi.org/10.1016/S0020-7373(84)80003-6},
-url = {https://www.sciencedirect.com/science/article/pii/S0020737384800036},
-author = {Diane Warner Hasling and William J. Clancey and Glenn Rennels},
-abstract = {This article examines the problem of automatte explanation of reasoning, especially as it relates to expert systems. By explanation we mean the ability of a program to discuss what it is doing in some understandable way. We first present a general framework in which to view explanation and review some of the research done in this area. We then focus on the explanation system for NEOMYCIN, a medical consultation program. A consultation program interactively helps a user to solve a problem. Our goal is to have NEOMYCIN explain its problem-solving strategies. An explanation of strategy describes the plan the program is using to reach a solution. Such an explanation is usually concrete, referring to aspects of the current problem situation. Abstract explanations articulate a general principle, which can be applied in different situations; such explanations are useful in teaching and in explaining by analogy. We describe the aspects of NEOMYCIN that make abstract strategic explanations possible—the representation of strategic knowledge explicitly and separately from domain knowledge— and demonstrate how this representation can be used to generate explanations.}
-}
-@article{hcrt:83,
-  author  = "Hasling, Diane Warner and Clancey, William J. and Rennels, Glenn R. and Test, Thomas",
-  year    = 1983,
-  title   = "{Strategic Explanations in Consultation---Duplicate}",
-  journal = "The International Journal of Man-Machine Studies",
-  volume  = 20,
-  number  = 1,
-  pages   = "3-19",
-}
-@techreport{r:86,
-  author  = "Rice, James",
-  year    = 1986,
-  title   = "{Poligon: A System for Parallel Problem Solving}",
-  type    = "Technical Report", 
-  number  = "KSL-86-19", 
-  institution = "Dept.\ of Computer Science, Stanford Univ.",
-}
-@phdthesis{c:79,
-  author  = "Clancey, William J.",
-  year    = 1979,
-  title   = "{Transfer of Rule-Based Expertise
-through a Tutorial Dialogue}",
-  type    = "{Ph.D.} diss.",
-  school  = "Dept.\ of Computer Science, Stanford Univ.",
-  address = "Stanford, Calif.",
-}
-@unpublished{c:21,
-  author  = "Clancey, William J.",
-  title   = "{The Engineering of Qualitative Models}",
-  year    = 2021,
-  note    = "Forthcoming",
-}
-@misc{c:22,
-      title={Attention Is All You Need}, 
-      author={Ashish Vaswani and Noam Shazeer and Niki Parmar and Jakob Uszkoreit and Llion Jones and Aidan N. Gomez and Lukasz Kaiser and Illia Polosukhin},
-      year={2017},
-      eprint={1706.03762},
-      archivePrefix={arXiv},
-      primaryClass={cs.CL}
-}
-@misc{c:23,
-  title        = "Pluto: The 'Other' Red Planet",
-  author       = "{NASA}",
-  howpublished = "\url{https://www.nasa.gov/nh/pluto-the-other-red-planet}",
-  year         = 2015,
-  note         = "Accessed: 2018-12-06"
-}

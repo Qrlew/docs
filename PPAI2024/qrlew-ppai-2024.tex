@@ -44,6 +44,9 @@
 % proceedings, working notes, and technical reports.
 %
 
+% A command for the project name
+\newcommand{\qrlew}{\emph{Qrlew}}
+
 % Title
 
 % Your title must be in mixed case, not sentence case.
@@ -51,7 +54,7 @@
 % nouns, adverbs, adjectives should be capitalized, including both words in hyphenated terms, while
 % articles, conjunctions, and prepositions are lower case unless they
 % directly follow a colon or long dash
-\title{\emph{Qrlew}: automatic differential privacy for SQL queries}
+\title{\qrlew: automatic differential privacy for SQL queries}
 \author{
     %Authors
     % Authors
@@ -82,7 +85,7 @@
 
 \iffalse
 %Example, Multiple Authors, ->> remove \iffalse,\fi and place them surrounding AAAI title to use it
-\title{My Publication Title --- Multiple Authors}
+\title{\qrlew: automatic differential privacy for SQL queries}
 \author {
     % Authors
     Nicolas Grislain,
@@ -135,12 +138,20 @@ Yet, the collection, sharing, and utilization of data hold the potential to gene
 
 To realize these benefits while managing privacy risks, researchers have turned to differential privacy (DP) \cite{wood2018differential, dwork2014algorithmic}, which has become the gold standard in academia since its introduction by Dwork et al. in 2006 \cite{dwork2006calibrating} due to its provable and automatic privacy guarantees.
 
-Despite the availability of open-source tools, DP adoption remains limited. This 
+Despite the availability of open-source tools, DP adoption remains limited. One of the reasons for this lack of adoption is the relative complexity of the existing tools considered the utility of the results.
+\qrlew{} has been designed to solve this problem, by providing the following features:
+\begin{description}
+    \item[Leverages existing infrastructure] \qrlew{} rewrites a SQL query into a \emph{differentially private} equivalent
+    \item[Is fully automated]
+    \item[Leverages synthetic data]  
+\end{description}
+
+This 
 In summary, our main contributions are as follows:
 
 Motivation DP
 Solutions existantes
-Problème non résolu et nécessité de Qrlew
+Problème non résolu et nécessité de \qrlew
 
 
 

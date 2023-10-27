@@ -136,22 +136,27 @@ In recent years, the importance of safeguarding privacy when dealing with person
 Traditional anonymization techniques have proven vulnerable to re-identification, as demonstrated by numerous works \cite{archie2018s, dwork2017exposed, narayanan2008robust, sweeney2013identifying}. The total cost of data breaches has also significantly increased \cite{ibm2023cost}. And governments have introduced stricter data protection laws.
 Yet, the collection, sharing, and utilization of data hold the potential to generate significant value across various industries, including healthcare, finance, transportation, and energy distribution.
 
-To realize these benefits while managing privacy risks, researchers have turned to differential privacy (DP) \cite{wood2018differential, dwork2014algorithmic}, which has become the gold standard in academia since its introduction by Dwork et al. in 2006 \cite{dwork2006calibrating} due to its provable and automatic privacy guarantees.
+To realize these benefits while managing privacy risks, researchers have turned to \emph{differential privacy (DP)} \cite{wood2018differential, dwork2014algorithmic}, which has become the gold standard in academia since its introduction by Dwork et al. in 2006 \cite{dwork2006calibrating} due to its provable and automatic privacy guarantees.
 
 Despite the availability of open-source tools, DP adoption remains limited. One of the reasons for this lack of adoption is the relative complexity of the existing tools considered the utility of the results.
 \qrlew{} has been designed to solve this problem, by providing the following features:
 \begin{description}
-    \item[Leverages existing infrastructure] \qrlew{} rewrites a SQL query into a \emph{differentially private} equivalent
-    \item[Is fully automated]
-    \item[Leverages synthetic data]  
+    \item[Leverages existing infrastructure] \qrlew{} rewrites a SQL query into a \emph{differentially private} equivalent.
+    \item[Is fully automated] \qrlew{} can rewrite a large class of queries into \emph{differentially private} ones.
+    \item[Leverages synthetic data] using jointly \emph{differentially private} mechanisms and \emph{differentially private} Synthetic Data
 \end{description}
 
 This 
 In summary, our main contributions are as follows:
 
-Motivation DP
-Solutions existantes
-Problème non résolu et nécessité de \qrlew
+% Motivation DP
+% Solutions existantes
+% Problème non résolu et nécessité de \qrlew
+
+% à développer plus:
+% - adaptativité -> utiliser output DP pour tuner DP aval
+% - More mechanisms
+% - Interconnectivité
 
 
 

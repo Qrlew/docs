@@ -54,7 +54,7 @@
 % nouns, adverbs, adjectives should be capitalized, including both words in hyphenated terms, while
 % articles, conjunctions, and prepositions are lower case unless they
 % directly follow a colon or long dash
-\title{\qrlew: automatic differential privacy for SQL queries}
+\title{\qrlew: Differentially Privacte SQL Query Rewriting}
 \author{
     %Authors
     % Authors
@@ -142,7 +142,8 @@ Despite the availability of open-source tools, DP adoption remains limited. One 
 \qrlew{} has been designed to solve this problem, by providing the following features:
 \begin{description}
     \item[Leverages existing infrastructure] \qrlew{} rewrites a SQL query into a \emph{differentially private} equivalent.
-    \item[Is fully automated] \qrlew{} can rewrite a large class of queries into \emph{differentially private} ones.
+This removes the need for a custom execution engine and enables \emph{differentially private analytics with virtually no technical integration}.
+    \item[Is fully automated] \qrlew{} assumes the analyst is not a privacy expert and can rewrite a large class of queries into \emph{differentially private} ones. 
     \item[Leverages synthetic data] using jointly \emph{differentially private} mechanisms and \emph{differentially private} Synthetic Data
 \end{description}
 
@@ -158,7 +159,9 @@ In summary, our main contributions are as follows:
 % - More mechanisms
 % - Interconnectivité
 
-\section{Genaral architecture}
+\section{Assumptions and Design Goals}
+
+\qrlew{} was designed to ease the 
 
 \section{Paul on compilation}
 

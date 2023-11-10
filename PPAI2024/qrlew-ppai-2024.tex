@@ -177,9 +177,6 @@ The challenge lies in accurately identifying sections for modification across a 
 
 \input{rewriting.tex}
 
-
-\section{Victoria on DP mech and DP test}
-
 \section{Privacy algorithms}
 \label{sec:privacy_algos}
 
@@ -253,53 +250,6 @@ This year program:
 \end{itemize}
 
 \appendix
-\section{Appendix: Limit the contribution per user within the aggregations}
-\label{sec:limit_contrib_per_user}
-
-We consider the $\textbf{x}$ columns that contains $n$ observations belonging to $p$ users:
-
-\[
-    {\bf x} = \left( \begin{array}{ c }
-    \begin{array}{ @{} c @{} }
-      x_1 \\ \vdots \\ x_{n_1}
-    \end{array} \\[1.5\normalbaselineskip]
-    \begin{array}{ @{} c @{} }
-        x_{n_1 + 1} \\ \vdots \\ x_{n_2}
-    \end{array} \\
-    \vdots \\
-    \begin{array}{ @{} c @{} }
-        x_{n_{p-1} + 1} \\ \vdots \\ x_{n}
-    \end{array}
-  \end{array}\right)
-  \begin{array}{ @{} l @{} }
-    \left.\hskip-\nulldelimiterspace\vphantom{\begin{array}{ @{} c @{} }
-        x_1 \\ \vdots \\ x_{n_1}
-    \end{array}}\right\} \text{User~}1 \\[1.5\normalbaselineskip]
-    \left.\hskip-\nulldelimiterspace\vphantom{\begin{array}{ @{} c @{} }
-        x_{n_1 + 1} \\ \vdots \\ x_{n_2}
-    \end{array}}\right\} \text{User~}2 \\
-    \vphantom{\vdots} \\
-    \left.\hskip-\nulldelimiterspace\vphantom{\begin{array}{ @{} c @{} }
-        x_{n_{p-1} + 1} \\ \vdots \\ x_{n_p}
-    \end{array}}\right\} \text{User~}p
-  \end{array}
-\]
-
-For each user $k$, we compute the scale factor that constrains their to a maximum value of $c$:
-
-\begin{equation}
-	s_k = \frac{1}{\max ( 1, \frac{1}{c} \sqrt{\sum_{i = n_{k-1} + 1}^{n_k} x_i^2})}.
-\end{equation}
-
-The original $\textbf{x}$ vector is then rescaled by multiplying each coordinate with the corresponding user's scale factor.
-The resulting rescaled vector has coordinates given by $s_{u_i}x_i$, where $u_i$ represents the user ID associated with observation $i$.
-This process ensures that the $\ell_2$ contribution of each user is restricted to $c$ within the rescaled vector.
-
-In our algorithm, the clipping value $c$ is given by:
-\begin{equation}
-    c = \max ( |\min \textbf{x}|, |\max \textbf{x}|),
-\end{equation}
-where $\min \textbf{x}$ and $\max \textbf{x}$ are the automatically computed bounds of $\textbf{x}$.
 
 \bigskip
 \noindent Thank you for reading these instructions carefully. We look forward to receiving your electronic files!
@@ -310,93 +260,8 @@ where $\min \textbf{x}$ and $\max \textbf{x}$ are the automatically computed bou
 
 \appendix
 
-\section*{Annex}
+\section*{Appendix}
 
-\section{Description of the Rewriting Rules for Each Type of Relation}
-
-\subsection{Map Function: Transforming a Single Relation}
-\begin{itemize}
-    \item Pub \textrightarrow{} Pub: A relation could stay public if it starts off public.
-    \item Pubd \textrightarrow{} Pubd: A relation could stay published if it starts off published.
-    \item PEP \textrightarrow{} DP (with specific budget): A relation could become differentially private, adopting a specific budget, if it starts off preserving protected entities.
-    \item SD \textrightarrow{} SD: A relation could remain as synthetic data if it starts off as synthetic data.
-    \item SD \textrightarrow{} Pubd (with specific synthetic data parameters): A relation could transform into published if it starts off as synthetic data, depending on specific synthetic data parameters.
-\end{itemize}
-
-\subsection{Reduce Function: Transforming a Single Relation}
-\begin{itemize}
-    \item Pub \textrightarrow{} Pub: A relation could stay public if its parent is public.
-    \item Pubd \textrightarrow{} Pubd: A relation could stay published if its parent is published.
-    \item PEP \textrightarrow{} DP (with specific budget): A relation could become differentially private, adopting a specific budget, if it is preserving protected entities.
-    \item SD \textrightarrow{} SD: A relation could remain as synthetic data if its parent is synthetic data.
-    \item SD \textrightarrow{} Pubd (with specific synthetic data parameters): A relation could transform into published if it is synthetic data, depending on specific synthetic data parameters.
-\end{itemize}
-
-\subsection{Join Function: Combining Two Relations}
-\begin{itemize}
-    \item Pub + Pub \textrightarrow{} Pub: Combining two public relations could result in a public relation.
-    \item Pubd + Pubd \textrightarrow{} Pubd: Combining two published relations could result in a published relation.
-    \item Pubd + PEP \textrightarrow{} PEP (with specific parameters): Combining a published relation and a relation that preserves protected entities could result in a relation that preserves protected entities, adopting specific parameters.
-    \item PEP + PEP \textrightarrow{} PEP (with specific parameters): Combining two relations that preserve protected entities could result in a relation that preserves protected entities, adopting specific parameters.
-    \item DP + PEP \textrightarrow{} PEP (with specific parameters): Combining a differentially private relation and a relation that preserves protected entities could result in a relation that preserves protected entities, adopting specific parameters.
-    \item SD + SD \textrightarrow{} SD: Combining two synthetic data relations could result in a synthetic data relation.
-\end{itemize}
-
-\subsection{Set Function: Merging Two Relations}
-\begin{itemize}
-    \item Pub + Pub \textrightarrow{} Pub: Combining two public relations could result in a public relation.
-    \item Pubd + Pubd \textrightarrow{} Pubd: Combining two published relations could result in a published relation.
-    \item PEP + PEP \textrightarrow{} PEP (with specific parameters): Combining two relations that preserve protected entities could result in a relation that preserves protected entities, adopting specific parameters.
-    \item SD + SD \textrightarrow{} SD (with specific parameters): Combining two synthetic data relations could result in a synthetic data relation, adopting specific parameters.
-\end{itemize}
-
-\subsection{Values Function: Creating a New Relation}
-\begin{itemize}
-    \item \textrightarrow{} SD (with specific parameters): A new relation could be created as synthetic data, depending on specific parameters.
-    \item \textrightarrow{} Pub: A new relation could be created as public.
-\end{itemize}
-
-
-\section{Visual Depiction of Algorithmic Steps}
-
-The computation graph figures illustrate the step-by-step transformation of relations within \qrlew{}. The rectangles (relations) represent tables or intermediate results, and the circles represent the rewriting rules (feasible or not) of these relations. Here is how to understand the components and read the figures:
-
-\begin{itemize}
-    \item \textbf{Rectangles} symbolize the relations in the computation graph, which could be a base table or derived through operations such as Join, Map, Reduce, etc.
-    \item \textbf{Circles} denote the rewriting rules that can be applied to these relations. The color and label of each circle indicate the type of rewriting rule:
-    \item The \textbf{arrows} connecting the circles to the rectangles show which rewriting rules can be applied to which relations.
-    \item A sequence of transformations is shown as a path through the graph, beginning with the source relations at the bottom and culminating in the final transformed query at the top.
-\end{itemize}
-
-
-\begin{figure}[!ht]
-\centering
-\includegraphics[width=0.75\linewidth]{rewriting_figure/rewriting_rules_setting.png}
-\caption{Rule Setting: Each node in the graph (rectangle) is assigned the applicable rules (circle) for that type of node. In blue, the *→SD rules, in orange the *→PEP type rules, in purple the *→Pubd rules, and in red the *→DP rules.}
-\label{fig:rule_setting}
-\end{figure}
-
-\begin{figure}[!ht]
-\centering
-\includegraphics[width=0.75\linewidth]{rewriting_figure/feasible_rewriting_rules.png}
-\caption{Rule Elimination: Only feasible rules are retained.}
-\label{fig:rule_elimination}
-\end{figure}
-
-
-\begin{figure}[!ht]
-\centering
-\includegraphics[width=0.75\linewidth]{rewriting_figure/sd_allocation.png}
-\caption{Example of SD Allocation: The sources of the graph are substituted with their synthetic equivalent.}
-\label{fig:sd_allocation}
-\end{figure}
-
-
-\begin{figure}[!ht]
-\centering
-\includegraphics[width=0.75\linewidth]{rewriting_figure/dp_allocation.png}
-\caption{Example of DP Allocation: Rewrite in DP as soon as necessary (and possible).}
-\label{fig:dp_allocation}
-\end{figure}
+\input{annex.tex}
 
 \end{document}

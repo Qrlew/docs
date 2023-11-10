@@ -18,6 +18,9 @@
 \usepackage{algorithm}
 \usepackage{algorithmic}
 \usepackage{amsmath}
+\usepackage{mathtools}
+\usepackage[usestackEOL]{stackengine}
+\stackMath
 %
 % These are are recommended to typeset listings but not required. See the subsubsection on listing. Remove this block if you don't have listings in your paper.
 \usepackage{newfloat}
@@ -153,7 +156,7 @@ Furthermore, the
 
 At this stage, we examine a \texttt{Relation} that takes one or two protected \texttt{Relation} inputs, where the entity to be protected is specified.
 To secure the outcome of the SQL query, it is imperative to protect not only the results obtained from aggregation functions but also the grouping keys.
-We will briefly describe these two steps in the following section, more technical details can be found in the appendix \ref{sec:appendix_privacy_algos}.
+We will briefly describe these two steps in the following section.
 
 \subsubsection{Protecting aggregation results}
 
@@ -161,7 +164,10 @@ The protection of aggregation functions is carried out in three sequential steps
 
 \begin{enumerate}
 	\item \textbf{Limit the contribution per user}:
-	For each user, we calculate the $\ell_2$ norm of the observations associated with that user. Subsequently, we constrain the contribution of a specific user by scaling $\textbf{x}$ with a factor chosen to maintain the original observations if the $\ell_2$ norm of the user's observations does not exceed the clipping factor $c$. Conversely, if the $\ell_2$ norm surpasses $c$, the $\ell_2$  norm of the rescaled observations is restricted to $c$.
+	For each user, we calculate the $\ell_2$ norm of the observations associated with that user.
+    Subsequently, we constrain the contribution of a specific user by scaling $\textbf{x}$ with a factor chosen to maintain the original observations if the $\ell_2$ norm of the user's observations does not exceed the clipping factor $c$.
+    Conversely, if the $\ell_2$ norm surpasses $c$, the $\ell_2$  norm of the rescaled observations is restricted to $c$.
+    More technical details can be found in the appendix \ref{sec:limit_contrib_per_user}.
 
 	\item \textbf{Add random noise}:
 	The sum of the original data is substituted with the sum of the scaled data with the addition of Gaussian noise. The level of noise is parameterized by the clipping and privacy parameters.
@@ -218,47 +224,53 @@ This year program:
 \end{itemize}
 
 \appendix
-\section{Reference Examples}
-\label{sec:appendix_privacy_algos}
+\section{Appendix: Limit the contribution per user within the aggregations}
+\label{sec:limit_contrib_per_user}
 
+We consider the $\textbf{x}$ columns that contains $n$ observations belonging to $p$ users:
 
-\begin{equation}
-	\mathbf{\tilde{X}} = \begin{bmatrix}
-		\tilde{x}_1 \\
-		\tilde{x}_2 \\
-		\vdots \\
-		\tilde{x}_n
-	\end{bmatrix}
-	\text{with~~~}
-	\forall i, \tilde{x}_i = \frac{1}{\max ( 1, \frac{1}{\Delta \tilde{\textbf{x}}} \sqrt{\sum_{k \in \Sigma_i} x_k^2})}
-\end{equation}
+\[
+    {\bf x} = \left( \begin{array}{ c }
+    \begin{array}{ @{} c @{} }
+      x_1 \\ \vdots \\ x_{n_1}
+    \end{array} \\[1.5\normalbaselineskip]
+    \begin{array}{ @{} c @{} }
+        x_{n_1 + 1} \\ \vdots \\ x_{n_2}
+    \end{array} \\
+    \vdots \\
+    \begin{array}{ @{} c @{} }
+        x_{n_{p-1} + 1} \\ \vdots \\ x_{n}
+    \end{array}
+  \end{array}\right)
+  \begin{array}{ @{} l @{} }
+    \left.\hskip-\nulldelimiterspace\vphantom{\begin{array}{ @{} c @{} }
+        x_1 \\ \vdots \\ x_{n_1}
+    \end{array}}\right\} \text{User~}1 \\[1.5\normalbaselineskip]
+    \left.\hskip-\nulldelimiterspace\vphantom{\begin{array}{ @{} c @{} }
+        x_{n_1 + 1} \\ \vdots \\ x_{n_2}
+    \end{array}}\right\} \text{User~}2 \\
+    \vphantom{\vdots} \\
+    \left.\hskip-\nulldelimiterspace\vphantom{\begin{array}{ @{} c @{} }
+        x_{n_{p-1} + 1} \\ \vdots \\ x_{n_p}
+    \end{array}}\right\} \text{User~}p
+  \end{array}
+\]
 
-$\Sigma_i$ denotes all the indices that correspond to the $i^{th}$ group.
-$\Delta \tilde{\textbf{x}}$ is the absolute upper bound of the column
-
-\begin{equation}
-	{\Delta \tilde{\textbf{x}}} = \max ( |\min \textbf{x}|, |\max \textbf{x}|)
-\end{equation}
-
-In the case of the count, the ve
-
-All the aggregations can be rewritten as \texttt{SUM} or \texttt{COUNT}.
-\begin{equation}
-	\text{\texttt{COUNT}}(\textbf{x}) \longrightarrow \text{\texttt{COUNT}}  (\tilde{\textbf{1}}) + \text{\texttt{Gaussian}} (\sigma(\tilde{\textbf{1}}))
-\end{equation}
-\begin{equation}
-	\text{\texttt{SUM}}(\textbf{x}) \longrightarrow \text{\texttt{SUM}}  (\tilde{\textbf{x}}) + \text{\texttt{Gaussian}} (\sigma(\tilde{\textbf{x}}))
-\end{equation}
-
-\begin{equation}
-	\text{\texttt{SUM}}(\textbf{x}) \longrightarrow \text{\texttt{SUM}}  (\tilde{\textbf{x}}) + \text{\texttt{Gaussian}} (
-	\sqrt{2 \ln (\frac{1.25}{\delta})}\times \frac{c}{\varepsilon})
-\end{equation}
-
+For each user $k$, we compute the scale factor that constrains their to a maximum value of $c$:
 
 \begin{equation}
-	\sigma(\tilde{\textbf{x}}) =
+	s_k = \frac{1}{\max ( 1, \frac{1}{c} \sqrt{\sum_{i = n_{k-1} + 1}^{n_k} x_i^2})}.
 \end{equation}
+
+The original $\textbf{x}$ vector is then rescaled by multiplying each coordinate with the corresponding user's scale factor.
+The resulting rescaled vector has coordinates given by $s_{u_i}x_i$, where $u_i$ represents the user ID associated with observation $i$.
+This process ensures that the $\ell_2$ contribution of each user is restricted to $c$ within the rescaled vector.
+
+In our algorithm, the clipping value $c$ is given by:
+\begin{equation}
+    c = \max ( |\min \textbf{x}|, |\max \textbf{x}|),
+\end{equation}
+where $\min \textbf{x}$ and $\max \textbf{x}$ are the automatically computed bounds of $\textbf{x}$.
 
 \bigskip
 \noindent Thank you for reading these instructions carefully. We look forward to receiving your electronic files!

@@ -50,6 +50,12 @@
 % A command for the project name
 \newcommand{\qrlew}{\emph{Qrlew}}
 
+\newcommand\coolover[2]{\mathrlap{\smash{\overbrace{\phantom{%
+    \begin{matrix} #2 \end{matrix}}}^{\mbox{$#1$}}}}#2}
+
+\newcommand\coolrightbrace[2]{%
+\left.\vphantom{\begin{matrix} #1 \end{matrix}}\right\}#2}
+
 % Title
 
 % Your title must be in mixed case, not sentence case.
@@ -189,9 +195,10 @@ We will briefly describe these two steps in the following section.
 The protection of aggregation functions is carried out in three sequential steps. Given that all currently supported aggregations (\texttt{COUNT}, \texttt{SUM}, \texttt{AVG}, \texttt{VARIANCE} \texttt{STDDEV}) can be expressed as compositions of sums, our focus will be on the \texttt{SUM} aggregation. Let's consider the scenario where we aim to compute the sum of a column.
 
 \begin{enumerate}
-	\item \textbf{Limit the contribution per user}:
-	For each user, we calculate the $\ell_2$ norm of the observations associated with that user.
-    Subsequently, we constrain the contribution of a specific user by scaling $\textbf{x}$ with a factor chosen to maintain the original observations if the $\ell_2$ norm of the user's observations does not exceed the clipping factor $c$.
+	\item \textbf{Limit the contribution per user within groups}:
+	We represent the contribution of each user by a vector whose each component is the sum of the contributions within one group
+    then we calculate its $\ell_2$ norm.
+    Subsequently, we constrain the contributions of a specific user by scaling $\textbf{x}$ with a factor chosen to maintain the original observations if the $\ell_2$ norm of the user's observations does not exceed the clipping factor $c$.
     Conversely, if the $\ell_2$ norm surpasses $c$, the $\ell_2$  norm of the rescaled observations is restricted to $c$.
     More technical details can be found in the appendix \ref{sec:limit_contrib_per_user}.
 
@@ -218,11 +225,35 @@ When the SQL query involves both public and private grouping keys, we perform cr
 
 \section{Comparison to other systems}
 
+The Google differential-privacy extension for ZetaSQL enables differentially private analysis through SQL tools.
+Users can incorporate privacy guarantees by including a privacy clause in their queries, which replaces aggregations with their differentially private equivalent,
+limits the number of grouping keys per user, and applies tau-thresholding.
+While this framework does not support complex queries with joins or inner subqueries,
+it offers a straightforward integration with SQL databases.
+
+Smartnoise SQL is a Python framework, built on the top of Open-DP, for doing SQL analysis with differential privacy guarantees.
+The framework is easy of use for non-experts, but it does not support all SQL grammar, and complex queries with joins or subqueries are not supported.
+Additionally, the execution of SQL analysis requires a Python post-processing step,
+potentially leading to increased execution times.
+
+OpenDP is a Rust library with Python bidings designed for building SQL-like transformations with differential privacy guarantees.
+Each part of the code is well documented with mathematical proofs but
+its utilization can be challenging for for non experts.
+
+Similarly, Tumult Analytics does not directly handle SQL queries; instead, it utilizes transformations that closely resemble SQL syntax.
+While offering support for budgeting various privacy tasks, it is important to note that the analysis must be executed by the data owner.
+
+Chorus is the closest framework to \qrlew, and in the work by \citeauthor{johnson2020chorus},
+there is a strong emphasis on conducting all analyses directly within the database.
+However, it's worth noting that the code for Chorus is no longer being actively maintained.
+
+
+
 \section{Known limitations}
 
 \qrlew{} relies on the random number generator of the SQL engine used. It is usually not a cryptographic noise.
 
-\qrlew{} uses the floating-point numbers of the host SQL engine, therefore our system is liable to the vulnerabilities described in
+\qrlew{} uses the floating-point numbers of the host SQL engine, therefore our system is liable to the vulnerabilities described in \citeauthor{casacuberta2022widespread}.
 
 
 \section*{Useful links}
@@ -249,15 +280,11 @@ This year program:
     \item Towards Practical Differential Privacy for SQL Queries \cite{johnson2018towards}
 \end{itemize}
 
-\appendix
-
 \bigskip
 \noindent Thank you for reading these instructions carefully. We look forward to receiving your electronic files!
 
 % \bibliography{aaai24}
 \bibliography{qrlew}
-
-
 \appendix
 
 \section*{Appendix}

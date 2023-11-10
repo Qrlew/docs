@@ -50,6 +50,12 @@
 % A command for the project name
 \newcommand{\qrlew}{\emph{Qrlew}}
 
+\newcommand\coolover[2]{\mathrlap{\smash{\overbrace{\phantom{%
+    \begin{matrix} #2 \end{matrix}}}^{\mbox{$#1$}}}}#2}
+
+\newcommand\coolrightbrace[2]{%
+\left.\vphantom{\begin{matrix} #1 \end{matrix}}\right\}#2}
+
 % Title
 
 % Your title must be in mixed case, not sentence case.
@@ -163,9 +169,10 @@ We will briefly describe these two steps in the following section.
 The protection of aggregation functions is carried out in three sequential steps. Given that all currently supported aggregations (\texttt{COUNT}, \texttt{SUM}, \texttt{AVG}, \texttt{VARIANCE} \texttt{STDDEV}) can be expressed as compositions of sums, our focus will be on the \texttt{SUM} aggregation. Let's consider the scenario where we aim to compute the sum of a column.
 
 \begin{enumerate}
-	\item \textbf{Limit the contribution per user}:
-	For each user, we calculate the $\ell_2$ norm of the observations associated with that user.
-    Subsequently, we constrain the contribution of a specific user by scaling $\textbf{x}$ with a factor chosen to maintain the original observations if the $\ell_2$ norm of the user's observations does not exceed the clipping factor $c$.
+	\item \textbf{Limit the contribution per user within groups}:
+	We represent the contribution of each user by a vector whose each component is the sum of the contributions within one group
+    then we calculate its $\ell_2$ norm.
+    Subsequently, we constrain the contributions of a specific user by scaling $\textbf{x}$ with a factor chosen to maintain the original observations if the $\ell_2$ norm of the user's observations does not exceed the clipping factor $c$.
     Conversely, if the $\ell_2$ norm surpasses $c$, the $\ell_2$  norm of the rescaled observations is restricted to $c$.
     More technical details can be found in the appendix \ref{sec:limit_contrib_per_user}.
 
@@ -192,11 +199,35 @@ When the SQL query involves both public and private grouping keys, we perform cr
 
 \section{Comparison to other systems}
 
+The Google differential-privacy extension for ZetaSQL enables differentially private analysis through SQL tools.
+Users can incorporate privacy guarantees by including a privacy clause in their queries, which replaces aggregations with their differentially private equivalent,
+limits the number of grouping keys per user, and applies tau-thresholding.
+While this framework does not support complex queries with joins or inner subqueries,
+it offers a straightforward integration with SQL databases.
+
+Smartnoise SQL is a Python framework, built on the top of Open-DP, for doing SQL analysis with differential privacy guarantees.
+The framework is easy of use for non-experts, but it does not support all SQL grammar, and complex queries with joins or subqueries are not supported.
+Additionally, the execution of SQL analysis requires a Python post-processing step,
+potentially leading to increased execution times.
+
+OpenDP is a Rust library with Python bidings designed for building SQL-like transformations with differential privacy guarantees.
+Each part of the code is well documented with mathematical proofs but
+its utilization can be challenging for for non experts.
+
+Similarly, Tumult Analytics does not directly handle SQL queries; instead, it utilizes transformations that closely resemble SQL syntax.
+While offering support for budgeting various privacy tasks, it is important to note that the analysis must be executed by the data owner.
+
+Chorus is the closest framework to \qrlew, and in the work by \citeauthor{johnson2020chorus},
+there is a strong emphasis on conducting all analyses directly within the database.
+However, it's worth noting that the code for Chorus is no longer being actively maintained.
+
+
+
 \section{Known limitations}
 
 \qrlew{} relies on the random number generator of the SQL engine used. It is usually not a cryptographic noise.
 
-\qrlew{} uses the floating-point numbers of the host SQL engine, therefore our system is liable to the vulnerabilities described in
+\qrlew{} uses the floating-point numbers of the host SQL engine, therefore our system is liable to the vulnerabilities described in \citeauthor{casacuberta2022widespread}.
 
 
 \section*{Useful links}
@@ -223,59 +254,53 @@ This year program:
     \item Towards Practical Differential Privacy for SQL Queries \cite{johnson2018towards}
 \end{itemize}
 
+\bigskip
+\noindent Thank you for reading these instructions carefully. We look forward to receiving your electronic files!
+
+% \bibliography{aaai24}
+\bibliography{qrlew}
+
 \appendix
 \section{Appendix: Limit the contribution per user within the aggregations}
 \label{sec:limit_contrib_per_user}
 
-We consider the $\textbf{x}$ columns that contains $n$ observations belonging to $p$ users:
+The observations can be represented as a matrix whose first dimension is the user
+and second dimension is the group:
 
-\[
-    {\bf x} = \left( \begin{array}{ c }
-    \begin{array}{ @{} c @{} }
-      x_1 \\ \vdots \\ x_{n_1}
-    \end{array} \\[1.5\normalbaselineskip]
-    \begin{array}{ @{} c @{} }
-        x_{n_1 + 1} \\ \vdots \\ x_{n_2}
-    \end{array} \\
-    \vdots \\
-    \begin{array}{ @{} c @{} }
-        x_{n_{p-1} + 1} \\ \vdots \\ x_{n}
-    \end{array}
-  \end{array}\right)
-  \begin{array}{ @{} l @{} }
-    \left.\hskip-\nulldelimiterspace\vphantom{\begin{array}{ @{} c @{} }
-        x_1 \\ \vdots \\ x_{n_1}
-    \end{array}}\right\} \text{User~}1 \\[1.5\normalbaselineskip]
-    \left.\hskip-\nulldelimiterspace\vphantom{\begin{array}{ @{} c @{} }
-        x_{n_1 + 1} \\ \vdots \\ x_{n_2}
-    \end{array}}\right\} \text{User~}2 \\
+\[ \vphantom{% phantom stuff for correct box dimensions
+    \begin{matrix}
+    \overbrace{XYZ}^{\mbox{$R$}}\\ \\ \\ \\ \\ \\
+    \end{matrix}}%
+\begin{pmatrix}
+    \coolover{\text{Group 1}}{~~~x_{11}} & \coolover{\text{Group 2}}{~~~x_{12}} & \hdots & \coolover{\text{Group n}}{~~~x_{1n}} \\
+    ~~~x_{21} & ~~~x_{22} & \hdots & ~~~x_{2n}  \\
+    \vdots & \vdots &  & \vdots  \\
+    ~~~x_{m1} & ~~~x_{m2} & \hdots & ~~~x_{mn}
+\end{pmatrix}%
+\begin{matrix}% matrix for right braces
+    \coolrightbrace{x}{\text{User 1}}\\
+    \coolrightbrace{x}{\text{User 2}}\\
     \vphantom{\vdots} \\
-    \left.\hskip-\nulldelimiterspace\vphantom{\begin{array}{ @{} c @{} }
-        x_{n_{p-1} + 1} \\ \vdots \\ x_{n_p}
-    \end{array}}\right\} \text{User~}p
-  \end{array}
+    \coolrightbrace{x}{\text{User }m}\\
+\end{matrix}
 \]
 
-For each user $k$, we compute the scale factor that constrains their to a maximum value of $c$:
+The coordinate $x_{ij}$ is the sum of all the observations of user $i$ within the group $j$.
+
+
+For each user $i$, we compute the scale factor that constrains his contribution to a maximum value of $c$:
 
 \begin{equation}
-	s_k = \frac{1}{\max ( 1, \frac{1}{c} \sqrt{\sum_{i = n_{k-1} + 1}^{n_k} x_i^2})}.
+	s_i = \frac{1}{\max ( 1, \frac{1}{c} \ell_2(x_{i,.}) )} \text{  with  } \ell_2(x_{i,.}) = \sqrt{\sum_j x^2_{ij}}.
 \end{equation}
 
-The original $\textbf{x}$ vector is then rescaled by multiplying each coordinate with the corresponding user's scale factor.
-The resulting rescaled vector has coordinates given by $s_{u_i}x_i$, where $u_i$ represents the user ID associated with observation $i$.
-This process ensures that the $\ell_2$ contribution of each user is restricted to $c$ within the rescaled vector.
+The original data is then rescaled by multiplying each observation by the corresponding user's scale factor.
+This process ensures that the $\ell_2$ contribution of each user is restricted to $c$ within the rescaled data.
 
 In our algorithm, the clipping value $c$ is given by:
 \begin{equation}
     c = \max ( |\min \textbf{x}|, |\max \textbf{x}|),
 \end{equation}
 where $\min \textbf{x}$ and $\max \textbf{x}$ are the automatically computed bounds of $\textbf{x}$.
-
-\bigskip
-\noindent Thank you for reading these instructions carefully. We look forward to receiving your electronic files!
-
-% \bibliography{aaai24}
-\bibliography{qrlew}
 
 \end{document}

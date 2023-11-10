@@ -17,7 +17,10 @@
 % These are recommended to typeset algorithms but not required. See the subsubsection on algorithms. Remove them if you don't have algorithms in your paper.
 \usepackage{algorithm}
 \usepackage{algorithmic}
-
+\usepackage{amsmath}
+\usepackage{mathtools}
+\usepackage[usestackEOL]{stackengine}
+\stackMath
 %
 % These are are recommended to typeset listings but not required. See the subsubsection on listing. Remove this block if you don't have listings in your paper.
 \usepackage{newfloat}
@@ -60,7 +63,7 @@
     % Authors
     Nicolas Grislain\textsuperscript{\rm 1}
     Paul Roussel\textsuperscript{\rm 1}
-    Victoria de Sainte-Agathe\textsuperscript{\rm 1}
+    Victoria de Sainte Agathe\textsuperscript{\rm 1}
 }
 \affiliations{
     %Afiliations
@@ -90,7 +93,7 @@
     % Authors
     Nicolas Grislain,
     Paul Roussel,
-    Victoria de Sainte-Agathe,
+    Victoria de Sainte Agathe,
 }
 \affiliations {
     % Affiliations
@@ -137,18 +140,55 @@ This removes the need for a custom execution engine and enables \emph{differenti
 \section{Assumptions and Design Goals}
 
 In this work, we assume the \emph{central model of differential privacy} \cite{near2020threat}, where a trusted central organization: Hospital, Insurance Company, Utility Provider, called the \emph{data owner}, collects and stores personal data in a secured database. and whishes to let untrusted \emph{data-practitionners} run SQL queries on its data.
-Furthermore, the 
-\qrlew{} was designed to ease the 
+Furthermore, the
+\qrlew{} was designed to ease the
 
 \section{General architecture}
 
 In this work, we assume the \emph{central model of differential privacy} \cite{near2020threat}, where a trusted central organization: Hospital, Insurance Company, Utility Provider, called the \emph{data owner}, collects and stores personal data in a secured database. and whishes to let untrusted \emph{data-practitionners} run SQL queries on its data.
-Furthermore, the 
-\qrlew{} was designed to ease the 
+Furthermore, the
+\qrlew{} was designed to ease the
 
 \section{Paul on compilation}
 
-\section{Victoria on DP mech and DP test}
+\section{Privacy algorithms}
+\label{sec:privacy_algos}
+
+At this stage, we examine a \texttt{Relation} that takes one or two protected \texttt{Relation} inputs, where the entity to be protected is specified.
+To secure the outcome of the SQL query, it is imperative to protect not only the results obtained from aggregation functions but also the grouping keys.
+We will briefly describe these two steps in the following section.
+
+\subsubsection{Protecting aggregation results}
+
+The protection of aggregation functions is carried out in three sequential steps. Given that all currently supported aggregations (\texttt{COUNT}, \texttt{SUM}, \texttt{AVG}, \texttt{VARIANCE} \texttt{STDDEV}) can be expressed as compositions of sums, our focus will be on the \texttt{SUM} aggregation. Let's consider the scenario where we aim to compute the sum of a column.
+
+\begin{enumerate}
+	\item \textbf{Limit the contribution per user}:
+	For each user, we calculate the $\ell_2$ norm of the observations associated with that user.
+    Subsequently, we constrain the contribution of a specific user by scaling $\textbf{x}$ with a factor chosen to maintain the original observations if the $\ell_2$ norm of the user's observations does not exceed the clipping factor $c$.
+    Conversely, if the $\ell_2$ norm surpasses $c$, the $\ell_2$  norm of the rescaled observations is restricted to $c$.
+    More technical details can be found in the appendix \ref{sec:limit_contrib_per_user}.
+
+	\item \textbf{Add random noise}:
+	The sum of the original data is substituted with the sum of the scaled data with the addition of Gaussian noise. The level of noise is parameterized by the clipping and privacy parameters.
+
+	\item \textbf{Restrict differentially private aggregation}:
+	The final operation involves confining the differentially private aggregation within the bounds automatically computed for the $\text{\texttt{SUM}}(\textbf{x})$.
+\end{enumerate}
+
+\subsubsection{Protecting grouping keys}
+As explained by \citeauthor{wilson2019differentially}, making grouping keys public could result in privacy breaches.
+The treatment of grouping keys varies depending on whether the analyst knows them.
+
+\begin{itemize}
+	\item \textbf{Public Grouping Keys.}We categorize grouping keys as public when the analyst specifies them in the \texttt{WHERE} clause.
+	In this scenario, all user-specified keys must be disclosed, even if they do not exist in the database.
+	If a key is absent in the database, differentially private results will include these missing keys, and the corresponding aggregations will be random noise.
+	\item \textbf{Revealing Private Keys through $\tau$-Thresholding}
+	As introduced by \citeauthor{wilson2019differentially}, tau-thresholding involves releasing keys whose differentially private noise surpasses a threshold determined by privacy parameters.
+\end{itemize}
+
+When the SQL query involves both public and private grouping keys, we perform cross joins on the grouping keys obtained through the two algorithms.
 
 \section{Comparison to other systems}
 
@@ -156,7 +196,7 @@ Furthermore, the
 
 \qrlew{} relies on the random number generator of the SQL engine used. It is usually not a cryptographic noise.
 
-\qrlew{} uses the floating-point numbers of the host SQL engine, therefore our system is liable to the vulnerabilities described in 
+\qrlew{} uses the floating-point numbers of the host SQL engine, therefore our system is liable to the vulnerabilities described in
 
 
 \section*{Useful links}
@@ -182,6 +222,55 @@ This year program:
     \item CHORUS: a Programming Framework for Building Scalable Differential Privacy Mechanisms \cite{johnson2020chorus}
     \item Towards Practical Differential Privacy for SQL Queries \cite{johnson2018towards}
 \end{itemize}
+
+\appendix
+\section{Appendix: Limit the contribution per user within the aggregations}
+\label{sec:limit_contrib_per_user}
+
+We consider the $\textbf{x}$ columns that contains $n$ observations belonging to $p$ users:
+
+\[
+    {\bf x} = \left( \begin{array}{ c }
+    \begin{array}{ @{} c @{} }
+      x_1 \\ \vdots \\ x_{n_1}
+    \end{array} \\[1.5\normalbaselineskip]
+    \begin{array}{ @{} c @{} }
+        x_{n_1 + 1} \\ \vdots \\ x_{n_2}
+    \end{array} \\
+    \vdots \\
+    \begin{array}{ @{} c @{} }
+        x_{n_{p-1} + 1} \\ \vdots \\ x_{n}
+    \end{array}
+  \end{array}\right)
+  \begin{array}{ @{} l @{} }
+    \left.\hskip-\nulldelimiterspace\vphantom{\begin{array}{ @{} c @{} }
+        x_1 \\ \vdots \\ x_{n_1}
+    \end{array}}\right\} \text{User~}1 \\[1.5\normalbaselineskip]
+    \left.\hskip-\nulldelimiterspace\vphantom{\begin{array}{ @{} c @{} }
+        x_{n_1 + 1} \\ \vdots \\ x_{n_2}
+    \end{array}}\right\} \text{User~}2 \\
+    \vphantom{\vdots} \\
+    \left.\hskip-\nulldelimiterspace\vphantom{\begin{array}{ @{} c @{} }
+        x_{n_{p-1} + 1} \\ \vdots \\ x_{n_p}
+    \end{array}}\right\} \text{User~}p
+  \end{array}
+\]
+
+For each user $k$, we compute the scale factor that constrains their to a maximum value of $c$:
+
+\begin{equation}
+	s_k = \frac{1}{\max ( 1, \frac{1}{c} \sqrt{\sum_{i = n_{k-1} + 1}^{n_k} x_i^2})}.
+\end{equation}
+
+The original $\textbf{x}$ vector is then rescaled by multiplying each coordinate with the corresponding user's scale factor.
+The resulting rescaled vector has coordinates given by $s_{u_i}x_i$, where $u_i$ represents the user ID associated with observation $i$.
+This process ensures that the $\ell_2$ contribution of each user is restricted to $c$ within the rescaled vector.
+
+In our algorithm, the clipping value $c$ is given by:
+\begin{equation}
+    c = \max ( |\min \textbf{x}|, |\max \textbf{x}|),
+\end{equation}
+where $\min \textbf{x}$ and $\max \textbf{x}$ are the automatically computed bounds of $\textbf{x}$.
 
 \bigskip
 \noindent Thank you for reading these instructions carefully. We look forward to receiving your electronic files!

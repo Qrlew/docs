@@ -168,55 +168,7 @@ The challenge lies in accurately identifying sections for modification across a 
 \subsection{Query Rewriting}
 
 
-\subsection{The Rewriting Process}
-
-Rewriting is a recursive, two-step process: For any given relation, we begin by rewriting the parents to alter their privacy properties, and then we modify the transforms from which the relation is derived, ensuring the desired privacy property based on the privacy properties of the parents. The recursion's base step involves deciding which tables to utilize—either the private tables or the synthetic ones.
-
-To make the rewriting process more intelligible, we separate global privacy properties accounting for the computation graph and local rewriting rules concerning only the relation and the associated transforms to understand how the rewriting process could unfold recursively.
-
-\subsubsection{Global Privacy Properties}
-\label{sec:global_privacy_properties}
-Let's sum up the global privacy properties:
-\begin{itemize}
-    \item \textbf{Protected Entity (PE)}: The definition of Differential Privacy (DP) is based on a notion of distance between datasets (see OpenDP work). Literature often formalizes datasets as multisets and uses the size of their symmetric difference as the distance between them (or equivalently, the L1 norm of the difference of their histograms). In our clients' datasets, an individual's data is often described by several rows of data. To adapt the distance to this requirement, Sarus labels each data row with an identifier: the Protected Entity ID (PEID) and defines the distance between datasets as the size of the symmetric difference of the set of PEIDs from each dataset.
-    \item \textbf{Protected Entity Preserving (PEP)}: A dataset is PEP if each data row is associated with a single PE. A dataset transformation is said to be PEP if each row labeled with a PEID results from calculations that do not depend on rows labeled with another PEID.
-    \item \textbf{Differential Privacy (DP)}: A result will be qualified as DP if it comes from a DP mechanism applied to a PEP relation. A DP relation can be published if the associated privacy loss has been accurately accounted for.
-    \item \textbf{Synthetic (SD)}: A relation derived only from transformation from the synthetic table.
-    \item \textbf{Public (Pub)}: A relation derived from public tables is labeled as such and does not require DP protections.
-    \item \textbf{Published (Pubd)}: A relation is considered 'published' if the overall mechanism from the private table to the relation complies with the differential privacy framework, ensuring that the privacy of the private data is maintained provided the dataset is not inherently public. This is achieved when all parent relations of a given relation are either published, public, synthetic themselves, or use a differential privacy mechanism.
-\end{itemize}
-
-\subsection{Rewriting Rules and Their Application}
-
-Rewriting rules are the main component to understand how to rewrite the computation graph. A rewriting rule is a local property explaining how to rewrite a relation to achieve global properties, being either DP, PEP, or synthetic, depending on some list of requirements on the privacy characteristics of the parents of the relation. In essence, a rewriting rule is a recursive step in the rewriting process. It explains how we could rewrite a relation given how we can rewrite the parents. The base case in the recursion is always: a table could either be private, public, or synthetic.
-
-Relations can appear in various forms, including Join, Map, Reduce, Relation, Set, Table, and Values. Each type has its unique set of possible rewriting rules, outlining potential transformations and the associated global properties. An exhaustive list of the rewriting rules for each type of relation is provided in the annex.
-
-\subsubsection{Key Rewriting Rules}
-
-Let’s detail two crucial rewriting rules:
-
-\paragraph{Relation with PEP \textrightarrow{} PEP and PEP \textrightarrow{} DP Rewriting Rules}
-The first rule, PEP \textrightarrow{} PEP, concerns transferring the protected entity preserving property from one transformation stage to the next without mixing protected entities. The second rule, PEP \textrightarrow{} DP, means that if the parent of the relation can be rewritten as PEP, then we can rewrite the relation to be DP by applying a DP mechanism to publish the result. Both types of rewriting rules necessitate having parents that are capable of preserving protected entities. Some transformations, such as REDUCE, can aggregate data from multiple rows and thus can mix protected entities in the process. Such relations could be rewritten mostly only into published or synthetic, but it is possible that some REDUCE operations only aggregate rows related to the same protected entity and therefore could be rewritten into a PEP Relation.
-
-\paragraph{Feasible Rewriting Rules}
-A rewriting rule of a relation is said to be feasible if there exists a rewriting of the relation satisfying the rule. This is a global property of the relation, meaning that it depends on all the parents of the relation and not only on the transforms of the relation. Thus, the rewriting rule PEP \textrightarrow{} DP could be feasible for a relation if there exists a rewriting where the parent of the relation is in practice PEP. Then, we can change the transform and apply a DP mechanism to publish the relation. All rewriting rules about synthetic data are feasible because it is always possible in Sarus to build a synthetic variant of the relation using the synthetic table. The main goal of the DP rewriting is then to list for the relation that we want to obtain all the feasible rewriting rules and to select one where the outcome is DP. If not, it would mean that there does not exist a way to obtain this value using DP mechanisms, and we would need to use synthetic data.
-
-In the computation graph, while each node's multiple rewriting rules might suggest a combinatorial explosion in the number of possible paths, this is mitigated in practice. The pruning of infeasible rules, dictated by the requirement for most relations to have a PEP input for a DP or PEP outcome, significantly reduces the complexity. Hence, despite the theoretical breadth of possibilities, the actual number of feasible paths remains manageable, avoiding substantial computational problems.
-
-The challenge lies in choosing the appropriate rewriting rule for each segment of the SQL query. Though the potential solutions are numerous, practical circumstances significantly narrow down the viable options.
-
-\subsection{Implementation of the Rewriting Algorithm}
-
-The goal is to have a deterministic algorithm that rewrites SQL queries into a privacy-preserving form. During the \qrlew{} rewriting process, the algorithm systematically goes through the computation graph, applying the following steps:
-
-\begin{enumerate}
-    \item Transform the SQL query into a computation graph composed of relations.
-    \item Tagging rewriting rules: Initially tag all relations with their rewriting rules depending on the type of relation and the parameters of the relation from the list in the annex (see Figure~\ref{fig:rule_setting} for an illustration of Rule Setting).
-    \item Filtering Out Infeasible Rules: Identify and remove recursively any rewriting rules that are not feasible, ensuring that only viable transformations are considered (refer to Figure~\ref{fig:rule_elimination} for a depiction of Rule Elimination).
-    \item Applying Rewriting Rules: Starting from the last final node, for each node with multiple feasible rewriting rules, we select the best one based on a scoring system. The simple score system encodes the preferences among different privacy properties: we prefer to have a DP result than a synthetic one, that is why we give a better score for a feasible rule resulting in a DP result than a synthetic one (Figures~\ref{fig:sd_allocation} and \ref{fig:dp_allocation} illustrate examples of SD and DP Allocation, respectively).
-    \item Building the Final Query: Once all relations have been transformed, convert the computation graph back into an SQL query that adheres to differential privacy standards. The budget is split among the different DP mechanisms involved in the computation graph.
-\end{enumerate}
+\input{rewriting.tex}
 
 
 \section{Victoria on DP mech and DP test}

@@ -122,10 +122,13 @@ Despite the availability of open-source tools, DP adoption remains limited.
 One of the reasons for this lack of adoption is the relative complexity of the existing tools considered the utility of the results.
 \qrlew{} has been designed to solve these problems by providing the following features:
 \begin{description}
-    \item[\qrlew{} provides automatic output privacy guarantees] With \qrlew{} a \emph{data owner} can let an analyst (\emph{data practitionner}) with no expertise in privacy protection run arbitrary SQL queries with strong privacy garantees on the output.
-    \item[\qrlew{} leverages existing infrastructures] \qrlew{} rewrites a SQL query into a \emph{differentially private} SQL query that can be run on any data-store with a SQL interface from lightweight DB to big-data stores.
+    \item[\qrlew{} provides automatic output privacy guarantees]
+    With \qrlew{} a \emph{data owner} can let an analyst (\emph{data practitionner}) with no expertise in privacy protection run arbitrary SQL queries with strong privacy garantees on the output.
+    \item[\qrlew{} leverages existing infrastructures]
+    \qrlew{} rewrites a SQL query into a \emph{differentially private} SQL query that can be run on any data-store with a SQL interface: from lightweight DB to big-data stores.
 This removes the need for a custom execution engine and enables \emph{differentially private analytics with virtually no technical integration}.
-    \item[\qrlew{} leverages synthetic data]. Synthetic data are an increasingly popular way of \emph{privatizing} a dataset. Using jointly \emph{differentially private} mechanisms and \emph{differentially private} synthetic data can be a simple, yet powerful, way of managing a privacy budget and reaching better utility-privacy tradeoffs.
+    \item[\qrlew{} leverages synthetic data]
+    Synthetic data are an increasingly popular way of \emph{privatizing} a dataset. Using jointly: \emph{differentially private} mechanisms and \emph{differentially private} synthetic data can be a simple, yet powerful, way of managing a privacy budget and reaching better utility-privacy tradeoffs.
 \end{description}
 
 % Motivation DP
@@ -139,25 +142,33 @@ This removes the need for a custom execution engine and enables \emph{differenti
 
 \section{Assumptions and Design Goals}
 
-In this work, we assume the \emph{central model of differential privacy} \cite{near2020threat}, where a trusted central organization: Hospital, Insurance Company, Utility Provider, called the \emph{data owner}, collects and stores personal data in a secured database. and whishes to let untrusted \emph{data-practitionners} run SQL queries on its data.
+In this work, we assume the \emph{central model of differential privacy} \cite{near2020threat}, where a trusted central organization: hospital, insurance company, utility provider, called the \emph{data owner}, collects and stores personal data in a secured database and whishes to let untrusted \emph{data-practitionners} run SQL queries on its data.
 Furthermore, the
 \qrlew{} was designed to ease the
 
 \section{General architecture}
 
-In this work, we assume the \emph{central model of differential privacy} \cite{near2020threat}, where a trusted central organization: Hospital, Insurance Company, Utility Provider, called the \emph{data owner}, collects and stores personal data in a secured database. and whishes to let untrusted \emph{data-practitionners} run SQL queries on its data.
-Furthermore, the
-\qrlew{} was designed to ease the
+\begin{description}
+    \item[Parsing into Relation]
 
-\section{Paul on compilation}
-
-Rewriting in \qrlew{} refers to the process of altering parts of an SQL query by substituting them with different components to alter the privacy properties of the result. This substitution aims to achieve specific objectives, such as ensuring privacy through the incorporation of differential privacy mechanisms. To facilitate this work, we decompose the SQL query in the form of a computation graph where each node (a \texttt{Relation}) is the result of transformations representing part of the SQL queries.
+    \item[Rewriting]
+Rewriting in \qrlew{} refers to the process of altering parts of a \emph{Relation} by substituting them with different components to alter the privacy properties of the result. This substitution aims to achieve specific objectives, such as ensuring privacy through the incorporation of differential privacy mechanisms. To facilitate this work, we decompose the SQL query in the form of a computation graph where each node (a \texttt{Relation}) is the result of transformations representing part of the SQL queries.
 
 The main goals of the differential privacy rewriting are to modify SQL queries to ensure compliance with differential privacy frameworks, protecting sensitive data, and to guarantee that these modifications are consistent and deterministic, adhering to established privacy standards.
 
 The challenge lies in accurately identifying sections for modification across a complex array of potential transformations, vigilantly tracking the integrity of data rows tied to protected entities during extensive aggregations, and adeptly applying the correct rewriting rules tailored to the relation dynamics of the query, such as Joins, Maps, or Reduces, while considering the original configuration of the sensitive data.
 
-\subsection{Rewriting}
+    \item[Rewriting]
+\end{description}
+
+\subsection{Qrlew Intermediate Representation}
+
+\subsection{Range Propagation}
+
+\subsection{Query Rewriting}
+
+
+\subsection{The Rewriting Process}
 
 Rewriting is a recursive, two-step process: For any given relation, we begin by rewriting the parents to alter their privacy properties, and then we modify the transforms from which the relation is derived, ensuring the desired privacy property based on the privacy properties of the parents. The recursion's base step involves deciding which tables to utilize—either the private tables or the synthetic ones.
 

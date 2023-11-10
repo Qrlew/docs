@@ -128,10 +128,13 @@ Despite the availability of open-source tools, DP adoption remains limited.
 One of the reasons for this lack of adoption is the relative complexity of the existing tools considered the utility of the results.
 \qrlew{} has been designed to solve these problems by providing the following features:
 \begin{description}
-    \item[\qrlew{} provides automatic output privacy guarantees] With \qrlew{} a \emph{data owner} can let an analyst (\emph{data practitionner}) with no expertise in privacy protection run arbitrary SQL queries with strong privacy garantees on the output.
-    \item[\qrlew{} leverages existing infrastructures] \qrlew{} rewrites a SQL query into a \emph{differentially private} SQL query that can be run on any data-store with a SQL interface from lightweight DB to big-data stores.
+    \item[\qrlew{} provides automatic output privacy guarantees]
+    With \qrlew{} a \emph{data owner} can let an analyst (\emph{data practitionner}) with no expertise in privacy protection run arbitrary SQL queries with strong privacy garantees on the output.
+    \item[\qrlew{} leverages existing infrastructures]
+    \qrlew{} rewrites a SQL query into a \emph{differentially private} SQL query that can be run on any data-store with a SQL interface: from lightweight DB to big-data stores.
 This removes the need for a custom execution engine and enables \emph{differentially private analytics with virtually no technical integration}.
-    \item[\qrlew{} leverages synthetic data]. Synthetic data are an increasingly popular way of \emph{privatizing} a dataset. Using jointly \emph{differentially private} mechanisms and \emph{differentially private} synthetic data can be a simple, yet powerful, way of managing a privacy budget and reaching better utility-privacy tradeoffs.
+    \item[\qrlew{} leverages synthetic data]
+    Synthetic data are an increasingly popular way of \emph{privatizing} a dataset. Using jointly: \emph{differentially private} mechanisms and \emph{differentially private} synthetic data can be a simple, yet powerful, way of managing a privacy budget and reaching better utility-privacy tradeoffs.
 \end{description}
 
 % Motivation DP
@@ -145,17 +148,40 @@ This removes the need for a custom execution engine and enables \emph{differenti
 
 \section{Assumptions and Design Goals}
 
-In this work, we assume the \emph{central model of differential privacy} \cite{near2020threat}, where a trusted central organization: Hospital, Insurance Company, Utility Provider, called the \emph{data owner}, collects and stores personal data in a secured database. and whishes to let untrusted \emph{data-practitionners} run SQL queries on its data.
+In this work, we assume the \emph{central model of differential privacy} \cite{near2020threat}, where a trusted central organization: hospital, insurance company, utility provider, called the \emph{data owner}, collects and stores personal data in a secured database and whishes to let untrusted \emph{data-practitionners} run SQL queries on its data.
 Furthermore, the
 \qrlew{} was designed to ease the
 
 \section{General architecture}
 
-In this work, we assume the \emph{central model of differential privacy} \cite{near2020threat}, where a trusted central organization: Hospital, Insurance Company, Utility Provider, called the \emph{data owner}, collects and stores personal data in a secured database. and whishes to let untrusted \emph{data-practitionners} run SQL queries on its data.
-Furthermore, the
-\qrlew{} was designed to ease the
+\begin{figure*}[t]
+    \centering
+    \includegraphics[width=0.8\textwidth]{figures/Qrlew - process.pdf} % Reduce the figure size so that it is slightly narrower than the column.
+    \caption{Caption.}
+    \label{process}
+    \end{figure*}
 
-\section{Paul on compilation}
+\begin{description}
+    \item[Parsing into Relation]
+
+    \item[Rewriting]
+Rewriting in \qrlew{}, as detailed in Section~\ref{sec:rewriting_algorithm}, refers to the process of altering parts of a \emph{Relation} by substituting them with different components to alter the privacy properties of the result. This substitution aims to achieve specific objectives, such as ensuring privacy through the incorporation of differential privacy mechanisms. To facilitate this work, we decompose the SQL query in the form of a computation graph where each node (a \texttt{Relation}) is the result of transformations representing part of the SQL queries.
+
+The main goals of the differential privacy rewriting are to modify SQL queries to ensure compliance with differential privacy frameworks, protecting sensitive data, and to guarantee that these modifications are consistent and deterministic, adhering to established privacy standards.
+
+The challenge lies in accurately identifying sections for modification across a complex array of potential transformations, vigilantly tracking the integrity of data rows tied to protected entities during extensive aggregations, and adeptly applying the correct rewriting rules tailored to the relation dynamics of the query, such as Joins, Maps, or Reduces, while considering the original configuration of the sensitive data.
+
+    \item[Rewriting]
+\end{description}
+
+\subsection{Qrlew Intermediate Representation}
+
+\subsection{Range Propagation}
+
+\subsection{Query Rewriting}
+
+
+\input{rewriting.tex}
 
 \section{Privacy algorithms}
 \label{sec:privacy_algos}
@@ -259,48 +285,10 @@ This year program:
 
 % \bibliography{aaai24}
 \bibliography{qrlew}
-
 \appendix
-\section{Appendix: Limit the contribution per user within the aggregations}
-\label{sec:limit_contrib_per_user}
 
-The observations can be represented as a matrix whose first dimension is the user
-and second dimension is the group:
+\section*{Appendix}
 
-\[ \vphantom{% phantom stuff for correct box dimensions
-    \begin{matrix}
-    \overbrace{XYZ}^{\mbox{$R$}}\\ \\ \\ \\ \\ \\
-    \end{matrix}}%
-\begin{pmatrix}
-    \coolover{\text{Group 1}}{~~~x_{11}} & \coolover{\text{Group 2}}{~~~x_{12}} & \hdots & \coolover{\text{Group n}}{~~~x_{1n}} \\
-    ~~~x_{21} & ~~~x_{22} & \hdots & ~~~x_{2n}  \\
-    \vdots & \vdots &  & \vdots  \\
-    ~~~x_{m1} & ~~~x_{m2} & \hdots & ~~~x_{mn}
-\end{pmatrix}%
-\begin{matrix}% matrix for right braces
-    \coolrightbrace{x}{\text{User 1}}\\
-    \coolrightbrace{x}{\text{User 2}}\\
-    \vphantom{\vdots} \\
-    \coolrightbrace{x}{\text{User }m}\\
-\end{matrix}
-\]
-
-The coordinate $x_{ij}$ is the sum of all the observations of user $i$ within the group $j$.
-
-
-For each user $i$, we compute the scale factor that constrains his contribution to a maximum value of $c$:
-
-\begin{equation}
-	s_i = \frac{1}{\max ( 1, \frac{1}{c} \ell_2(x_{i,.}) )} \text{  with  } \ell_2(x_{i,.}) = \sqrt{\sum_j x^2_{ij}}.
-\end{equation}
-
-The original data is then rescaled by multiplying each observation by the corresponding user's scale factor.
-This process ensures that the $\ell_2$ contribution of each user is restricted to $c$ within the rescaled data.
-
-In our algorithm, the clipping value $c$ is given by:
-\begin{equation}
-    c = \max ( |\min \textbf{x}|, |\max \textbf{x}|),
-\end{equation}
-where $\min \textbf{x}$ and $\max \textbf{x}$ are the automatically computed bounds of $\textbf{x}$.
+\input{annex.tex}
 
 \end{document}

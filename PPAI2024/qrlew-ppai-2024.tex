@@ -112,9 +112,9 @@
 \maketitle
 
 \begin{abstract}
-In this paper we introduce \qrlew{}, an \emph{open source} library that can parse SQL queries into \emph{Relations} --- an intermediate representation --- that keep track of rich data-types, value ranges and row ownership, so that they can easily be rewritten into \emph{differentially-private} (DP) equivalent and turned back into SQL queries for execution in a standard data-store with virtually no integration.
+In this paper we introduce \qrlew{}, an \emph{open source} library that can parse SQL queries into \emph{Relations} --- an intermediate representation --- that keep track of rich data-types, value ranges and row ownership, so that they can easily be rewritten into \emph{differentially-private} equivalent and turned back into SQL queries for execution in a standard data-store with virtually no technical integration.
 
-With \qrlew{}, a \emph{data-practitionner} can express his data queries in standard SQL; the \emph{data-owner} can run the rewritten query without any technical intergration and strong privacy garantees; and the query rewriting can be operated by a privacy-expert that has to be trusted by the owner, but may belong to a separate organizations.
+With \qrlew{}, a \emph{data practitionner} can express his data queries in standard SQL; the \emph{data owner} can run the rewritten query without any technical intergration and strong privacy garantees; and the query rewriting can be operated by a privacy-expert that has to be trusted by the owner, but may belong to a separate organizations.
 \end{abstract}
 
 \section{Introduction}
@@ -124,9 +124,9 @@ Traditional anonymization techniques have proven vulnerable to re-identification
 The total cost of data breaches has also significantly increased \cite{ibm2023cost} and governments have introduced stricter data protection laws.
 Yet, the collection, sharing, and utilization of data hold the potential to generate significant value across various industries, including healthcare, finance, transportation, and energy distribution.
 
-To realize these benefits while managing privacy risks, researchers have turned to \emph{differential privacy (DP)} \cite{wood2018differential, dwork2014algorithmic}, which has become the gold standard for privacy since its introduction by Dwork et al. in 2006 \cite{dwork2006calibrating} due to its provable and automatic privacy guarantees.
+To realize these benefits while managing privacy risks, researchers have turned to \emph{differential privacy (DP)} \cite{wood2018differential, dwork2014algorithmic}, which has become the \emph{gold standard} for privacy protection since its introduction by Dwork et al. in 2006 \cite{dwork2006calibrating} due to its provable and automatic privacy guarantees.
 
-Despite the availability of open-source tools, DP adoption remains limited.
+Despite the availability of open-source tools, DP adoption remained limited.
 One of the reasons for this lack of adoption is the relative complexity of the existing tools considered the utility of the results.
 \qrlew{} \cite{Grislain_Qrlew_2023} has been designed to solve these problems by providing the following features:
 \begin{description}
@@ -150,7 +150,19 @@ This removes the need for a custom execution engine and enables \emph{differenti
 
 \section{Assumptions and Design Goals}
 
-In this work, we assume the \emph{central model of differential privacy} \cite{near2020threat}, where a trusted central organization: hospital, insurance company, utility provider, called the \emph{data owner}, collects and stores personal data in a secured database and whishes to let untrusted \emph{data-practitionners} run SQL queries on its data.
+In this work, we assume the \emph{central model of differential privacy} \cite{near2020threat}, where a trusted central organization: hospital, insurance company, utility provider, called the \emph{data owner}, collects and stores personal data in a secure database and whishes to let untrusted \emph{data practitionners} run SQL queries on its data.
+
+At a high level we pursued the following requirements:
+\begin{itemize}
+    \item Ease of use for the \emph{data practitionners}. The \emph{data practitionners} are assumed to be a data experts but no privacy experts. They should be able to express their queries in a standard way. We chose SQL as it is very commonly used for analytics tasks.
+    \item Ease of integration for the \emph{data owner}. As SQL is a common language to express data analysis tasks, many data-stores support it from small embedded databases to big data stores.
+    \item Simplicity but expressivity of the 
+    \item Simple integration with other privacy enhancing technologies such as 
+\end{itemize}
+
+To minimize 
+The rewriting process 
+
 Furthermore, the
 \qrlew{} was designed to ease the
 

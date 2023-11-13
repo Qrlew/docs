@@ -47,7 +47,9 @@
 % proceedings, working notes, and technical reports.
 %
 
+% Sarus defined packages and commands
 % A command for the project name
+\usepackage{amsfonts}
 \newcommand{\qrlew}{\emph{Qrlew}}
 
 \newcommand\coolover[2]{\mathrlap{\smash{\overbrace{\phantom{%
@@ -63,7 +65,7 @@
 % nouns, adverbs, adjectives should be capitalized, including both words in hyphenated terms, while
 % articles, conjunctions, and prepositions are lower case unless they
 % directly follow a colon or long dash
-\title{\qrlew: Differentially Private SQL Query Rewriting}
+\title{\qrlew: SQL Query Rewriting for Differential Privacy}
 \author{
     %Authors
     % Authors
@@ -168,10 +170,10 @@ The \qrlew{} library, solves the problem of running a SQL query with DP guarante
 
 \begin{figure*}[t]
     \centering
-    \includegraphics[width=0.9\textwidth]{figures/Qrlew - process.pdf} % Reduce the figure size so that it is slightly narrower than the column.
+    \includegraphics[width=0.9\textwidth]{figures/Qrlew - process} % Reduce the figure size so that it is slightly narrower than the column.
     \caption{The rewritting process occurs in three stages: The \emph{data practitionner}'s query is parsed into a \emph{Relation}, which is rewritten into a DP equivalent and finally executed by the the \emph{data owner} which returns the privacy-safe result.}
     \label{process}
-    \end{figure*}
+\end{figure*}
 
 \subsection{Qrlew Intermediate Representation}
 
@@ -180,13 +182,34 @@ As the SQL language is very rich and complex, simply parsing a query into an abs
     \item[A \texttt{Table}] This is simply the collection of the rows of an SQL table.
     \item[A \texttt{Map}] It takes an input \texttt{Relation}, filters the rows and transform them one by one. The filtering condition and row transforms are expressed by expressions similar to those of SQL. It acts as a \texttt{SELECT exprs FROM input WHERE expr LIMIT value} and therefore preserve the \emph{protected entity} ownership structure.
     \item[A \texttt{Reduce}] A \texttt{Reduce} takes an input \texttt{Relation} and aggregates some columns, possibly group by group. It acts as a \texttt{SELECT aggregates FROM input GROUP BY expr}. This is where the rewriting into DP will happen as described in section~\ref{rewritting}.
-    \item[A \texttt{Join}] This combines two input \texttt{Relation}s as a \texttt{SELECT * FROM left JOIN right ON expr} would do it. The provacy properties are more complex to propagate in this case.
+    \item[A \texttt{Join}] This \texttt{Relation} combines two input \texttt{Relation}s as a \texttt{SELECT * FROM left JOIN right ON expr} would do it. The provacy properties are more complex to propagate in this case.
 \end{description}
 It may also be a static list of values or a set operation between two \texttt{Relation}s, but those are les important for our uses.
 
+\begin{figure}[t]
+    \centering
+    \includegraphics[width=0.3\textwidth]{figures/relation}
+    \caption{\texttt{Relation} (\texttt{Map}) associeted to the query: \texttt{SELECT a, count(abs(10*a+b)) AS x FROM table\_1 WHERE b>-0.1 AND a IN (1,2,3) GROUP BY a}. The arrows point to the inputs of each \texttt{Relation}. Note the propagation of the data type ranges.}
+    \label{process}
+\end{figure}
+
 \subsection{Range Propagation}
 
+Most DP mechanisms aggregating numbers require the knowledge of some sort of bounds on the values (see \cite{dwork2014algorithmic}).
+Even if some bounds ar known for some \texttt{Relation}s like source \texttt{Table}s, it is far from obvious to propagate these bounds through the steps of the computation.
 
+To help with range propagation, \qrlew{} introduces two simple concepts.
+\begin{itemize}
+    \item The \emph{$k$-Intervals}, which are finite union of at most $k$ closed intervals. A \emph{$k$-Intervals} can be noted:
+    $$I = \bigcup_{i=1}^{j\leq k}\left[a_i, b_i\right]$$
+    Note that the union of \emph{$k$-Intervals} may not be a \emph{$k$-Intervals} as it may be the union of more than $k$ intervals.
+    Unions of many intervals can be simplified into their convex enveloppe interval, which are often sufficient bounds approximations for our use case:
+    $$J = \bigcup_{i=1}^{j> k}\left[a_i, b_i\right] \subseteq \left[\min_i a_i, \max_i b_i\right]$$
+    \item The \emph{piecewise-coordinatewise-monotonic-functions} or \emph{piecewise-monotonic-functions}, which are functions $f: \mathbb{R}^n \rightarrow \mathbb{R}$ whose domain can be partitioned in product of intervals on which they are \emph{coordinatewise-monotonic}.
+    The image of a product of \emph{$k$-Intervals} by a \emph{piecewise-monotonic-function} can be computed as a \emph{$k^n$-Intervals} 
+    $$I = I_1\times I_2\times \ldots \times I_n = \bigcup_{\substack{1\leq i_1\leq k\\\ldots\\1\leq i_n\leq k}}\left[a_{i_1}, b_{i_1}\right]\times \ldots \times \left[a_{i_n}, b_{i_n}\right]$$.
+    One can show that: $$f(I) = \bigcup_{\substack{1\leq i_1\leq k\\\ldots\\1\leq i_n\leq k}}\text{Conv}\left(f\left( \left\{a_{i_1}, b_{i_1}\right\}\times \ldots \times \left\{a_{i_n}, b_{i_n}\right\}\right)\right)$$
+\end{itemize}
 
 \subsection{Protected Entity Definition}
 

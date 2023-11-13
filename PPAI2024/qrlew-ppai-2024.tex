@@ -41,7 +41,7 @@
 /TemplateVersion (2024.1)
 }
 
-\setcounter{secnumdepth}{0} %May be changed to 1 or 2 if section numbers are desired.
+\setcounter{secnumdepth}{2} %May be changed to 1 or 2 if section numbers are desired.
 
 % The file aaai24.sty is the style file for AAAI Press
 % proceedings, working notes, and technical reports.
@@ -175,13 +175,23 @@ The \qrlew{} library, solves the problem of running a SQL query with DP guarante
 
 \subsection{Qrlew Intermediate Representation}
 
-
+As the SQL language is very rich and complex, simply parsing a query into an abstract syntaxic tree does not produce a convenient representation for our needs. Therefore, it is converted into a simpler normalized representation with properties well aligned with the requirements of Differential Privacy: the \texttt{Relation}. A \texttt{Relation} is a collection of rows abiding a given \emph{schema}. It may be:
+\begin{description}
+    \item[A \texttt{Table}] This is simply the collection of the rows of an SQL table.
+    \item[A \texttt{Map}] It takes an input \texttt{Relation}, filters the rows and transform them one by one. The filtering condition and row transforms are expressed by expressions similar to those of SQL. It acts as a \texttt{SELECT exprs FROM input WHERE expr LIMIT value} and therefore preserve the \emph{protected entity} ownership structure.
+    \item[A \texttt{Reduce}] A \texttt{Reduce} takes an input \texttt{Relation} and aggregates some columns, possibly group by group. It acts as a \texttt{SELECT aggregates FROM input GROUP BY expr}. This is where the rewriting into DP will happen as described in section~\ref{rewritting}.
+    \item[A \texttt{Join}] This combines two input \texttt{Relation}s as a \texttt{SELECT * FROM left JOIN right ON expr} would do it. The provacy properties are more complex to propagate in this case.
+\end{description}
+It may also be a static list of values or a set operation between two \texttt{Relation}s, but those are les important for our uses.
 
 \subsection{Range Propagation}
+
+
 
 \subsection{Protected Entity Definition}
 
 \subsection{Query Rewriting}
+\label{sec:rewritting}
 
 Rewriting in \qrlew{}, as detailed in Section~\ref{sec:rewriting_algorithm}, refers to the process of altering parts of a \emph{Relation} by substituting them with different components to alter the privacy properties of the result. This substitution aims to achieve specific objectives, such as ensuring privacy through the incorporation of differential privacy mechanisms. To facilitate this work, we decompose the SQL query in the form of a computation graph where each node (a \texttt{Relation}) is the result of transformations representing part of the SQL queries.
 

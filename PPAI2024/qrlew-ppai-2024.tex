@@ -63,7 +63,7 @@
 % nouns, adverbs, adjectives should be capitalized, including both words in hyphenated terms, while
 % articles, conjunctions, and prepositions are lower case unless they
 % directly follow a colon or long dash
-\title{\qrlew: Differentially Privacte SQL Query Rewriting}
+\title{\qrlew: Differentially Private SQL Query Rewriting}
 \author{
     %Authors
     % Authors
@@ -114,7 +114,7 @@
 \begin{abstract}
 In this paper we introduce \qrlew{}, an \emph{open source} library that can parse SQL queries into \emph{Relations} --- an intermediate representation --- that keep track of rich data-types, value ranges and row ownership, so that they can easily be rewritten into \emph{differentially-private} equivalent and turned back into SQL queries for execution in a standard data-store with virtually no technical integration.
 
-With \qrlew{}, a \emph{data practitionner} can express his data queries in standard SQL; the \emph{data owner} can run the rewritten query without any technical intergration and strong privacy garantees; and the query rewriting can be operated by a privacy-expert that has to be trusted by the owner, but may belong to a separate organizations.
+With \qrlew{}, a \emph{data practitionner} can express his data queries in standard SQL; the \emph{data owner} can run the rewritten query without any technical intergration and strong privacy garantees on the output; and the query rewriting can be operated by a privacy-expert that has to be trusted by the owner, but may belong to a separate organizations.
 \end{abstract}
 
 \section{Introduction}
@@ -160,35 +160,22 @@ At a high level we pursued the following requirements:
     \item Simple integration with other privacy enhancing technologies such as \emph{synthetic data}. To avoid repeated privacy losses or give result when a DP rewriting is not easily available (e.g. when the query is: \texttt{SELECT * FROM table}) \qrlew can use \emph{synthetic data} to blend in the computation.
 \end{itemize}
 
-To minimize 
-The rewriting process 
+These requirements dictated the overall \emph{query rewriting} architecture and many features, the most important of which, are detailed bellow.
 
-Furthermore, the
-\qrlew{} was designed to ease the
+\section{Overall Architecture of \qrlew}
 
-\section{General architecture}
+The \qrlew{} library, solves the problem of running a SQL query with DP guarantees in four steps. First the SQL query submitted by the \emph{data practitionner} is parsed and converted into a \emph{Relation}, this \emph{Relation} is an intermediate representation that is designed to ease the tracking of data types ranges or possible values, to ease the tracking of the \emph{protected entity} and to ease the rewriting into a DP \emph{Relation}. Once the relation is rewriten into a DP one, it can be rendered as an SQL query string and submited to the data store of the \emph{data owner}. The output can then safely be shared with the \emph{data practitionner}. This process is illustrated in Figure~\ref{process}.
 
 \begin{figure*}[t]
     \centering
-    \includegraphics[width=0.8\textwidth]{figures/Qrlew - process.pdf} % Reduce the figure size so that it is slightly narrower than the column.
-    \caption{Caption.}
+    \includegraphics[width=0.9\textwidth]{figures/Qrlew - process.pdf} % Reduce the figure size so that it is slightly narrower than the column.
+    \caption{The rewritting process occurs in three stages: The \emph{data practitionner}'s query is parsed into a \emph{Relation}, which is rewritten into a DP equivalent and finally executed by the the \emph{data owner} which returns the privacy-safe result.}
     \label{process}
     \end{figure*}
 
-\begin{description}
-    \item[Parsing into Relation]
-
-    \item[Rewriting]
-Rewriting in \qrlew{}, as detailed in Section~\ref{sec:rewriting_algorithm}, refers to the process of altering parts of a \emph{Relation} by substituting them with different components to alter the privacy properties of the result. This substitution aims to achieve specific objectives, such as ensuring privacy through the incorporation of differential privacy mechanisms. To facilitate this work, we decompose the SQL query in the form of a computation graph where each node (a \texttt{Relation}) is the result of transformations representing part of the SQL queries.
-
-The main goals of the differential privacy rewriting are to modify SQL queries to ensure compliance with differential privacy frameworks, protecting sensitive data, and to guarantee that these modifications are consistent and deterministic, adhering to established privacy standards.
-
-The challenge lies in accurately identifying sections for modification across a complex array of potential transformations, vigilantly tracking the integrity of data rows tied to protected entities during extensive aggregations, and adeptly applying the correct rewriting rules tailored to the relation dynamics of the query, such as Joins, Maps, or Reduces, while considering the original configuration of the sensitive data.
-
-    \item[Rewriting]
-\end{description}
-
 \subsection{Qrlew Intermediate Representation}
+
+
 
 \subsection{Range Propagation}
 
@@ -196,6 +183,11 @@ The challenge lies in accurately identifying sections for modification across a 
 
 \subsection{Query Rewriting}
 
+Rewriting in \qrlew{}, as detailed in Section~\ref{sec:rewriting_algorithm}, refers to the process of altering parts of a \emph{Relation} by substituting them with different components to alter the privacy properties of the result. This substitution aims to achieve specific objectives, such as ensuring privacy through the incorporation of differential privacy mechanisms. To facilitate this work, we decompose the SQL query in the form of a computation graph where each node (a \texttt{Relation}) is the result of transformations representing part of the SQL queries.
+
+The main goals of the differential privacy rewriting are to modify SQL queries to ensure compliance with differential privacy frameworks, protecting sensitive data, and to guarantee that these modifications are consistent and deterministic, adhering to established privacy standards.
+
+The challenge lies in accurately identifying sections for modification across a complex array of potential transformations, vigilantly tracking the integrity of data rows tied to protected entities during extensive aggregations, and adeptly applying the correct rewriting rules tailored to the relation dynamics of the query, such as Joins, Maps, or Reduces, while considering the original configuration of the sensitive data.
 
 \input{rewriting.tex}
 

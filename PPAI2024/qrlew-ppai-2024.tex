@@ -162,7 +162,7 @@ $$\Pr[\mathcal{M}(D) \in S] \leq e^{\varepsilon} \cdot \Pr[\mathcal{M}(D') \in S
 
 \subsection{Adjacent datasets}
 
-Datasets $D, D' \in \mathcal{D}$ are adjacent if they are equal up to the addition or removal of all entries sharing the same PEID. Note that this is a slightly restricted definition of adjacency, suited to our practical needs.
+Datasets $D, D' \in \mathcal{D}$ are adjacent if they are equal up to the addition or removal of all entries sharing the same PEID. Note that this is a slightly restricted definition of adjacency, suited to our practical needs. It is close to that of \cite{liu2020learning, wilson2019differentially} where a user can have many samples.
 
 \section{Assumptions and Design Goals}
 
@@ -239,6 +239,8 @@ The idea of \emph{piecewise-monotonic-function} is also very useful as in SQL ma
 Most of the range propagation in \qrlew{} is based on these concepts. It enables a rather simple and efficient range propagation mechanism, leading to better utility / privacy tradeoffs.
 
 \subsection{Protected Entity Definition}
+
+Tables in a database rarely come properly formated for privacy-preserving applications. Many rows in many tables may refer to one individual, hence, \emph{adding or removing an individual} means 
 
 \subsection{Query Rewriting}
 \label{sec:rewritting}

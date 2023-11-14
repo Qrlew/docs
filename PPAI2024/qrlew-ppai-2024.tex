@@ -196,20 +196,31 @@ It may also be a static list of values or a set operation between two \texttt{Re
 \subsection{Range Propagation}
 
 Most DP mechanisms aggregating numbers require the knowledge of some sort of bounds on the values (see \cite{dwork2014algorithmic}).
-Even if some bounds ar known for some \texttt{Relation}s like source \texttt{Table}s, it is far from obvious to propagate these bounds through the steps of the computation.
+Even if some bounds ar known for some \texttt{Relation}s like source \texttt{Table}s, it is not trivial to propagate these bounds through the steps of the computation.
 
 To help with range propagation, \qrlew{} introduces two simple concepts.
 \begin{itemize}
-    \item The \emph{$k$-Intervals}, which are finite union of at most $k$ closed intervals. A \emph{$k$-Intervals} can be noted:
+    \item The concept of \emph{$k$-Interval}, which are finite union of at most $k$ closed intervals. A \emph{$k$-Interval} can be noted:
     $$I = \bigcup_{i=1}^{j\leq k}\left[a_i, b_i\right]$$
-    Note that the union of \emph{$k$-Intervals} may not be a \emph{$k$-Intervals} as it may be the union of more than $k$ intervals.
+    Note that the union of \emph{$k$-Interval}s may not be a \emph{$k$-Interval} as it may be the union of more than $k$ intervals.
     Unions of many intervals can be simplified into their convex enveloppe interval, which are often sufficient bounds approximations for our use case:
     $$J = \bigcup_{i=1}^{j> k}\left[a_i, b_i\right] \subseteq \left[\min_i a_i, \max_i b_i\right]$$
-    \item The \emph{piecewise-coordinatewise-monotonic-functions} or \emph{piecewise-monotonic-functions}, which are functions $f: \mathbb{R}^n \rightarrow \mathbb{R}$ whose domain can be partitioned in product of intervals on which they are \emph{coordinatewise-monotonic}.
-    The image of a product of \emph{$k$-Intervals} by a \emph{piecewise-monotonic-function} can be computed as a \emph{$k^n$-Intervals} 
-    $$I = I_1\times I_2\times \ldots \times I_n = \bigcup_{\substack{1\leq i_1\leq k\\\ldots\\1\leq i_n\leq k}}\left[a_{i_1}, b_{i_1}\right]\times \ldots \times \left[a_{i_n}, b_{i_n}\right]$$.
-    One can show that: $$f(I) = \bigcup_{\substack{1\leq i_1\leq k\\\ldots\\1\leq i_n\leq k}}\text{Conv}\left(f\left( \left\{a_{i_1}, b_{i_1}\right\}\times \ldots \times \left\{a_{i_n}, b_{i_n}\right\}\right)\right)$$
+    \item The concept of \emph{piecewise-coordinatewise-monotonic-functions} or \emph{piecewise-monotonic-functions}, which are functions $f: \mathbb{R}^n \rightarrow \mathbb{R}$ whose domain can be partitioned in product of intervals on which they are \emph{coordinatewise-monotonic}.
+    The image of a product of \emph{$k$-Interval}s by a \emph{piecewise-monotonic-function} can be easily computed as a \emph{$k^n$-Interval}. If:
+    $$I = I_1\times I_2\times \ldots \times I_n = \bigcup_{\substack{1\leq i_1\leq k\\\ldots\\1\leq i_n\leq k}}\left[a_{i_1}, b_{i_1}\right]\times \ldots \times \left[a_{i_n}, b_{i_n}\right]$$
+    then one can show that: $$f(I) = \bigcup_{\substack{1\leq i_1\leq k\\\ldots\\1\leq i_n\leq k}}\text{Conv}\left(f\left( \left\{a_{i_1}, b_{i_1}\right\}\times \ldots \times \left\{a_{i_n}, b_{i_n}\right\}\right)\right)$$
+    where $\text{Conv}\left(f\left( \left\{a_{i_1}, b_{i_1}\right\}\times \ldots \times \left\{a_{i_n}, b_{i_n}\right\}\right)\right)$ is efficiently computed in one pass thanks to the coordinatewise monotony of $f$.
 \end{itemize}
+
+The notion of \emph{$k$-Interval} is convenient for tracking value bounds as it can express natural patterns in SQL such as:
+\begin{itemize}
+    \item \texttt{WHERE x>0 AND x<=1}, which translates into the implied $x\in \left[0, 1\right]$ ;
+    \item \texttt{WHERE x IN (1,2,3)}, which is also easily expressed as a \emph{k-Interval}: $x \in \left[1, 1\right] \cup \left[2, 2\right] \cup \left[3, 3\right]$
+\end{itemize}
+
+The idea of \emph{piecewise-monotonic-function} is also very useful as in SQL many standard arithmetic operators (\texttt{+}, \texttt{-}, \texttt{*}, \texttt{/}, \texttt{<}, \texttt{>}, \texttt{=}, \texttt{!=}, \ldots) and functions (\texttt{EXP}, \texttt{LOG}, \texttt{ABS}, \texttt{SIN}, \texttt{COS}, \texttt{LEAST}, \texttt{GREATEST}, \ldots) are trivially \emph{piecewise-monotonic-function} (in one, two or many variables).
+
+Most of the range propagation in \qrlew{} is based on these concepts. It enables a rather simple and efficient range propagation mechanism, leading to better utility / privacy tradeoffs.
 
 \subsection{Protected Entity Definition}
 

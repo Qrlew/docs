@@ -114,9 +114,9 @@
 \maketitle
 
 \begin{abstract}
-In this paper we introduce \qrlew{}, an \emph{open source} library that can parse SQL queries into \emph{Relations} --- an intermediate representation --- that keep track of rich data-types, value ranges and row ownership, so that they can easily be rewritten into \emph{differentially-private} equivalent and turned back into SQL queries for execution in a standard data-store with virtually no technical integration.
+In this paper we introduce \qrlew{}, an \emph{open source} library that can parse SQL queries into \emph{Relations} --- an intermediate representation --- that keeps track of rich data-types, value ranges and row ownership, so that they can easily be rewritten into \emph{differentially-private} equivalent and turned back into SQL queries for execution in a standard data-store with virtually no technical integration.
 
-With \qrlew{}, a \emph{data practitionner} can express his data queries in standard SQL; the \emph{data owner} can run the rewritten query without any technical intergration and strong privacy garantees on the output; and the query rewriting can be operated by a privacy-expert that has to be trusted by the owner, but may belong to a separate organizations.
+With \qrlew{}, a \emph{data practitionner} can express his data queries in standard SQL; the \emph{data owner} can run the rewritten query without any technical integration and with strong privacy garantees on the output; and the query rewriting can be operated by a privacy-expert that has to be trusted by the owner, but may belong to a separate organizations.
 \end{abstract}
 
 \section{Introduction}
@@ -158,15 +158,15 @@ At a high level we pursued the following requirements:
 \begin{itemize}
     \item Ease of use for the \emph{data practitionners}. The \emph{data practitionners} are assumed to be a data experts but no privacy experts. They should be able to express their queries in a standard way. We chose SQL as the query language as it is very commonly used for analytics tasks.
     \item Ease of integration for the \emph{data owner}. As SQL is a common language to express data analysis tasks, many data-stores support it from small embedded databases to big data stores.
-    \item Simplicity for the \emph{data owner} to setup privacy protection. Differential privacy is about capping the sensitivity of a result to the addition or removal of an individual that we call \emph{protected entity}. \qrlew{} assumes that the \emph{data owner} can tell if a table is public and, if it is not, that it can assign exactly one \emph{protected entity} to each row of data. In the case there are multiple related tables, \qrlew enables to define easily the \emph{protected entities} for each tables transitively.
-    \item Simple integration with other privacy enhancing technologies such as \emph{synthetic data}. To avoid repeated privacy losses or give result when a DP rewriting is not easily available (e.g. when the query is: \texttt{SELECT * FROM table}) \qrlew can use \emph{synthetic data} to blend in the computation.
+    \item Simplicity for the \emph{data owner} to setup privacy protection. Differential privacy is about capping the sensitivity of a result to the addition or removal of an individual that we call \emph{protected entity}. \qrlew{} assumes that the \emph{data owner} can tell if a table is public and, if it is not, that it can assign exactly one \emph{protected entity} to each row of data. In the case there are multiple related tables, \qrlew~enables to define easily the \emph{protected entities} for each tables transitively.
+    \item Simple integration with other privacy enhancing technologies such as \emph{synthetic data}. To avoid repeated privacy losses or give result when a DP rewriting is not easily available (e.g. when the query is: \texttt{SELECT * FROM table}) \qrlew~can use \emph{synthetic data} to blend in the computation.
 \end{itemize}
 
 These requirements dictated the overall \emph{query rewriting} architecture and many features, the most important of which, are detailed bellow.
 
 \section{Overall Architecture of \qrlew}
 
-The \qrlew{} library, solves the problem of running a SQL query with DP guarantees in four steps. First the SQL query submitted by the \emph{data practitionner} is parsed and converted into a \emph{Relation}, this \emph{Relation} is an intermediate representation that is designed to ease the tracking of data types ranges or possible values, to ease the tracking of the \emph{protected entity} and to ease the rewriting into a DP \emph{Relation}. Once the relation is rewriten into a DP one, it can be rendered as an SQL query string and submited to the data store of the \emph{data owner}. The output can then safely be shared with the \emph{data practitionner}. This process is illustrated in Figure~\ref{process}.
+The \qrlew{} library, solves the problem of running a SQL query with DP guarantees in four steps. First the SQL query submitted by the \emph{data practitionner} is parsed and converted into a \emph{Relation}, this \emph{Relation} is an intermediate representation that is designed to ease the tracking of data types ranges or possible values, to ease the tracking of the \emph{protected entity} and to ease the rewriting into a DP \emph{Relation}. Once the relation is rewriten into a DP one, it can be rendered as an SQL query string and submitted to the data store of the \emph{data owner}. The output can then safely be shared with the \emph{data practitionner}. This process is illustrated in Figure~\ref{process}.
 
 \begin{figure*}[t]
     \centering
@@ -181,10 +181,10 @@ As the SQL language is very rich and complex, simply parsing a query into an abs
 \begin{description}
     \item[A \texttt{Table}] This is simply the collection of the rows of an SQL table.
     \item[A \texttt{Map}] It takes an input \texttt{Relation}, filters the rows and transform them one by one. The filtering condition and row transforms are expressed by expressions similar to those of SQL. It acts as a \texttt{SELECT exprs FROM input WHERE expr LIMIT value} and therefore preserve the \emph{protected entity} ownership structure.
-    \item[A \texttt{Reduce}] A \texttt{Reduce} takes an input \texttt{Relation} and aggregates some columns, possibly group by group. It acts as a \texttt{SELECT aggregates FROM input GROUP BY expr}. This is where the rewriting into DP will happen as described in section~\ref{rewritting}.
-    \item[A \texttt{Join}] This \texttt{Relation} combines two input \texttt{Relation}s as a \texttt{SELECT * FROM left JOIN right ON expr} would do it. The provacy properties are more complex to propagate in this case.
+    \item[A \texttt{Reduce}] A \texttt{Reduce} takes an input \texttt{Relation} and aggregates some columns, possibly by group. It acts as a \texttt{SELECT aggregates FROM input GROUP BY expr}. This is where the rewriting into DP will happen as described in section~\ref{rewritting}.
+    \item[A \texttt{Join}] This \texttt{Relation} combines two inputs \texttt{Relation}s as a \texttt{SELECT * FROM left JOIN right ON expr} would do it. The provacy properties are more complex to propagate in this case.
 \end{description}
-It may also be a static list of values or a set operation between two \texttt{Relation}s, but those are les important for our uses.
+It may also be a static list of values or a set operation between two \texttt{Relation}s, but those are less important for our uses.
 
 \begin{figure}[t]
     \centering
@@ -196,7 +196,7 @@ It may also be a static list of values or a set operation between two \texttt{Re
 \subsection{Range Propagation}
 
 Most DP mechanisms aggregating numbers require the knowledge of some sort of bounds on the values (see \cite{dwork2014algorithmic}).
-Even if some bounds ar known for some \texttt{Relation}s like source \texttt{Table}s, it is not trivial to propagate these bounds through the steps of the computation.
+Even if some bounds are known for some \texttt{Relation}s like source \texttt{Table}s, it is not trivial to propagate these bounds through the steps of the computation.
 
 To help with range propagation, \qrlew{} introduces two simple concepts.
 \begin{itemize}

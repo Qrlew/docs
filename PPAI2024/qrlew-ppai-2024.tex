@@ -196,13 +196,12 @@ The \qrlew{} library, solves the problem of running a SQL query with DP guarante
 
 \subsection{Qrlew Intermediate Representation}
 
-newcommand in latex?
-As the SQL language is very rich and complex, simply parsing a query into an abstract syntaxic tree does not produce a convenient representation for our needs. Therefore, it is converted into a simpler normalized representation with properties well aligned with the requirements of Differential Privacy: the \emph{Relation}. A \emph{Relation} is a collection of rows abiding a given \emph{schema}. It may be:
+As the SQL language is very rich and complex, simply parsing a query into an abstract syntaxic tree does not produce a convenient representation for our needs. Therefore, it is converted into a simpler normalized representation with properties well aligned with the requirements of Differential Privacy: the \emph{Relation}. A \emph{Relation} is a collection of rows adhering to a given \emph{schema}. It is a recursively defined structure composed of:
 \begin{description}
-    \item[A \emph{Table}] This is simply the collection of the rows of an SQL table.
-    \item[A \emph{Map}] It takes an input \emph{Relation}, filters the rows and transform them one by one. The filtering condition and row transforms are expressed with expressions similar to those of SQL. It acts as a \texttt{SELECT exprs FROM input WHERE expr LIMIT value} and therefore preserve the \emph{protected entity} ownership structure.
-    \item[A \emph{Reduce}] A \emph{Reduce} takes an input \emph{Relation} and aggregates some columns, possibly group by group. It acts as a \texttt{SELECT aggregates FROM input GROUP BY expr}. This is where the rewriting into DP will happen as described in section~\ref{sec:rewritting}.
-    \item[A \emph{Join}] This \emph{Relation} combines two input \emph{Relations} as a \texttt{SELECT * FROM left JOIN right ON expr} would do it. The privacy properties are more complex to propagate in this case.
+    \item[\emph{Tables}] This is simply a data source from a database.
+    \item[\emph{Maps}] A \emph{Map} takes an input \emph{Relation}, filters the rows and transform them one by one. The filtering conditions and row transforms are expressed with expressions similar to those of SQL. It acts as a \texttt{SELECT exprs FROM input WHERE expr LIMIT value} and therefore preserve the \emph{protected entity} ownership structure.
+    \item[\emph{Reduces}] A \emph{Reduce} takes an input \emph{Relation} and aggregates some columns, possibly group by group. It acts as a \texttt{SELECT aggregates FROM input GROUP BY expr}. This is where the rewriting into DP will happen as described in section~\ref{sec:rewritting}.
+    \item[\emph{Joins}] This \emph{Relation} combines two input \emph{Relations} as a \texttt{SELECT * FROM left JOIN right ON expr} would do it. The privacy properties are more complex to propagate in this case.
 \end{description}
 It may also be a static list of values or a set operation between two \emph{Relations}, but those are less important for our uses.
 
@@ -213,7 +212,7 @@ It may also be a static list of values or a set operation between two \emph{Rela
     \label{process}
 \end{figure}
 
-This representation is central to \qrlew{}; all the features described below are built upon it.
+This representation is central to \qrlew{}; all the features described below are built upon it. A \emph{Relation} along with all the  sub-\emph{Relations} it is depending on, will be called the \emph{computation graph} or the \emph{graph} of a \emph{Relation}.
 
 \subsection{Range Propagation}
 
@@ -302,17 +301,9 @@ protected_entity = [
 \subsection{Rewriting}
 \label{sec:rewritting}
 
-Rewriting in \qrlew{}, as detailed in Section~\ref{sec:rewriting_algorithm}, refers to the process of altering parts of a \emph{Relation} by substituting them with different components to alter the privacy properties of the result. This substitution aims to achieve specific objectives, such as ensuring privacy through the incorporation of differential privacy mechanisms. To facilitate this work, we decompose the SQL query in the form of a computation graph where each node (a \texttt{Relation}) is the result of transformations representing part of the SQL queries.
+Rewriting in \qrlew{}, refers to the process of altering parts of a \emph{computation graph} by substituting computation \emph{sub-graphs} to some \emph{Relations} to alter the privacy properties of the result. This substitution aims to achieve specific objectives, such as ensuring privacy through the incorporation of differentially private mechanisms. To facilitate this work, each \emph{Relation} is assigned a \emph{rewritting rule} that depends on the \emph{rewritting rules} of its input and then each \emph{Relation} is rewriten independently.
 
-The main goals of the differential privacy rewriting are to modify SQL queries to ensure compliance with differential privacy frameworks, protecting sensitive data, and to guarantee that these modifications are consistent and deterministic, adhering to established privacy standards.
-
-The challenge lies in accurately identifying sections for modification across a complex array of potential transformations, vigilantly tracking the integrity of data rows tied to protected entities during extensive aggregations, and adeptly applying the correct rewriting rules tailored to the relation dynamics of the query, such as Joins, Maps, or Reduces, while considering the original configuration of the sensitive data.
-
-Rewriting is a recursive, two-step process: for any given relation, we begin by rewriting the parents to alter their privacy properties, and then we modify the transforms from which the relation is derived, ensuring the desired privacy property based on the privacy properties of the parents. The recursion's base step involves deciding which tables to utilize—either the private tables or the synthetic ones.
-
-To make the rewriting process more intelligible, we separate global privacy properties accounting for the computation graph and local rewriting rules concerning only the relation and the associated transforms to understand how the rewriting process could unfold recursively.
-
-\subsubsection{Global Privacy Properties}
+\subsubsection{Privacy Properties}
 \label{sec:global_privacy_properties}
 Let's sum up the global privacy properties:
 \begin{itemize}
@@ -324,7 +315,7 @@ Let's sum up the global privacy properties:
     \item \textbf{Published (Pubd)}: A relation is considered 'published' if the overall mechanism from the private table to the relation complies with the differential privacy framework, ensuring that the privacy of the private data is maintained provided the dataset is not inherently public. This is achieved when all parent relations of a given relation are either published, public, synthetic themselves, or use a differential privacy mechanism.
 \end{itemize}
 
-\subsection{Rewriting Rules and Their Application}
+\subsection{Rewriting Rules}
 
 Rewriting rules are the main component to understand how to rewrite the computation graph. A rewriting rule is a local property explaining how to rewrite a relation to achieve global properties, being either DP, PEP, or synthetic, depending on some list of requirements on the privacy characteristics of the parents of the relation. In essence, a rewriting rule is a recursive step in the rewriting process. It explains how we could rewrite a relation given how we can rewrite the parents. The base case in the recursion is always: a table could either be private, public, or synthetic.
 

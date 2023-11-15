@@ -7,13 +7,13 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   inkscape:version="1.0 (4035a4f, 2020-05-01)"
-   sodipodi:docname="relation.svg"
-   id="svg88"
-   version="1.1"
-   viewBox="0 0 444.50337 383"
+   width="444pt"
    height="383pt"
-   width="444pt">
+   viewBox="0 0 444.50337 383"
+   version="1.1"
+   id="svg88"
+   sodipodi:docname="relation.svg"
+   inkscape:version="1.0 (4035a4f, 2020-05-01)">
   <metadata
      id="metadata94">
     <rdf:RDF>
@@ -29,335 +29,332 @@
   <defs
      id="defs92" />
   <sodipodi:namedview
-     inkscape:current-layer="svg88"
-     inkscape:window-maximized="0"
-     inkscape:window-y="185"
-     inkscape:window-x="1804"
-     inkscape:cy="153.58085"
-     inkscape:cx="399.38359"
-     inkscape:zoom="2.826117"
-     showgrid="false"
-     id="namedview90"
-     inkscape:window-height="1191"
-     inkscape:window-width="2332"
-     inkscape:pageshadow="2"
-     inkscape:pageopacity="0"
-     guidetolerance="10"
-     gridtolerance="10"
-     objecttolerance="10"
-     borderopacity="1"
-     bordercolor="#666666"
+     inkscape:document-rotation="0"
      pagecolor="#ffffff"
-     inkscape:document-rotation="0" />
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1792"
+     inkscape:window-height="1067"
+     id="namedview90"
+     showgrid="false"
+     inkscape:zoom="0.57723457"
+     inkscape:cx="-258.90175"
+     inkscape:cy="32.293877"
+     inkscape:window-x="11"
+     inkscape:window-y="25"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="svg88" />
   <path
-     style="fill:#b6d7a8;fill-opacity:1"
-     id="path16"
+     fill="#428e92"
+     stroke="#000000"
+     stroke-opacity="0.333333"
      d="m 264.68,4 c 0,0 -184.98,0 -184.98,0 -6,0 -12,6 -12,12 0,0 0,37 0,37 0,6 6,12 12,12 0,0 184.98,0 184.98,0 6,0 12,-6 12,-12 0,0 0,-37 0,-37 0,-6 -6,-12 -12,-12"
-     stroke-opacity="0.333333"
-     stroke="#000000"
-     fill="#428e92" />
+     id="path16"
+     style="fill:#b6d7a8;fill-opacity:1" />
   <text
-     id="text18"
-     fill-opacity="0.733333"
-     fill="#000000"
-     font-size="11px"
-     font-weight="bold"
-     font-family="'Red Hat Display', sans-serif"
-     y="26.899994"
+     text-anchor="start"
      x="107.88"
-     text-anchor="start">MAP_QF6V size ∈ int[0 10]</text>
-  <text
-     id="text20"
-     fill-opacity="0.733333"
-     fill="#000000"
-     font-size="11px"
+     y="26.899994"
      font-family="'Red Hat Display', sans-serif"
-     y="37.899994"
-     x="81.949997"
-     text-anchor="start">a = field_e5_0 ∈ float{1, 2, 3} UNIQUE</text>
-  <text
-     id="text22"
-     fill-opacity="0.733333"
-     fill="#000000"
-     font-size="11px"
-     font-family="'Red Hat Display', sans-serif"
-     y="48.899994"
-     x="115.02"
-     text-anchor="start">x = field_pqi2 ∈ int[0 10]</text>
-  <path
-     style="fill:#39771d;fill-opacity:1"
-     id="path27"
-     d="m 297.78,94 c 0,0 -251.17,0 -251.17,0 -6,0 -12,6 -12,12 0,0 0,48 0,48 0,6 6,12 12,12 0,0 251.17,0 251.17,0 6,0 12,-6 12,-12 0,0 0,-48 0,-48 0,-6 -6,-12 -12,-12"
-     stroke-opacity="0.333333"
-     stroke="#000000"
-     fill="#00363a" />
-  <text
-     id="text29"
-     fill-opacity="0.733333"
-     fill="#ffffff"
-     font-size="11px"
      font-weight="bold"
+     font-size="11px"
+     fill="#000000"
+     fill-opacity="0.733333"
+     id="text18">MAP_QF6V size ∈ int[0 10]</text>
+  <text
+     text-anchor="start"
+     x="81.949997"
+     y="37.899994"
      font-family="'Red Hat Display', sans-serif"
-     y="116.89999"
+     font-size="11px"
+     fill="#000000"
+     fill-opacity="0.733333"
+     id="text20">a = field_e5_0 ∈ float{1, 2, 3} UNIQUE</text>
+  <text
+     text-anchor="start"
+     x="115.02"
+     y="48.899994"
+     font-family="'Red Hat Display', sans-serif"
+     font-size="11px"
+     fill="#000000"
+     fill-opacity="0.733333"
+     id="text22">x = field_pqi2 ∈ int[0 10]</text>
+  <path
+     fill="#00363a"
+     stroke="#000000"
+     stroke-opacity="0.333333"
+     d="m 297.78,94 c 0,0 -251.17,0 -251.17,0 -6,0 -12,6 -12,12 0,0 0,48 0,48 0,6 6,12 12,12 0,0 251.17,0 251.17,0 6,0 12,-6 12,-12 0,0 0,-48 0,-48 0,-6 -6,-12 -12,-12"
+     id="path27"
+     style="fill:#274e13;fill-opacity:1" />
+  <text
+     text-anchor="start"
      x="95.970001"
-     text-anchor="start">REDUCE_M5QO size ∈ int[0 10]</text>
-  <text
-     id="text31"
-     fill-opacity="0.733333"
-     fill="#ffffff"
-     font-size="11px"
+     y="116.89999"
      font-family="'Red Hat Display', sans-serif"
-     y="127.89999"
+     font-weight="bold"
+     font-size="11px"
+     fill="#ffffff"
+     fill-opacity="0.733333"
+     id="text29">REDUCE_M5QO size ∈ int[0 10]</text>
+  <text
+     text-anchor="start"
      x="78.970001"
-     text-anchor="start">field_pqi2 = count(field_nfbh) ∈ int[0 10]</text>
-  <text
-     id="text33"
-     fill-opacity="0.733333"
-     fill="#ffffff"
-     font-size="11px"
+     y="127.89999"
      font-family="'Red Hat Display', sans-serif"
-     y="138.89999"
+     font-size="11px"
+     fill="#ffffff"
+     fill-opacity="0.733333"
+     id="text31">field_pqi2 = count(field_nfbh) ∈ int[0 10]</text>
+  <text
+     text-anchor="start"
      x="48.650002"
-     text-anchor="start">field_e5_0 = first(field_s7n2) ∈ float{1, 2, 3} UNIQUE</text>
-  <text
-     id="text35"
-     fill-opacity="0.733333"
-     fill="#ffffff"
-     font-size="11px"
+     y="138.89999"
      font-family="'Red Hat Display', sans-serif"
-     y="149.89999"
+     font-size="11px"
+     fill="#ffffff"
+     fill-opacity="0.733333"
+     id="text33">field_e5_0 = first(field_s7n2) ∈ float{1, 2, 3} UNIQUE</text>
+  <text
+     text-anchor="start"
      x="116.29"
-     text-anchor="start">GROUP BY (field_s7n2)</text>
+     y="149.89999"
+     font-family="'Red Hat Display', sans-serif"
+     font-size="11px"
+     fill="#ffffff"
+     fill-opacity="0.733333"
+     id="text35">GROUP BY (field_s7n2)</text>
   <g
-     transform="translate(4,379)"
+     class="edge"
      id="edge3"
-     class="edge">
+     transform="translate(4,379)">
     <title
        id="title38">graph_z3ju-&gt;graph_yu2b</title>
     <path
-       fill="none"
-       stroke="#2b303a"
+       id="path40"
        d="m 168.19,-313.92 c 0,5.83 0,12.07 0,18.28"
-       id="path40" />
-    <polygon
-       fill="#2b303a"
        stroke="#2b303a"
+       fill="none" />
+    <polygon
+       id="polygon42"
        points="168.19,-285.28 164.69,-295.28 171.69,-295.28 "
-       id="polygon42" />
+       stroke="#2b303a"
+       fill="#2b303a" />
   </g>
   <path
-     style="fill:#b6d7a8;fill-opacity:1"
-     id="path47"
-     d="m 328.58,195 c 0,0 -312.77,0 -312.77,0 -6,0 -12,6 -12,12 0,0 0,48 0,48 0,6 6,12 12,12 0,0 312.77,0 312.77,0 6,0 12,-6 12,-12 0,0 0,-48 0,-48 0,-6 -6,-12 -12,-12"
-     stroke-opacity="0.333333"
+     fill="#428e92"
      stroke="#000000"
-     fill="#428e92" />
+     stroke-opacity="0.333333"
+     d="m 328.58,195 c 0,0 -312.77,0 -312.77,0 -6,0 -12,6 -12,12 0,0 0,48 0,48 0,6 6,12 12,12 0,0 312.77,0 312.77,0 6,0 12,-6 12,-12 0,0 0,-48 0,-48 0,-6 -6,-12 -12,-12"
+     id="path47"
+     style="fill:#b6d7a8;fill-opacity:1" />
   <text
-     id="text49"
-     fill-opacity="0.733333"
-     fill="#000000"
-     font-size="11px"
-     font-weight="bold"
-     font-family="'Red Hat Display', sans-serif"
-     y="217.89999"
+     text-anchor="start"
      x="104.53"
-     text-anchor="start">MAP_AWW3 size ∈ int[0 10]</text>
-  <text
-     id="text51"
-     fill-opacity="0.733333"
-     fill="#000000"
-     font-size="11px"
+     y="217.89999"
      font-family="'Red Hat Display', sans-serif"
-     y="228.89999"
+     font-weight="bold"
+     font-size="11px"
+     fill="#000000"
+     fill-opacity="0.733333"
+     id="text49">MAP_AWW3 size ∈ int[0 10]</text>
+  <text
+     text-anchor="start"
      x="18"
-     text-anchor="start">field_nfbh = abs(((10 * a) + b)) ∈ float[9.9 11]∪[19.9 21]∪[29.9 31]</text>
-  <text
-     id="text53"
-     fill-opacity="0.733333"
-     fill="#000000"
-     font-size="11px"
+     y="228.89999"
      font-family="'Red Hat Display', sans-serif"
-     y="239.89999"
+     font-size="11px"
+     fill="#000000"
+     fill-opacity="0.733333"
+     id="text51">field_nfbh = abs(((10 * a) + b)) ∈ float[9.9 11]∪[19.9 21]∪[29.9 31]</text>
+  <text
+     text-anchor="start"
      x="104.7"
-     text-anchor="start">field_s7n2 = a ∈ float{1, 2, 3}</text>
-  <text
-     id="text55"
-     fill-opacity="0.733333"
-     fill="#000000"
-     font-size="11px"
+     y="239.89999"
      font-family="'Red Hat Display', sans-serif"
-     y="250.89999"
+     font-size="11px"
+     fill="#000000"
+     fill-opacity="0.733333"
+     id="text53">field_s7n2 = a ∈ float{1, 2, 3}</text>
+  <text
+     text-anchor="start"
      x="80.370003"
-     text-anchor="start">WHERE ((b &gt; (- 0.1)) and (a in (1, 2, 3)))</text>
+     y="250.89999"
+     font-family="'Red Hat Display', sans-serif"
+     font-size="11px"
+     fill="#000000"
+     fill-opacity="0.733333"
+     id="text55">WHERE ((b &gt; (- 0.1)) and (a in (1, 2, 3)))</text>
   <g
-     transform="translate(4,379)"
+     class="edge"
      id="edge2"
-     class="edge">
+     transform="translate(4,379)">
     <title
        id="title58">graph_yu2b-&gt;graph_gesx</title>
     <path
-       fill="none"
-       stroke="#2b303a"
+       id="path60"
        d="m 168.19,-212.82 c 0,5.98 0,12.27 0,18.47"
-       id="path60" />
-    <polygon
-       fill="#2b303a"
        stroke="#2b303a"
+       fill="none" />
+    <polygon
+       id="polygon62"
        points="168.19,-184.07 164.69,-194.07 171.69,-194.07 "
-       id="polygon62" />
+       stroke="#2b303a"
+       fill="#2b303a" />
   </g>
   <path
-     style="fill:#e69138;fill-opacity:1"
-     id="path67"
-     d="m 257.46,296 c 0,0 -170.53,0 -170.53,0 -6,0 -12,6 -12,12 0,0 0,59 0,59 0,6 6,12 12,12 0,0 170.53,0 170.53,0 6,0 12,-6 12,-12 0,0 0,-59 0,-59 0,-6 -6,-12 -12,-12"
-     stroke-opacity="0.333333"
+     fill="#ff1744"
      stroke="#000000"
-     fill="#ff1744" />
+     stroke-opacity="0.333333"
+     d="m 257.46,296 c 0,0 -170.53,0 -170.53,0 -6,0 -12,6 -12,12 0,0 0,59 0,59 0,6 6,12 12,12 0,0 170.53,0 170.53,0 6,0 12,-6 12,-12 0,0 0,-59 0,-59 0,-6 -6,-12 -12,-12"
+     id="path67"
+     style="fill:#990000;fill-opacity:1" />
   <text
-     id="text69"
-     fill-opacity="0.733333"
-     fill="#ffffff"
-     font-size="11px"
-     font-weight="bold"
-     font-family="'Red Hat Display', sans-serif"
-     y="318.89999"
+     text-anchor="start"
      x="115.59"
-     text-anchor="start">TABLE_1 size ∈ int{10}</text>
-  <text
-     id="text71"
-     fill-opacity="0.733333"
-     fill="#ffffff"
-     font-size="11px"
+     y="318.89999"
      font-family="'Red Hat Display', sans-serif"
-     y="329.89999"
+     font-weight="bold"
+     font-size="11px"
+     fill="#ffffff"
+     fill-opacity="0.733333"
+     id="text69">TABLE_1 size ∈ int{10}</text>
+  <text
+     text-anchor="start"
      x="131.22"
-     text-anchor="start">a = a ∈ float[0 10]</text>
-  <text
-     id="text73"
-     fill-opacity="0.733333"
-     fill="#ffffff"
-     font-size="11px"
+     y="329.89999"
      font-family="'Red Hat Display', sans-serif"
-     y="340.89999"
+     font-size="11px"
+     fill="#ffffff"
+     fill-opacity="0.733333"
+     id="text71">a = a ∈ float[0 10]</text>
+  <text
+     text-anchor="start"
      x="113.8"
-     text-anchor="start">b = b ∈ option(float[-1 1])</text>
-  <text
-     id="text75"
-     fill-opacity="0.733333"
-     fill="#ffffff"
-     font-size="11px"
+     y="340.89999"
      font-family="'Red Hat Display', sans-serif"
-     y="351.89999"
+     font-size="11px"
+     fill="#ffffff"
+     fill-opacity="0.733333"
+     id="text73">b = b ∈ option(float[-1 1])</text>
+  <text
+     text-anchor="start"
      x="89.059998"
-     text-anchor="start">c = c ∈ date[1980-12-06 2023-12-06]</text>
-  <text
-     id="text77"
-     fill-opacity="0.733333"
-     fill="#ffffff"
-     font-size="11px"
+     y="351.89999"
      font-family="'Red Hat Display', sans-serif"
-     y="362.89999"
+     font-size="11px"
+     fill="#ffffff"
+     fill-opacity="0.733333"
+     id="text75">c = c ∈ date[1980-12-06 2023-12-06]</text>
+  <text
+     text-anchor="start"
      x="134.87"
-     text-anchor="start">d = d ∈ int[0 10]</text>
+     y="362.89999"
+     font-family="'Red Hat Display', sans-serif"
+     font-size="11px"
+     fill="#ffffff"
+     fill-opacity="0.733333"
+     id="text77">d = d ∈ int[0 10]</text>
   <g
-     transform="translate(4,379)"
+     class="edge"
      id="edge1"
-     class="edge">
+     transform="translate(4,379)">
     <title
        id="title80">graph_gesx-&gt;graph_0jra</title>
     <path
-       fill="none"
-       stroke="#2b303a"
+       id="path82"
        d="m 168.19,-111.91 c 0,5.92 0,12.18 0,18.41"
-       id="path82" />
-    <polygon
-       fill="#2b303a"
        stroke="#2b303a"
+       fill="none" />
+    <polygon
+       id="polygon84"
        points="168.19,-83.09 164.69,-93.09 171.69,-93.09 "
-       id="polygon84" />
+       stroke="#2b303a"
+       fill="#2b303a" />
   </g>
   <text
-     xml:space="preserve"
-     style="font-style:normal;font-weight:normal;font-size:11.01249999999999929px;line-height:1.25;font-family:sans-serif;white-space:pre;inline-size:131.383;fill:#4d4d4d;fill-opacity:1;stroke:none;stroke-width:0.75085;"
-     x="290.54898"
-     y="22.156347"
+     transform="translate(-41.348303,3.0655378)"
      id="text48"
-     transform="translate(31.189843,1.7647663)"><tspan
-       x="290.54898"
-       y="22.156347"><tspan
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:11.0125px;font-family:'Red Hat Display';-inkscape-font-specification:'Red Hat Display';fill:#4d4d4d;stroke-width:0.75085">This </tspan><tspan
-         style="font-style:italic;fill:#4d4d4d">Relation</tspan><tspan
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:11.0125px;font-family:'Red Hat Display';-inkscape-font-specification:'Red Hat Display';fill:#4d4d4d;stroke-width:0.75085"> is a </tspan><tspan
-         style="font-style:italic;fill:#4d4d4d">Map</tspan><tspan
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:11.0125px;font-family:'Red Hat Display';-inkscape-font-specification:'Red Hat Display';fill:#4d4d4d;stroke-width:0.75085">, it </tspan></tspan><tspan
-       x="290.54898"
-       y="36.118733"><tspan
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:11.0125px;font-family:'Red Hat Display';-inkscape-font-specification:'Red Hat Display';fill:#4d4d4d;stroke-width:0.75085">takes a </tspan><tspan
-         style="font-style:italic">Reduce</tspan><tspan
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:11.0125px;font-family:'Red Hat Display';-inkscape-font-specification:'Red Hat Display';fill:#4d4d4d;stroke-width:0.75085"> as input </tspan></tspan><tspan
-       x="290.54898"
-       y="50.081118"><tspan
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:11.0125px;font-family:'Red Hat Display';-inkscape-font-specification:'Red Hat Display';fill:#4d4d4d;stroke-width:0.75085">and renames its fields</tspan></tspan></text>
-  <text
-     transform="translate(28.307664,99.532824)"
-     id="text86"
      y="22.156347"
-     x="290.54898"
-     style="font-style:normal;font-weight:normal;font-size:11.01249999999999929px;line-height:1.25;font-family:sans-serif;white-space:pre;inline-size:131.383;fill:#4d4d4d;fill-opacity:1;stroke:none;stroke-width:0.75085;"
+     x="351.0564"
+     style="font-style:normal;font-weight:normal;font-size:11.0125px;line-height:1.25;font-family:sans-serif;white-space:pre;inline-size:131.383;fill:#4d4d4d;fill-opacity:1;stroke:none;stroke-width:0.75085"
      xml:space="preserve"><tspan
-       x="290.54898"
+       x="351.0564"
        y="22.156347"><tspan
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:11.0125px;font-family:'Red Hat Display';-inkscape-font-specification:'Red Hat Display';fill:#4d4d4d;stroke-width:0.75085">This </tspan><tspan
-         style="font-style:italic;fill:#4d4d4d">Reduce</tspan><tspan
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:11.0125px;font-family:'Red Hat Display';-inkscape-font-specification:'Red Hat Display';fill:#4d4d4d;stroke-width:0.75085"> aggregates </tspan></tspan><tspan
-       x="290.54898"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:11.0125px;font-family:'Red Hat Display';-inkscape-font-specification:'Red Hat Display';text-align:center;text-anchor:middle;fill:#4d4d4d;stroke-width:0.75085">This </tspan><tspan
+         style="font-style:italic;text-align:center;text-anchor:middle;fill:#4d4d4d">Relation</tspan><tspan
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:11.0125px;font-family:'Red Hat Display';-inkscape-font-specification:'Red Hat Display';text-align:center;text-anchor:middle;fill:#4d4d4d;stroke-width:0.75085"> is a </tspan><tspan
+         style="font-style:italic;text-align:center;text-anchor:middle;fill:#4d4d4d">Map</tspan><tspan
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:11.0125px;font-family:'Red Hat Display';-inkscape-font-specification:'Red Hat Display';text-align:center;text-anchor:middle;fill:#4d4d4d;stroke-width:0.75085">, it </tspan></tspan><tspan
+       x="351.0564"
        y="36.118733"><tspan
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:11.0125px;font-family:'Red Hat Display';-inkscape-font-specification:'Red Hat Display';fill:#4d4d4d;stroke-width:0.75085">fields from its input</tspan></tspan></text>
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:11.0125px;font-family:'Red Hat Display';-inkscape-font-specification:'Red Hat Display';text-align:center;text-anchor:middle;fill:#4d4d4d;stroke-width:0.75085">takes a </tspan><tspan
+         style="font-style:italic;text-align:center;text-anchor:middle">Reduce</tspan><tspan
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:11.0125px;font-family:'Red Hat Display';-inkscape-font-specification:'Red Hat Display';text-align:center;text-anchor:middle;fill:#4d4d4d;stroke-width:0.75085"> as input </tspan></tspan><tspan
+       x="351.0564"
+       y="50.081118"><tspan
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:11.0125px;font-family:'Red Hat Display';-inkscape-font-specification:'Red Hat Display';text-align:center;text-anchor:middle;fill:#4d4d4d;stroke-width:0.75085">and renames its fields</tspan></tspan></text>
   <text
      xml:space="preserve"
-     style="font-style:normal;font-weight:normal;font-size:11.01249999999999929px;line-height:1.25;font-family:sans-serif;white-space:pre;inline-size:94.3229;fill:#4d4d4d;fill-opacity:1;stroke:none;stroke-width:0.75085;"
-     x="290.54898"
+     style="font-style:normal;font-weight:normal;font-size:11.0125px;line-height:1.25;font-family:sans-serif;white-space:pre;inline-size:131.383;fill:#4d4d4d;fill-opacity:1;stroke:none;stroke-width:0.75085"
+     x="530.77185"
      y="22.156347"
-     id="text94"
-     transform="translate(62.651006,188.12408)"><tspan
-       x="290.54898"
+     id="text86"
+     transform="translate(-220.61147,100.8336)"><tspan
+       x="530.77185"
        y="22.156347"><tspan
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:11.0125px;font-family:'Red Hat Display';-inkscape-font-specification:'Red Hat Display';fill:#4d4d4d;stroke-width:0.75085">This </tspan><tspan
-         style="font-style:italic;fill:#4d4d4d">Map</tspan><tspan
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:11.0125px;font-family:'Red Hat Display';-inkscape-font-specification:'Red Hat Display';fill:#4d4d4d;stroke-width:0.75085"> </tspan></tspan><tspan
-       x="290.54898"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:11.0125px;font-family:'Red Hat Display';-inkscape-font-specification:'Red Hat Display';text-align:center;text-anchor:middle;fill:#4d4d4d;stroke-width:0.75085">This </tspan><tspan
+         style="font-style:italic;text-align:center;text-anchor:middle;fill:#4d4d4d">Reduce</tspan><tspan
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:11.0125px;font-family:'Red Hat Display';-inkscape-font-specification:'Red Hat Display';text-align:center;text-anchor:middle;fill:#4d4d4d;stroke-width:0.75085"> aggregates </tspan></tspan><tspan
+       x="530.77185"
        y="36.118733"><tspan
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:11.0125px;font-family:'Red Hat Display';-inkscape-font-specification:'Red Hat Display';fill:#4d4d4d;stroke-width:0.75085">transforms the </tspan></tspan><tspan
-       x="290.54898"
-       y="50.081118"><tspan
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:11.0125px;font-family:'Red Hat Display';-inkscape-font-specification:'Red Hat Display';fill:#4d4d4d;stroke-width:0.75085">rows of the input </tspan></tspan><tspan
-       x="290.54898"
-       y="64.043505"><tspan
-         style="font-style:italic;fill:#4d4d4d">Table</tspan><tspan
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:11.0125px;font-family:'Red Hat Display';-inkscape-font-specification:'Red Hat Display';fill:#4d4d4d;stroke-width:0.75085"> one by one</tspan></tspan></text>
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:11.0125px;font-family:'Red Hat Display';-inkscape-font-specification:'Red Hat Display';text-align:center;text-anchor:middle;fill:#4d4d4d;stroke-width:0.75085">fields from its input</tspan></tspan></text>
   <text
-     transform="translate(-7.8055864,294.36301)"
-     id="text106"
+     transform="translate(12.586629,189.42485)"
+     id="text94"
      y="22.156347"
-     x="290.54898"
-     style="font-style:normal;font-weight:normal;font-size:11.01249999999999929px;line-height:1.25;font-family:sans-serif;white-space:pre;inline-size:154.678;fill:#4d4d4d;fill-opacity:1;stroke:none;stroke-width:0.75085;"
+     x="333.4653"
+     style="font-style:normal;font-weight:normal;font-size:11.0125px;line-height:1.25;font-family:sans-serif;white-space:pre;inline-size:94.3229;fill:#4d4d4d;fill-opacity:1;stroke:none;stroke-width:0.75085"
      xml:space="preserve"><tspan
-       x="290.54898"
+       x="333.4653"
        y="22.156347"><tspan
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:11.0125px;font-family:'Red Hat Display';-inkscape-font-specification:'Red Hat Display';fill:#4d4d4d;stroke-width:0.75085">This </tspan><tspan
-         style="font-style:italic;fill:#4d4d4d">Relation</tspan><tspan
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:11.0125px;font-family:'Red Hat Display';-inkscape-font-specification:'Red Hat Display';fill:#4d4d4d;stroke-width:0.75085"> is the source </tspan></tspan><tspan
-       x="290.54898"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:11.0125px;font-family:'Red Hat Display';-inkscape-font-specification:'Red Hat Display';text-align:center;text-anchor:middle;fill:#4d4d4d;stroke-width:0.75085">This </tspan><tspan
+         style="font-style:italic;text-align:center;text-anchor:middle;fill:#4d4d4d">Map</tspan><tspan
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:11.0125px;font-family:'Red Hat Display';-inkscape-font-specification:'Red Hat Display';text-align:center;text-anchor:middle;fill:#4d4d4d;stroke-width:0.75085"> </tspan></tspan><tspan
+       x="333.4653"
        y="36.118733"><tspan
-         style="font-style:italic;fill:#4d4d4d">Table</tspan><tspan
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:11.0125px;font-family:'Red Hat Display';-inkscape-font-specification:'Red Hat Display';fill:#4d4d4d;stroke-width:0.75085"> </tspan><tspan
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:11.0125px;font-family:'Red Hat Display';-inkscape-font-specification:'Red Hat Display';fill:#4d4d4d;stroke-width:0.75085">as defined in the </tspan></tspan><tspan
-       x="290.54898"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:11.0125px;font-family:'Red Hat Display';-inkscape-font-specification:'Red Hat Display';text-align:center;text-anchor:middle;fill:#4d4d4d;stroke-width:0.75085">transforms the </tspan></tspan><tspan
+       x="333.4653"
        y="50.081118"><tspan
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:11.0125px;font-family:'Red Hat Display';-inkscape-font-specification:'Red Hat Display';fill:#4d4d4d;stroke-width:0.75085">underlying </tspan><tspan
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:11.0125px;font-family:'Red Hat Display';-inkscape-font-specification:'Red Hat Display';fill:#4d4d4d;stroke-width:0.75085">database, with some </tspan></tspan><tspan
-       x="290.54898"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:11.0125px;font-family:'Red Hat Display';-inkscape-font-specification:'Red Hat Display';text-align:center;text-anchor:middle;fill:#4d4d4d;stroke-width:0.75085">rows of the input </tspan></tspan><tspan
+       x="333.4653"
        y="64.043505"><tspan
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:11.0125px;font-family:'Red Hat Display';-inkscape-font-specification:'Red Hat Display';fill:#4d4d4d;stroke-width:0.75085">metadata </tspan><tspan
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:11.0125px;font-family:'Red Hat Display';-inkscape-font-specification:'Red Hat Display';fill:#4d4d4d;stroke-width:0.75085">to refine value ranges</tspan></tspan></text>
+         style="font-style:italic;text-align:center;text-anchor:middle;fill:#4d4d4d">Table</tspan><tspan
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:11.0125px;font-family:'Red Hat Display';-inkscape-font-specification:'Red Hat Display';text-align:center;text-anchor:middle;fill:#4d4d4d;stroke-width:0.75085"> one by one</tspan></tspan></text>
+  <text
+     xml:space="preserve"
+     style="font-style:normal;font-weight:normal;font-size:11.0125px;line-height:1.25;font-family:sans-serif;white-space:pre;inline-size:154.678;fill:#4d4d4d;fill-opacity:1;stroke:none;stroke-width:0.75085"
+     x="366.96335"
+     y="22.156347"
+     id="text106"
+     transform="translate(-84.764746,295.66378)"><tspan
+       x="366.96335"
+       y="22.156347"><tspan
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:11.0125px;font-family:'Red Hat Display';-inkscape-font-specification:'Red Hat Display';text-align:center;text-anchor:middle;fill:#4d4d4d;stroke-width:0.75085">This </tspan><tspan
+         style="font-style:italic;text-align:center;text-anchor:middle;fill:#4d4d4d">Relation</tspan><tspan
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:11.0125px;font-family:'Red Hat Display';-inkscape-font-specification:'Red Hat Display';text-align:center;text-anchor:middle;fill:#4d4d4d;stroke-width:0.75085"> is the source </tspan></tspan><tspan
+       x="366.96335"
+       y="36.118733"><tspan
+         style="font-style:italic;text-align:center;text-anchor:middle;fill:#4d4d4d">Table</tspan><tspan
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:11.0125px;font-family:'Red Hat Display';-inkscape-font-specification:'Red Hat Display';text-align:center;text-anchor:middle;fill:#4d4d4d;stroke-width:0.75085"> as defined in the </tspan></tspan><tspan
+       x="366.96335"
+       y="50.081118"><tspan
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:11.0125px;font-family:'Red Hat Display';-inkscape-font-specification:'Red Hat Display';text-align:center;text-anchor:middle;fill:#4d4d4d;stroke-width:0.75085">underlying database, with some </tspan></tspan><tspan
+       x="366.96335"
+       y="64.043505"><tspan
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:11.0125px;font-family:'Red Hat Display';-inkscape-font-specification:'Red Hat Display';text-align:center;text-anchor:middle;fill:#4d4d4d;stroke-width:0.75085">metadata to refine value ranges</tspan></tspan></text>
 </svg>

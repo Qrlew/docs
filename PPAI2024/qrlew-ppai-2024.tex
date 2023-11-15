@@ -250,7 +250,17 @@ Most of the range propagation in \qrlew{} is based on these concepts. It enables
 
 \subsection{Protected Entity Definition}
 
-Tables in a database rarely come properly formated for privacy-preserving applications. Many rows in many tables may refer to one individual, hence, \emph{adding or removing an individual} means \emph{adding or removing many rows}
+Tables in a database rarely come properly formated for privacy-preserving applications. Many rows in many tables may refer to the same individual, hence, \emph{adding or removing an individual} means \emph{adding or removing many rows}. To help the definition of the protected entity \qrlew{} introduces a small PE description language.
+As examplified in listing~\ref{lst:pe}, PE definition associates to each private table in a database a path defining the PEID of each row. For a table containing the PE itself, like a \texttt{users} table for example, the PE definition will look like \texttt{("users",[],"id"),} where \texttt{id} is the name of a column identifying the user, like its name. If the database defines tables related to this tables, the way the tables are related should be specified following this scheme: $(\mathtt{tab}_1, path, \mathtt{peid})$ where $\mathtt{tab}_1$ is the name of the table for which the PEID is defined, $\mathtt{peid}$ is the name of the column defining the PEID in the table referred by $path$ and $path$ is a list of elements of the form $[(\mathtt{ref}_1, \mathtt{tab}_2, \mathtt{id}_2),\ldots, (\mathtt{ref}_{m-1}, \mathtt{tab}_m, \mathtt{id}_m)]$
+where $\mathtt{ref}_{i-1}$ is a column in $\mathtt{tab}_{i-1}$ --- usually a foreign key --- referring to $\mathtt{tab}_i$ with a column of referred id $\mathtt{id}_i$ --- usually a primary key. Following the path of tables referring to one another, we end up with the table defining the PEID (e.g. \texttt{users}).
+
+This small PE description language allows for a variety of usefull PEID scenarii, beyond the simple, but restrictive \emph{privacy per row}.
+
+% ("<table>",[
+%     ("<id column in table>","<table_1>","<id in table_1 to join on>"),
+%     ("<id in table_1>","<table_2>","<id in table_2 to join on>")
+%     ...
+%   ], "<peid>")
 
 % \begin{algorithm}[tb]
 %     \caption{Example algorithm}
@@ -274,7 +284,7 @@ Tables in a database rarely come properly formated for privacy-preserving applic
         
 \begin{listing}[tb]
 \caption{Example of \emph{protected entity} definition for a database with three tables holding users, orders and items records. Each user is protected individually by designating their \texttt{id}s as PEID. Orders are attached to a user through the foreigh key: \texttt{user\_id}. Items's ownership is defined the same way by specifying the lineage: \texttt{item -> order -> user}.}%
-\label{lst:listing}
+\label{lst:pe}
 \begin{lstlisting}[language=Python]
 protected_entity = [
   ("users",[],"id"),
@@ -285,12 +295,6 @@ protected_entity = [
     ("order_id","orders","id"),
     ("user_id", "users", "id")
   ],"id")
-  ...
-  ("<table>",[
-    ("<id column in table>","<table_1>","<id in table_1 to join on>"),
-    ("<id in table_1>","<table_2>","<id in table_2 to join on>")
-    ...
-  ], "<peid>")
 ]
 \end{lstlisting}
 \end{listing}

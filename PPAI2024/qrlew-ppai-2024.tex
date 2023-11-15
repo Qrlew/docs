@@ -52,9 +52,9 @@
 \usepackage{amsfonts}
 \usepackage{xcolor}
 \newcommand{\qrlew}{\emph{Qrlew}}
-\newcommand{\commentng}[1]{{\color{red}[NG: {#1}]}}
-\newcommand{\commentpr}[1]{{\color{green}[PR: {#1}]}}
-\newcommand{\commentvdsa}[1]{{\color{blue}[VdSA: {#1}]}}
+\newcommand{\commentNG}[1]{{\color{red}[NG: {#1}]}}
+\newcommand{\commentPR}[1]{{\color{green}[PR: {#1}]}}
+\newcommand{\commentVdSA}[1]{{\color{blue}[VdSA: {#1}]}}
 
 
 \newcommand\coolover[2]{\mathrlap{\smash{\overbrace{\phantom{%
@@ -196,7 +196,7 @@ The \qrlew{} library, solves the problem of running a SQL query with DP guarante
 
 \subsection{Qrlew Intermediate Representation}
 
-\commentng{un commentaire}
+newcommand in latex?
 As the SQL language is very rich and complex, simply parsing a query into an abstract syntaxic tree does not produce a convenient representation for our needs. Therefore, it is converted into a simpler normalized representation with properties well aligned with the requirements of Differential Privacy: the \emph{Relation}. A \emph{Relation} is a collection of rows abiding a given \emph{schema}. It may be:
 \begin{description}
     \item[A \emph{Table}] This is simply the collection of the rows of an SQL table.
@@ -208,7 +208,7 @@ It may also be a static list of values or a set operation between two \emph{Rela
 
 \begin{figure}[t]
     \centering
-    \includegraphics[width=0.3\textwidth]{figures/relation}
+    \includegraphics[width=0.4\textwidth]{figures/relation}
     \caption{\emph{Relation} (\emph{Map}) associeted to the query: \texttt{SELECT a, count(abs(10*a+b)) AS x FROM table\_1 WHERE b>-0.1 AND a IN (1,2,3) GROUP BY a}. The arrows point to the inputs of each \emph{Relation}. Note the propagation of the data type ranges.}
     \label{process}
 \end{figure}
@@ -249,6 +249,49 @@ Most of the range propagation in \qrlew{} is based on these concepts. It enables
 \subsection{Protected Entity Definition}
 
 Tables in a database rarely come properly formated for privacy-preserving applications. Many rows in many tables may refer to one individual, hence, \emph{adding or removing an individual} means \emph{adding or removing many rows}
+
+% \begin{algorithm}[tb]
+%     \caption{Example algorithm}
+%     \label{alg:algorithm}
+%     \textbf{Input}: Your algorithm's input\\
+%     \textbf{Parameter}: Optional list of parameters\\
+%     \textbf{Output}: Your algorithm's output
+%     \begin{algorithmic}[1] %[1] enables line numbers
+%     \STATE Let $t=0$.
+%     \WHILE{condition}
+%     \STATE Do some action.
+%     \IF {conditional}
+%     \STATE Perform task A.
+%     \ELSE
+%     \STATE Perform task B.
+%     \ENDIF
+%     \ENDWHILE
+%     \STATE \textbf{return} solution
+%     \end{algorithmic}
+% \end{algorithm}
+        
+\begin{listing}[tb]
+\caption{Example of \emph{protected entity} definition for a database with three tables holding users, orders and items records. Each user is protected individually by designating their \texttt{id}s as PEID. Orders are attached to a user through the foreigh key: \texttt{user\_id}. Items's ownership is defined the same way by specifying the lineage: \texttt{item -> order -> user}.}%
+\label{lst:listing}
+\begin{lstlisting}[language=Python]
+protected_entity = [
+  ("users",[],"id"),
+  ("orders",[
+    ("user_id","users","id")
+  ],"id"),
+  ("items",[
+    ("order_id","orders","id"),
+    ("user_id", "users", "id")
+  ],"id")
+  ...
+  ("<table>",[
+    ("<id column in table>","<table_1>","<id in table_1 to join on>"),
+    ("<id in table_1>","<table_2>","<id in table_2 to join on>")
+    ...
+  ], "<peid>")
+]
+\end{lstlisting}
+\end{listing}
 
 \subsection{Query Rewriting}
 \label{sec:rewritting}

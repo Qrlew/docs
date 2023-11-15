@@ -114,7 +114,7 @@
 \maketitle
 
 \begin{abstract}
-In this paper we introduce \qrlew{}, an \emph{open source} library that can parse SQL queries into \emph{Relations} --- an intermediate representation --- that keeps track of rich data-types, value ranges and row ownership, so that they can easily be rewritten into \emph{differentially-private} equivalent and turned back into SQL queries for execution in a standard data-store with virtually no technical integration.
+In this paper introduces \qrlew{}, an \emph{open source} library that can parse SQL queries into \emph{Relations} --- an intermediate representation --- that keeps track of rich data-types, value ranges, and row ownership; so that they can easily be rewritten into \emph{differentially-private} equivalent and turned back into SQL queries for execution in a variety of standard data stores.
 
 With \qrlew{}, a \emph{data practitionner} can express his data queries in standard SQL; the \emph{data owner} can run the rewritten query without any technical integration and with strong privacy garantees on the output; and the query rewriting can be operated by a privacy-expert that has to be trusted by the owner, but may belong to a separate organizations.
 \end{abstract}
@@ -153,7 +153,7 @@ This removes the need for a custom execution engine and enables \emph{differenti
 
 \subsection{Datasets and Protected Entities (PE)}
 
-In this paper, \emph{datasets} refers to a collection of elements in some domain $\mathcal{X}$, labelled by an identifier $i\in \mathcal{I}$ identifying the entity whose privacy we want to protect. This entity will be called \emph{Protected Entity} (PE) and the identifier will be referd to as \emph{Protected Entity ID} (PEID). Let $\mathcal{D}$ be the set of datasets of arbitrary size with a protected entity.
+In this paper, \emph{datasets} refers to a collection of elements in some domain $\mathcal{X}$, labelled by an identifier $i\in \mathcal{I}$ identifying the entity whose privacy we want to protect. This entity will be called \emph{Protected Entity} (PE) and the identifier will be referd to as \emph{Protected Entity ID} (PEID). Let $\mathcal{D}$ be the set of datasets of arbitrary sizes with a protected entity.
 
 \subsection{Differential Privacy (DP)}
 
@@ -210,7 +210,7 @@ It may also be a static list of values or a set operation between two \texttt{Re
 \subsection{Range Propagation}
 
 Most DP mechanisms aggregating numbers require the knowledge of some bounds on the values (see \cite{dwork2014algorithmic}).
-Even if some bounds ar known for some \texttt{Relation}s like source \texttt{Table}s, it is not trivial to propagate these bounds through the steps of the computation.
+Even if some bounds are known for some \texttt{Relation}s like source \texttt{Table}s, it is not trivial to propagate these bounds through the steps of the computation.
 
 To help with range propagation, \qrlew{} introduces two useful concepts:
 \begin{itemize}
@@ -240,7 +240,7 @@ Most of the range propagation in \qrlew{} is based on these concepts. It enables
 
 \subsection{Protected Entity Definition}
 
-Tables in a database rarely come properly formated for privacy-preserving applications. Many rows in many tables may refer to one individual, hence, \emph{adding or removing an individual} means 
+Tables in a database rarely come properly formated for privacy-preserving applications. Many rows in many tables may refer to one individual, hence, \emph{adding or removing an individual} means \emph{adding or removing many rows}
 
 \subsection{Query Rewriting}
 \label{sec:rewritting}

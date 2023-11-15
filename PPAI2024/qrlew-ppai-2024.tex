@@ -50,7 +50,12 @@
 % Sarus defined packages and commands
 % A command for the project name
 \usepackage{amsfonts}
+\usepackage{xcolor}
 \newcommand{\qrlew}{\emph{Qrlew}}
+\newcommand{\commentng}[1]{{\color{red}[NG: {#1}]}}
+\newcommand{\commentpr}[1]{{\color{green}[PR: {#1}]}}
+\newcommand{\commentvdsa}[1]{{\color{blue}[VdSA: {#1}]}}
+
 
 \newcommand\coolover[2]{\mathrlap{\smash{\overbrace{\phantom{%
     \begin{matrix} #2 \end{matrix}}}^{\mbox{$#1$}}}}#2}
@@ -151,18 +156,18 @@ This removes the need for a custom execution engine and enables \emph{differenti
 % - Interconnectivité
 \section{Definitions}
 
-\subsection{Datasets and Protected Entities (PE)}
+\subsection*{Datasets and Protected Entities (PE)}
 
 In this paper, \emph{datasets} refers to a collection of elements in some domain $\mathcal{X}$, labelled by an identifier $i\in \mathcal{I}$ identifying the entity whose privacy we want to protect. This entity will be called \emph{Protected Entity} (PE) and the identifier will be referd to as \emph{Protected Entity ID} (PEID). Let $\mathcal{D}$ be the set of datasets of arbitrary sizes with a protected entity.
 
-\subsection{Differential Privacy (DP)}
+\subsection*{Differential Privacy (DP)}
 
 Let $\mathcal{M}$ be an algorithm that takes a dataset as input and produces a randomized output. The algorithm $\mathcal{M}$ is said to satisfy $\varepsilon,\delta$-differential privacy if, for all pairs of adjacent datasets $D, D' \in \mathcal{D}$, and for all measurable sets $S$ in the range of $\mathcal{M}$:
 $$\Pr[\mathcal{M}(D) \in S] \leq e^{\varepsilon} \cdot \Pr[\mathcal{M}(D') \in S] + \delta$$
 
-\subsection{Adjacent datasets}
+\subsection*{Adjacent datasets}
 
-Datasets $D, D' \in \mathcal{D}$ are adjacent if they are equal up to the addition or removal of all entries sharing the same PEID. Note that this is a slightly restricted definition of adjacency, suited to our practical needs. It is close to that of \cite{liu2020learning, wilson2019differentially} where a user can have many samples.
+Datasets $D, D' \in \mathcal{D}$ are adjacent if they are equal up to the addition or removal of all entries sharing the same PEID. Note that this is a slightly unusual and restricted definition of adjacency, suited to our practical needs. It is close to that used in the \emph{user-level differential privacy} literature \cite{liu2020learning, wilson2019differentially} where one user can have many samples.
 
 \section{Assumptions and Design Goals}
 
@@ -191,26 +196,29 @@ The \qrlew{} library, solves the problem of running a SQL query with DP guarante
 
 \subsection{Qrlew Intermediate Representation}
 
-As the SQL language is very rich and complex, simply parsing a query into an abstract syntaxic tree does not produce a convenient representation for our needs. Therefore, it is converted into a simpler normalized representation with properties well aligned with the requirements of Differential Privacy: the \texttt{Relation}. A \texttt{Relation} is a collection of rows abiding a given \emph{schema}. It may be:
+\commentng{un commentaire}
+As the SQL language is very rich and complex, simply parsing a query into an abstract syntaxic tree does not produce a convenient representation for our needs. Therefore, it is converted into a simpler normalized representation with properties well aligned with the requirements of Differential Privacy: the \emph{Relation}. A \emph{Relation} is a collection of rows abiding a given \emph{schema}. It may be:
 \begin{description}
-    \item[A \texttt{Table}] This is simply the collection of the rows of an SQL table.
-    \item[A \texttt{Map}] It takes an input \texttt{Relation}, filters the rows and transform them one by one. The filtering condition and row transforms are expressed with expressions similar to those of SQL. It acts as a \texttt{SELECT exprs FROM input WHERE expr LIMIT value} and therefore preserve the \emph{protected entity} ownership structure.
-    \item[A \texttt{Reduce}] A \texttt{Reduce} takes an input \texttt{Relation} and aggregates some columns, possibly group by group. It acts as a \texttt{SELECT aggregates FROM input GROUP BY expr}. This is where the rewriting into DP will happen as described in section~\ref{sec:rewritting}.
-    \item[A \texttt{Join}] This \texttt{Relation} combines two input \texttt{Relation}s as a \texttt{SELECT * FROM left JOIN right ON expr} would do it. The privacy properties are more complex to propagate in this case.
+    \item[A \emph{Table}] This is simply the collection of the rows of an SQL table.
+    \item[A \emph{Map}] It takes an input \emph{Relation}, filters the rows and transform them one by one. The filtering condition and row transforms are expressed with expressions similar to those of SQL. It acts as a \texttt{SELECT exprs FROM input WHERE expr LIMIT value} and therefore preserve the \emph{protected entity} ownership structure.
+    \item[A \emph{Reduce}] A \emph{Reduce} takes an input \emph{Relation} and aggregates some columns, possibly group by group. It acts as a \texttt{SELECT aggregates FROM input GROUP BY expr}. This is where the rewriting into DP will happen as described in section~\ref{sec:rewritting}.
+    \item[A \emph{Join}] This \emph{Relation} combines two input \emph{Relations} as a \texttt{SELECT * FROM left JOIN right ON expr} would do it. The privacy properties are more complex to propagate in this case.
 \end{description}
-It may also be a static list of values or a set operation between two \texttt{Relation}s, but those are less important for our uses.
+It may also be a static list of values or a set operation between two \emph{Relations}, but those are less important for our uses.
 
 \begin{figure}[t]
     \centering
     \includegraphics[width=0.3\textwidth]{figures/relation}
-    \caption{\texttt{Relation} (\texttt{Map}) associeted to the query: \texttt{SELECT a, count(abs(10*a+b)) AS x FROM table\_1 WHERE b>-0.1 AND a IN (1,2,3) GROUP BY a}. The arrows point to the inputs of each \texttt{Relation}. Note the propagation of the data type ranges.}
+    \caption{\emph{Relation} (\emph{Map}) associeted to the query: \texttt{SELECT a, count(abs(10*a+b)) AS x FROM table\_1 WHERE b>-0.1 AND a IN (1,2,3) GROUP BY a}. The arrows point to the inputs of each \emph{Relation}. Note the propagation of the data type ranges.}
     \label{process}
 \end{figure}
+
+This representation is central to \qrlew{}; all the features described below are built upon it.
 
 \subsection{Range Propagation}
 
 Most DP mechanisms aggregating numbers require the knowledge of some bounds on the values (see \cite{dwork2014algorithmic}).
-Even if some bounds are known for some \texttt{Relation}s like source \texttt{Table}s, it is not trivial to propagate these bounds through the steps of the computation.
+Even if some bounds are known for some \emph{Relations} like source \emph{Tables}, it is not trivial to propagate these bounds through the steps of the computation.
 
 To help with range propagation, \qrlew{} introduces two useful concepts:
 \begin{itemize}

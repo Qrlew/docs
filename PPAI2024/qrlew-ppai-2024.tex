@@ -128,9 +128,9 @@ Yet, the collection, sharing, and utilization of data hold the potential to gene
 
 To realize these benefits while managing privacy risks, researchers have turned to \emph{differential privacy (DP)} \cite{wood2018differential, dwork2014algorithmic}, which has become the \emph{gold standard} for privacy protection since its introduction by Dwork et al. in 2006 \cite{dwork2006calibrating} due to its provable and automatic privacy guarantees.
 
-Despite the availability of open-source tools, DP adoption remained limited.
-One of the reasons for this lack of adoption is the relative complexity of the existing tools considered the utility of the results.
-\qrlew{} \cite{Grislain_Qrlew_2023} has been designed to solve these problems by providing the following features:
+Despite the availability of powerful open-source tools \cite{kotsogiannis2019privatesql, diffprivlib, OpenDP, PipelineDP, ZetaSQL, PrivacyOnBeam, johnson2020chorus, berghel2022tumult, yousefpour2021opacus}, DP adoption remained limited and many organizations sticked to more manual and \emph{ad-hoc} approaches.
+Reasons for this lack of adoption are probably complex and multiple but one could name: the lack of awareness on privacy risks; the loss of utility in the results; and the perceived complexity of the existing solutions considering they all require, either some expertise in differential privacy, or the use of new interfaces to express data processing tasks, or even to integrate new execution engines in their data stack.
+\qrlew{} \cite{Grislain_Qrlew_2023} has been designed to relieve these problems by providing the following features:
 \begin{description}
     \item[\qrlew{} provides automatic output privacy guarantees]
     With \qrlew{} a \emph{data owner} can let an analyst (\emph{data practitionner}) with no expertise in privacy protection run arbitrary SQL queries with strong privacy garantees on the output.

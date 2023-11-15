@@ -70,7 +70,7 @@
 % nouns, adverbs, adjectives should be capitalized, including both words in hyphenated terms, while
 % articles, conjunctions, and prepositions are lower case unless they
 % directly follow a colon or long dash
-\title{\qrlew: SQL Query Rewriting for Differential Privacy}
+\title{\qrlew: Query Rewriting for Differential Privacy}
 \author{
     %Authors
     % Authors
@@ -119,9 +119,9 @@
 \maketitle
 
 \begin{abstract}
-In this paper introduces \qrlew{}, an \emph{open source} library that can parse SQL queries into \emph{Relations} --- an intermediate representation --- that keeps track of rich data-types, value ranges, and row ownership; so that they can easily be rewritten into \emph{differentially-private} equivalent and turned back into SQL queries for execution in a variety of standard data stores.
+This paper introduces \qrlew{}, an \emph{open source} library that can parse SQL queries into \emph{Relations} --- an intermediate representation --- that keeps track of rich data types, value ranges, and row ownershi; so that they can easily be rewritten into \emph{differentially-private} equivalent and turned back into SQL queries for execution in a variety of standard data stores.
 
-With \qrlew{}, a \emph{data practitionner} can express his data queries in standard SQL; the \emph{data owner} can run the rewritten query without any technical integration and with strong privacy garantees on the output; and the query rewriting can be operated by a privacy-expert that has to be trusted by the owner, but may belong to a separate organizations.
+With \qrlew{}, a \emph{data practitionner} can express their data queries in standard SQL; the \emph{data owner} can run the rewritten query without any technical integration and with strong privacy garantees on the output; and the query rewriting can be operated by a privacy-expert who must be trusted by the owner, but may belong to a separate organizations.
 \end{abstract}
 
 \section{Introduction}
@@ -225,15 +225,17 @@ To help with range propagation, \qrlew{} introduces two useful concepts:
     \item The concept of \emph{$k$-Interval}, which are finite union of at most $k$ closed intervals. A \emph{$k$-Interval} can be noted:
     $$I = \bigcup_{i=1}^{j\leq k}\left[a_i, b_i\right]$$
     Note that the union of \emph{$k$-Interval}s may not be a \emph{$k$-Interval} as it may be the union of more than $k$ intervals.
-    Unions of many intervals can be simplified into their convex enveloppe interval, which are often sufficient bounds approximations for our use case:
+    Unions of many intervals can be simplified into their convex enveloppe interval, which are often sufficient bounds approximations for our use cases:
     $$J = \bigcup_{i=1}^{j> k}\left[a_i, b_i\right] \subseteq \left[\min_i a_i, \max_i b_i\right]$$
-    \item The concept of \emph{piecewise-coordinatewise-monotonic-functions} or \emph{piecewise-monotonic-functions}, which are functions $f: \mathbb{R}^n \rightarrow \mathbb{R}$ whose domain can be partitioned in products of intervals on which they are \emph{coordinatewise-monotonic}.
-    The image of a product of $n$ \emph{$k$-Interval}s by a \emph{coordinatewise-monotonic-function} can be easily computed as a \emph{$k$-Interval}.
+    \item The concept of \emph{piecewise-monotonic-functions}\footnote{Which is a shorthand name for what would be better called: \emph{piecewise-coordinatewise-monotonic-functions}}, which are functions $f: \mathbb{R}^n \rightarrow \mathbb{R}$ whose domain can be partitioned in cartesian products of intervals $P_j$ on which they are \emph{coordinatewise-monotonic}.
+    The image of a cartesian product of $n$ \emph{$k$-Interval}s by a \emph{piecewise-monotonic-function} can be easily computed as a \emph{$k$-Interval}.
     Indeed, let $I$ be:
     $$I = I_1\times I_2\times \ldots \times I_n = \bigcup_{\substack{1\leq i_1\leq k\\\ldots\\1\leq i_n\leq k}}\left[a_{i_1}, b_{i_1}\right]\times \ldots \times \left[a_{i_n}, b_{i_n}\right]$$
-    If $f$ is \emph{piecewise-monotonic} then one can show that on each partition $P_j$:
-    $$f(I \cap P_j) = \bigcup_{\substack{1\leq i_1\leq k\\\ldots\\1\leq i_n\leq k}}\text{Conv}\left(f\left( \left\{a_{i_1}, b_{i_1}\right\}\times \ldots \times \left\{a_{i_n}, b_{i_n}\right\}\right)\right)$$
-    where $\text{Conv}\left(f\left( \left\{a_{i_1}, b_{i_1}\right\}\times \ldots \times \left\{a_{i_n}, b_{i_n}\right\}\right)\right)$ is efficiently computed in $n$ steps, thanks to the coordinatewise monotony of $f$ on $P_j$.
+    If $f$ is \emph{piecewise-monotonic}, then one can show that on each partition $P_j$ where it is \emph{coordinatewise-monotonic}, if we note:
+    $$I_j = I \cap P_j = \bigcup_{\substack{1\leq j_1\leq k\\\ldots\\1\leq j_n\leq k}}\left[a_{j_1}, b_{j_1}\right]\times \ldots \times \left[a_{j_n}, b_{j_n}\right]$$
+    $$f(I_j) = \bigcup_{\substack{1\leq i_1\leq k\\\ldots\\1\leq i_n\leq k}}\text{Conv}\left(f\left( \left\{a_{i_1}, b_{i_1}\right\}\times \ldots \times \left\{a_{i_n}, b_{i_n}\right\}\right)\right)$$
+    where $\text{Conv}\left(f\left( \left\{a_{i_1}, b_{i_1}\right\}\times \ldots \times \left\{a_{i_n}, b_{i_n}\right\}\right)\right)$ can be efficiently computed in $n$ steps, without testing all the $2^n$ combinantions, thanks to the coordinatewise monotony of $f$ on $P_j$.
+    Then $f(I) = \bigcup_j f(I_j)$, of which we can derive the bounding: $f(I) \subseteq \text{Conv}\left(\bigcup_j f(I_j)\right)$ when the number of terms in the union exceeds $k$.
 \end{itemize}
 
 The notion of \emph{$k$-Interval} is convenient for tracking value bounds as it can express natural patterns in SQL such as:

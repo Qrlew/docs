@@ -254,32 +254,6 @@ As examplified in listing~\ref{lst:pe}, PE definition associates to each private
 where $\mathtt{ref}_{i-1}$ is a column in $\mathtt{tab}_{i-1}$ --- usually a foreign key --- referring to $\mathtt{tab}_i$ with a column of referred id $\mathtt{id}_i$ --- usually a primary key. Following the path of tables referring to one another, we end up with the table defining the PEID (e.g. \texttt{users}).
 
 This small PE description language allows for a variety of usefull PEID scenarii, beyond the simple, but restrictive \emph{privacy per row}.
-
-% ("<table>",[
-%     ("<id column in table>","<table_1>","<id in table_1 to join on>"),
-%     ("<id in table_1>","<table_2>","<id in table_2 to join on>")
-%     ...
-%   ], "<peid>")
-
-% \begin{algorithm}[tb]
-%     \caption{Example algorithm}
-%     \label{alg:algorithm}
-%     \textbf{Input}: Your algorithm's input\\
-%     \textbf{Parameter}: Optional list of parameters\\
-%     \textbf{Output}: Your algorithm's output
-%     \begin{algorithmic}[1] %[1] enables line numbers
-%     \STATE Let $t=0$.
-%     \WHILE{condition}
-%     \STATE Do some action.
-%     \IF {conditional}
-%     \STATE Perform task A.
-%     \ELSE
-%     \STATE Perform task B.
-%     \ENDIF
-%     \ENDWHILE
-%     \STATE \textbf{return} solution
-%     \end{algorithmic}
-% \end{algorithm}
         
 \begin{listing}[tb]
 \caption{Example of \emph{protected entity} definition for a database with three tables holding users, orders and items records. Each user is protected individually by designating their \texttt{id}s as PEID. Orders are attached to a user through the foreigh key: \texttt{user\_id}. Items's ownership is defined the same way by specifying the lineage: \texttt{item -> order -> user}.}%
@@ -462,6 +436,13 @@ This year program:
 
 \section*{Appendix}
 
-\input{annex.tex}
+\begin{figure*}[t]
+    \centering
+    \includegraphics[width=0.9\textwidth]{figures/set_eliminate_select} % Reduce the figure size so that it is slightly narrower than the column.
+    \caption{The rewriting happens in thress steps}
+    \label{fig:set_eliminate_select}
+\end{figure*}
+
+\input{appendix.tex}
 
 \end{document}

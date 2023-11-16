@@ -99,34 +99,3 @@ The computation graph figures illustrate the step-by-step transformation of rela
     \item The \textbf{arrows} connecting the circles to the rectangles show which rewriting rules can be applied to which relations.
     \item A sequence of transformations is shown as a path through the graph, beginning with the source relations at the bottom and culminating in the final transformed query at the top.
 \end{itemize}
-
-
-\begin{figure}[!ht]
-\centering
-\includegraphics[width=1\linewidth]{figures/rewriting_rules_setting.pdf}
-\caption{Rule Setting: Each node in the graph (rectangle) is assigned the applicable rules (circle) for that type of node. In blue, the *→SD rules, in orange the *→PEP type rules, in purple the *→Pubd rules, and in red the *→DP rules.}
-\label{fig:rule_setting}
-\end{figure}
-
-\begin{figure}[!ht]
-\centering
-\includegraphics[width=1\linewidth]{figures/feasible_rewriting_rules.pdf}
-\caption{Rule Elimination: Only feasible rules are retained.}
-\label{fig:rule_elimination}
-\end{figure}
-
-
-\begin{figure}[!ht]
-\centering
-\includegraphics[width=1\linewidth]{figures/sd_allocation.pdf}
-\caption{Example of SD Allocation: The sources of the graph are substituted with their synthetic equivalent.}
-\label{fig:sd_allocation}
-\end{figure}
-
-
-\begin{figure}[!ht]
-\centering
-\includegraphics[width=1\linewidth]{figures/dp_allocation.pdf}
-\caption{Example of DP Allocation: Rewrite in DP as soon as necessary (and possible).}
-\label{fig:dp_allocation}
-\end{figure}

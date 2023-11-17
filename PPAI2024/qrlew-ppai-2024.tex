@@ -299,7 +299,7 @@ Each \emph{Relation} can have one of the following properties:
     \item[Differentially Private (DP)] A \emph{Relation} will be DP if it implements a DP mechanism. A DP \emph{Relation} can be safely  executed on private data and the result be published. Note that the \emph{privacy loss} associated with the DP mechanism has to be accurately accounted for (see section~\ref{sec:privacy_analysis}). 
     \item[Synthetic Data (SD)] In some contexts a \emph{synthetic data} version of source tables is available. Any \emph{Relation} derived from other SD or Public \emph{Relations} is itself SD.
     \item[Public (Pub)] A relation derived from public tables is labeled as such and does not require any further protection to be disclosed.
-    \item[Published (Pubd)] A relation is considered published if its input relations that are either Public, SD, DP or Published themselves.
+    \item[Published (Pubd)] A relation is considered Published if its input relations that are either Public, SD, DP or Published themselves.
 \end{description}
 
 Each \emph{Relation} is assigned potential \emph{rewriting rules} that depend on their nature: \emph{Map}, \emph{Reduce}, etc. and the way they are parametrized. A \emph{rewriting rules} has input requirements, an output achieveble property stating what property can be achieved, provided the input requirements ere fulfilled and the \emph{Relation} is rewriten.
@@ -317,26 +317,15 @@ This is done in three steps illustrated in figure~\ref{fig:set_eliminate_select}
 \begin{description}
     \item[Rule Setting] We assign the set of potential rewriting rules to each \emph{Relation} in a computaton graph.
     \item[Rule Elimination] Only feasible rewriting rules are preserved. A rewriting rule that would require a PEP input is only feasible if its input Relation has a feasible rule outputing a PEP \emph{Relation}.
-    \item[Rule Selection] All feasible allocations of one rewriting rule per \emph{Relation} are listed, a score depending on the desired ultimate output property is assigned to each allocation and the highest scoring allocation is selected.
+    \item[Rule Selection] All feasible allocations of one rewriting rule per \emph{Relation} are listed, a score depending on the desired ultimate output property is assigned to each allocation and the highest scoring allocation is selected. Then, a simple split $\left(\frac{\varepsilon}{n}, \frac{\delta}{n}\right)$ of the overall privacy budget $\left(\varepsilon, \delta\right)$ depending on the number of $PEP \rightarrow DP$ rules: $n$.
 \end{description}
 
 In the computation graph, while each node's multiple rewriting rules might suggest a combinatorial explosion in the number of possible paths, this is mitigated in practice. The pruning of infeasible rules, dictated by the requirement for most relations to have a PEP input for a DP or PEP outcome, significantly reduces the complexity. Hence, despite the theoretical breadth of possibilities, the actual number of feasible paths remains manageable, avoiding substantial computational problems in practice.
 
 \subsubsection{Rule Application}
 
-Once the first phase of rule allocation is achieved, starts the second phase: rule application, as illustrated in figure~\ref{fig:rewriting}.
-
-The goal is to have a deterministic algorithm that rewrites SQL queries into a privacy-preserving form. During the \qrlew{} rewriting process, the algorithm systematically goes through the computation graph, applying the following steps:
-
-\begin{enumerate}
-    \item Transform the SQL query into a computation graph composed of relations.
-    \item Tagging rewriting rules: Initially tag all relations with their rewriting rules depending on the type of relation and the parameters of the relation from the list in the annex (see Figure~\ref{fig:rule_setting} for an illustration of Rule Setting).
-    \item Filtering Out Infeasible Rules: Identify and remove recursively any rewriting rules that are not feasible, ensuring that only viable transformations are considered (refer to Figure~\ref{fig:rule_elimination} for a depiction of Rule Elimination).
-    \item Applying Rewriting Rules: Starting from the last final node, for each node with multiple feasible rewriting rules, we select the best one based on a scoring system. The simple score system encodes the preferences among different privacy properties: we prefer to have a DP result than a synthetic one, that is why we give a better score for a feasible rule resulting in a DP result than a synthetic one (Figures~\ref{fig:sd_allocation} and \ref{fig:dp_allocation} illustrate examples of SD and DP Allocation, respectively).
-    \item Building the Final Query: Once all relations have been transformed, convert the computation graph back into an SQL query that adheres to differential privacy standards. The budget is split among the different DP mechanisms involved in the computation graph.
-\end{enumerate}
-
-\input{rewriting.tex}
+Once the first phase of rule allocation is achieved, starts the second phase: \emph{rule application}, as illustrated in figure~\ref{fig:rewriting}.
+In the allocation phase, a \emph{global rewriting scheme} was set in the form of an allocation satisfying a system of requirements; in the rewriting phase, each rewriting rule is applied \emph{independently} for each \emph{Relation}. This is possible because once a rewriting rule is applied to a \emph{Relation}, the \emph{Relation} is transformed into a computation graphe of \emph{Relations} whose ultimate inputs are compatible (same schema, i.e. same columns with same types, plus the new columns provided by the property achieved) with the inputs of the original \emph{Relation} and the ultimate output is also compatible with the output of the original \emph{Relation} so that rewriten \emph{Relations} can be stitched together in a larger graph the same way the original \emph{Relations} were connected: see figure~\ref{fig:rewriting}.
 
 \section{Privacy Analysis}
 \label{sec:privacy_analysis}

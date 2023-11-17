@@ -299,8 +299,11 @@ Each \emph{Relation} can have one of the following properties:
     \item[Differentially Private (DP)] A \emph{Relation} will be DP if it implements a DP mechanism. A DP \emph{Relation} can be safely  executed on private data and the result be published. Note that the \emph{privacy loss} associated with the DP mechanism has to be accurately accounted for (see section~\ref{sec:privacy_analysis}). 
     \item[Synthetic Data (SD)] In some contexts a \emph{synthetic data} version of source tables is available. Any \emph{Relation} derived from other SD or Public \emph{Relations} is itself SD.
     \item[Public (Pub)] A relation derived from public tables is labeled as such and does not require any further protection to be disclosed.
-    \item[Published (Pubd)] A relation is considered published if its input relations that are either Public, SD, DP or Published.
+    \item[Published (Pubd)] A relation is considered published if its input relations that are either Public, SD, DP or Published themselves.
 \end{description}
+
+Each \emph{Relation} 
+The most comm
 
 Let’s detail two crucial rewriting rules:
 

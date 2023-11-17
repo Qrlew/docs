@@ -143,7 +143,7 @@ Reasons for this lack of adoption are probably complex and multiple but one coul
     \qrlew{} rewrites a SQL query into a \emph{differentially private} SQL query that can be run on any data-store with a SQL interface: from lightweight DB to big-data stores.
 This removes the need for a custom execution engine and enables \emph{differentially private analytics with virtually no technical integration}.
     \item[\qrlew{} leverages synthetic data]
-    Synthetic data are an increasingly popular way of \emph{privatizing} a dataset. Using jointly: \emph{differentially private} mechanisms and \emph{differentially private} synthetic data can be a simple, yet powerful, way of managing a privacy budget and reaching better utility-privacy tradeoffs.
+    Synthetic data are an increasingly popular way of \emph{privatizing} a dataset \cite{bowen2019comparative, mckenna2021winning, canale2022generative, sablayrolles2023privately, castellon2023dp}. Using jointly: \emph{differentially private} mechanisms and \emph{differentially private} synthetic data can be a simple, yet powerful, way of managing a privacy budget and reaching better utility-privacy tradeoffs.
 \end{description}
 
 % Motivation DP
@@ -296,10 +296,10 @@ Before we decribe these phases into more details, let's define the various prope
 Each \emph{Relation} can have one of the following properties:
 \begin{description}
     \item[Protected Entity Preserving (PEP)]: A \emph{Relation} is PEP if each row is associated with a PE. In practice it will have a column containing the PEID identifying the PE.
-    \item[Differentially Private (DP)]: A \emph{Relation} will be DP if it implements a DP mechanism. A DP \emph{Relation} can be safely  executed on private data and the result be published. Note that the \emph{privacy loss} associated with the DP mechanism has to be accurately accounted for \qrlew{} reports the \emph{privacy loss} of a mechanism as compositions of gaussian mechanisms, tau-thresholding \cite{korolova2009releasing,wilson2019differentially} and subsampled mechanisms \cite{balle2018privacy}.
-    \item \textbf{Synthetic Data (SD)}: In some contexts a \emph{synthetic data} version of source tables is available. Differentially private synthetic data provide many benefits to share the knowledge in a dataset without disclosing records %\cite{bowen2019comparative, mckenna2021winning , canale2022generative, sablayrolles2023privately, castellon2023dp}.
-    \item \textbf{Public (Pub)}: A relation derived from public tables is labeled as such and does not require DP protections.
-    \item \textbf{Published (Pubd)}: A relation is considered 'published' if the overall mechanism from the private table to the relation complies with the differential privacy framework, ensuring that the privacy of the private data is maintained provided the dataset is not inherently public. This is achieved when all parent relations of a given relation are either published, public, synthetic themselves, or use a differential privacy mechanism.
+    \item[Differentially Private (DP)] A \emph{Relation} will be DP if it implements a DP mechanism. A DP \emph{Relation} can be safely  executed on private data and the result be published. Note that the \emph{privacy loss} associated with the DP mechanism has to be accurately accounted for (see section~\ref{sec:privacy_analysis}). 
+    \item[Synthetic Data (SD)] In some contexts a \emph{synthetic data} version of source tables is available. Any \emph{Relation} derived from other SD or Public \emph{Relations} is itself SD.
+    \item[Public (Pub)] A relation derived from public tables is labeled as such and does not require any further protection to be disclosed.
+    \item[Published (Pubd)] A relation is considered published if .
 \end{description}
 
 \subsection{Rewriting Rule Allocation}
@@ -337,7 +337,9 @@ The goal is to have a deterministic algorithm that rewrites SQL queries into a p
 \input{rewriting.tex}
 
 \section{Privacy Analysis}
-\label{sec:privacy_algos}
+\label{sec:privacy_analysis}
+
+The \qrlew{} rewriter reports the \emph{privacy loss} of a mechanism as compositions of: gaussian mechanisms, tau-thresholding \cite{korolova2009releasing,wilson2019differentially} and subsampled mechanisms \cite{balle2018privacy}.
 
 At this stage, we examine a \texttt{Relation} that takes one or two protected \texttt{Relation} inputs, where the entity to be protected is specified.
 To secure the outcome of the SQL query, it is imperative to protect not only the results obtained from aggregation functions but also the grouping keys.

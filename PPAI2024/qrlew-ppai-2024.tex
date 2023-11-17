@@ -299,21 +299,19 @@ Each \emph{Relation} can have one of the following properties:
     \item[Differentially Private (DP)] A \emph{Relation} will be DP if it implements a DP mechanism. A DP \emph{Relation} can be safely  executed on private data and the result be published. Note that the \emph{privacy loss} associated with the DP mechanism has to be accurately accounted for (see section~\ref{sec:privacy_analysis}). 
     \item[Synthetic Data (SD)] In some contexts a \emph{synthetic data} version of source tables is available. Any \emph{Relation} derived from other SD or Public \emph{Relations} is itself SD.
     \item[Public (Pub)] A relation derived from public tables is labeled as such and does not require any further protection to be disclosed.
-    \item[Published (Pubd)] A relation is considered published if .
+    \item[Published (Pubd)] A relation is considered published if its input relations that are either Public, SD, DP or Published.
 \end{description}
-
-\subsection{Rewriting Rule Allocation}
-
-Rewriting rules are the main component to understand how to rewrite the computation graph. A rewriting rule is a local property explaining how to rewrite a relation to achieve global properties, being either DP, PEP, or synthetic, depending on some list of requirements on the privacy characteristics of the parents of the relation. In essence, a rewriting rule is a recursive step in the rewriting process. It explains how we could rewrite a relation given how we can rewrite the parents. The base case in the recursion is always: a table could either be private, public, or synthetic.
-
-Relations can appear in various forms, including Join, Map, Reduce, Relation, Set, Table, and Values. Each type has its unique set of possible rewriting rules, outlining potential transformations and the associated global properties. An exhaustive list of the rewriting rules for each type of relation is provided in the annex.
-
-\subsubsection{Key Rewriting Rules}
 
 Let’s detail two crucial rewriting rules:
 
 \paragraph{Relation with PEP \textrightarrow{} PEP and PEP \textrightarrow{} DP Rewriting Rules}
 The first rule, PEP \textrightarrow{} PEP, concerns transferring the protected entity preserving property from one transformation stage to the next without mixing protected entities. The second rule, PEP \textrightarrow{} DP, means that if the parent of the relation can be rewritten as PEP, then we can rewrite the relation to be DP by applying a DP mechanism to publish the result. Both types of rewriting rules necessitate having parents that are capable of preserving protected entities. Some transformations, such as REDUCE, can aggregate data from multiple rows and thus can mix protected entities in the process. Such relations could be rewritten mostly only into published or synthetic, but it is possible that some REDUCE operations only aggregate rows related to the same protected entity and therefore could be rewritten into a PEP Relation.
+
+\subsubsection{Rewriting Rule Allocation}
+
+Rewriting rules are the main component to understand how to rewrite the computation graph. A rewriting rule is a local property explaining how to rewrite a relation to achieve global properties, being either DP, PEP, or synthetic, depending on some list of requirements on the privacy characteristics of the parents of the relation. In essence, a rewriting rule is a recursive step in the rewriting process. It explains how we could rewrite a relation given how we can rewrite the parents. The base case in the recursion is always: a table could either be private, public, or synthetic.
+
+Relations can appear in various forms, including Join, Map, Reduce, Relation, Set, Table, and Values. Each type has its unique set of possible rewriting rules, outlining potential transformations and the associated global properties. An exhaustive list of the rewriting rules for each type of relation is provided in the annex.
 
 \paragraph{Feasible Rewriting Rules}
 A rewriting rule of a relation is said to be feasible if there exists a rewriting of the relation satisfying the rule. This is a global property of the relation, meaning that it depends on all the parents of the relation and not only on the transforms of the relation. Thus, the rewriting rule PEP \textrightarrow{} DP could be feasible for a relation if there exists a rewriting where the parent of the relation is in practice PEP. Then, we can change the transform and apply a DP mechanism to publish the relation. All rewriting rules about synthetic data are feasible because it is always possible in Sarus to build a synthetic variant of the relation using the synthetic table. The main goal of the DP rewriting is then to list for the relation that we want to obtain all the feasible rewriting rules and to select one where the outcome is DP. If not, it would mean that there does not exist a way to obtain this value using DP mechanisms, and we would need to use synthetic data.
@@ -321,6 +319,7 @@ A rewriting rule of a relation is said to be feasible if there exists a rewritin
 \paragraph{Complexity of the Rewriting}
 In the computation graph, while each node's multiple rewriting rules might suggest a combinatorial explosion in the number of possible paths, this is mitigated in practice. The pruning of infeasible rules, dictated by the requirement for most relations to have a PEP input for a DP or PEP outcome, significantly reduces the complexity. Hence, despite the theoretical breadth of possibilities, the actual number of feasible paths remains manageable, avoiding substantial computational problems.
 
+\subsubsection{Rule Application}
 
 \subsection{Implementation of the Rewriting Algorithm}
 

@@ -275,12 +275,16 @@ protected_entity = [
 \subsection{Rewriting}
 \label{sec:rewritting}
 
-Rewriting in \qrlew{}, refers to the process of altering parts of a \emph{computation graph} by substituting computation \emph{sub-graphs} to some \emph{Relations} to alter the privacy properties of the result. This substitution aims to achieve specific objectives, such as ensuring privacy through the incorporation of differentially private mechanisms. To facilitate this work, each \emph{Relation} is assigned a \emph{rewritting rule} that depends on the \emph{rewritting rules} of its input and then each \emph{Relation} is rewriten independently.
+Rewriting in \qrlew{}, refers to the process of altering the \emph{computation graph} by substituting computation \emph{sub-graphs} to \emph{Relations} (see figure~\ref{fig:rewriting}) to alter the properties of the result. This substitution aims to achieve specific objectives, such as ensuring privacy through the incorporation of differentially private mechanisms. The rewriting process happens in two phases:
+\begin{itemize}
+    \item a \emph{rewriting rule allocation} phase, where each \emph{Relation} in the \emph{computation graph} gets allocated a \emph{rewriting rule} (RR) compatible with its input and with the desired output property
+\end{itemize}
+To facilitate this work, each \emph{Relation} is assigned a \emph{rewritting rule} that depends on the \emph{rewritting rules} (RR) of its input and then each \emph{Relation} is rewriten independently.
 
 \begin{figure*}[t]
     \centering
     \includegraphics[width=0.9\textwidth]{figures/rewriting} % Reduce the figure size so that it is slightly narrower than the column.
-    \caption{The rewriting}
+    \caption{The rewriting process happens in two phases: a \emph{rewriting rule allocation} phase, where each node in the \emph{computation graph} gets allocated a \emph{rewriting rule} (RR) compatible with its input and with the desired output property; and a \emph{rule application} phase, where each \emph{Relation} is rewritten according to its allocated RR.}
     \label{fig:rewriting}
 \end{figure*}
 
@@ -296,7 +300,7 @@ Let's sum up the global privacy properties:
     \item \textbf{Published (Pubd)}: A relation is considered 'published' if the overall mechanism from the private table to the relation complies with the differential privacy framework, ensuring that the privacy of the private data is maintained provided the dataset is not inherently public. This is achieved when all parent relations of a given relation are either published, public, synthetic themselves, or use a differential privacy mechanism.
 \end{itemize}
 
-\subsection{Rewriting Rules}
+\subsection{Rewriting Rule Allocation}
 
 Rewriting rules are the main component to understand how to rewrite the computation graph. A rewriting rule is a local property explaining how to rewrite a relation to achieve global properties, being either DP, PEP, or synthetic, depending on some list of requirements on the privacy characteristics of the parents of the relation. In essence, a rewriting rule is a recursive step in the rewriting process. It explains how we could rewrite a relation given how we can rewrite the parents. The base case in the recursion is always: a table could either be private, public, or synthetic.
 

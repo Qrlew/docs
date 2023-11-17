@@ -372,7 +372,7 @@ When the SQL query involves both public and private grouping keys, we perform cr
 
 \section{Comparison to other systems}
 
-The Google Differential Privacy extension for PostgreSQL introduces differential privacy estimators for common aggregations like COUNT, SUM, AVG, STDDEV, and NTILE.
+The Google Differential Privacy extension for PostgreSQL introduces differential privacy estimators for common aggregations.
 Despite its straightforward installation, using it can be challenging for non-experts.
 While users can leverage the provided DP aggregations,
 the privacy guarantees hold only if the user-supplied column and optional bounds meet the correct criteria (input column lies between the bounds and contains one line per user).
@@ -388,10 +388,10 @@ Besides this framework cannot be currently backed by an SQL database.
 Similarly, Tumult Analytics doesn't directly process SQL queries but utilizes transformations that closely resemble SQL syntax.
 These various implemented transformations provide users with the capability to construct more complex analyses,
 leveraging the efficiency of Spark for computation.
-However, it's essential to emphasize that the data owner has to run the analysis.
+However, the data owner has to run the analysis.
 
 Smartnoise SQL is a Python framework for doing SQL analysis with differential privacy guarantees.
-The framework is user-friendly for non-experts, but it does not support all SQL grammar such as complex queries with joins or subqueries.
+The framework is easy of use for non-experts, but it does not support all SQL grammar such as complex queries with joins or subqueries.
 Additionally, the execution of SQL analysis requires a Python post-processing step, potentially leading to increased execution times.
 
 Chorus is the closest framework to \qrlew, and in the work by \citeauthor{johnson2020chorus},

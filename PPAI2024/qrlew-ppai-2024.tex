@@ -119,7 +119,7 @@
 \maketitle
 
 \begin{abstract}
-This paper introduces \qrlew{}, an \emph{open source} library that can parse SQL queries into \emph{Relations} --- an intermediate representation --- that keeps track of rich data types, value ranges, and row ownershi; so that they can easily be rewritten into \emph{differentially-private} equivalent and turned back into SQL queries for execution in a variety of standard data stores.
+This paper introduces \qrlew{}, an \emph{open source} library that can parse SQL queries into \emph{Relations} --- an intermediate representation --- that keeps track of rich data types, value ranges, and row ownership; so that they can easily be rewritten into \emph{differentially-private} equivalent and turned back into SQL queries for execution in a variety of standard data stores.
 
 With \qrlew{}, a \emph{data practitionner} can express their data queries in standard SQL; the \emph{data owner} can run the rewritten query without any technical integration and with strong privacy garantees on the output; and the query rewriting can be operated by a privacy-expert who must be trusted by the owner, but may belong to a separate organizations.
 \end{abstract}
@@ -158,7 +158,7 @@ This removes the need for a custom execution engine and enables \emph{differenti
 
 \subsection*{Datasets and Protected Entities (PE)}
 
-In this paper, \emph{datasets} refers to a collection of elements in some domain $\mathcal{X}$, labelled by an identifier $i\in \mathcal{I}$ identifying the entity whose privacy we want to protect. This entity will be called \emph{Protected Entity} (PE) and the identifier will be referd to as \emph{Protected Entity ID} (PEID). Let $\mathcal{D}$ be the set of datasets of arbitrary sizes with a protected entity.
+In this paper, \emph{datasets} refers to a collection of elements in some domain $\mathcal{X}$, labelled with an identifier $i\in \mathcal{I}$ identifying the entity whose privacy we want to protect. This entity will be called \emph{Protected Entity} (PE) and the identifier will be referd to as \emph{Protected Entity ID} (PEID). Let $\mathcal{D}$ be the set of datasets of arbitrary sizes with a protected entity.
 
 \subsection*{Differential Privacy (DP)}
 
@@ -288,19 +288,19 @@ Rewriting in \qrlew{}, refers to the process of altering the \emph{computation g
     \label{fig:rewriting}
 \end{figure*}
 
-Before we decribe these phases into more details, let's define the properties we may want to guarantee on each \eph{Relation} and the ones we need for the output.
+Before we decribe these phases into more details, let's define the various properties we may want to guarantee on each \emph{Relation} and the ones we need for the output.
 
-\subsubsection{Privacy Properties}
-\label{sec:global_privacy_properties}
-Let's sum up the global privacy properties:
-\begin{itemize}
-    \item \textbf{Protected Entity (PE)}: The definition of Differential Privacy (DP) is based on a notion of distance between datasets (see OpenDP work). Literature often formalizes datasets as multisets and uses the size of their symmetric difference as the distance between them (or equivalently, the $\ell_1$ norm of the difference of their histograms). In our clients' datasets, an individual's data is often described by several rows of data. To adapt the distance to this requirement, Sarus labels each data row with an identifier: the Protected Entity ID (PEID) and defines the distance between datasets as the size of the symmetric difference of the set of PEIDs from each dataset.
-    \item \textbf{Protected Entity Preserving (PEP)}: A dataset is PEP if each data row is associated with a single PE. A dataset transformation is said to be PEP if each row labeled with a PEID results from calculations that do not depend on rows labeled with another PEID.
-    \item \textbf{Differential Privacy (DP)}: A result will be qualified as DP if it comes from a DP mechanism applied to a PEP relation. A DP relation can be published if the associated privacy loss has been accurately accounted for.
-    \item \textbf{Synthetic (SD)}: A relation derived only from transformation from the synthetic table.
+\subsubsection{Privacy Properties and Rewriting Rules}
+\label{sec:privacy_properties}
+
+Each \emph{Relation} can have one of the following properties:
+\begin{description}
+    \item[Protected Entity Preserving (PEP)]: A \emph{Relation} is PEP if each row is associated with a PE. In practice it will have a column containing the PEID identifying the PE.
+    \item[Differentially Private (DP)]: A \emph{Relation} will be DP if it implements a DP mechanism. A DP \emph{Relation} can be safely  executed on private data and the result be published. Note that the \emph{privacy loss} associated with the DP mechanism has to be accurately accounted for \qrlew{} reports the \emph{privacy loss} of a mechanism as compositions of gaussian mechanisms, tau-thresholding \cite{korolova2009releasing,wilson2019differentially} and subsampled mechanisms \cite{balle2018privacy}.
+    \item \textbf{Synthetic Data (SD)}: In some contexts a \emph{synthetic data} version of source tables is available. Differentially private synthetic data provide many benefits to share the knowledge in a dataset without disclosing records %\cite{bowen2019comparative, mckenna2021winning , canale2022generative, sablayrolles2023privately, castellon2023dp}.
     \item \textbf{Public (Pub)}: A relation derived from public tables is labeled as such and does not require DP protections.
     \item \textbf{Published (Pubd)}: A relation is considered 'published' if the overall mechanism from the private table to the relation complies with the differential privacy framework, ensuring that the privacy of the private data is maintained provided the dataset is not inherently public. This is achieved when all parent relations of a given relation are either published, public, synthetic themselves, or use a differential privacy mechanism.
-\end{itemize}
+\end{description}
 
 \subsection{Rewriting Rule Allocation}
 

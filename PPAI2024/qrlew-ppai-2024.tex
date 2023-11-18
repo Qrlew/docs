@@ -50,6 +50,7 @@
 % Sarus defined packages and commands
 % A command for the project name
 \usepackage{amsfonts}
+\usepackage{amssymb}
 \usepackage{xcolor}
 \newcommand{\qrlew}{\emph{Qrlew}}
 \newcommand{\commentNG}[1]{{\color{red}[NG: {#1}]}}
@@ -302,9 +303,11 @@ Each \emph{Relation} can have one of the following properties:
     \item[Published (Pubd)] A relation is considered Published if its input relations that are either Public, SD, DP or Published themselves.
 \end{description}
 
-Each \emph{Relation} is assigned potential \emph{rewriting rules} that depend on their nature: \emph{Map}, \emph{Reduce}, etc. and the way they are parametrized. A \emph{rewriting rules} has input requirements, an output achieveble property stating what property can be achieved, provided the input requirements ere fulfilled and the \emph{Relation} is rewriten.
+These properties usually require some rewriting of the computation graph to be achieved. The requirements and rewriting for a specific \emph{Relation} to meet some required property are embodied in what we call: \emph{rewriting rules}.
+A \emph{rewriting rules} has input requirements, and an achieveble output \emph{property} that tells what \emph{property} can be achieved by rewriting provided the input \emph{property} requirements were fulfilled.
+Each \emph{Relation} can be assigned different \emph{rewriting rules} depending on their nature: \emph{Map}, \emph{Reduce}, etc. and the way they are parametrized. 
 
-\emph{Rewriting Rules} can be for instance PE propagation rules. They will be of the form: $\rightarrow PEP$ for private \emph{Tables} with a simple rewriting consisting in taking the definition of the protected entity and computing the PEID column; $PEP \rightarrow PEP$ for \emph{Maps} (or for \emph{Reduce} when the PEID is in the \texttt{GROUP BY} part) and the rwriting will consist in propagating the PEID column from the input to the output; $(PEP, PEP) \rightarrow PEP$ for \emph{Join} and the rewriting will cosist in adding the PEID in the \texttt{ON} clause.
+\emph{Rewriting Rules} can be for instance PE propagation rules. They will be of the form: $\varnothing \rightarrow PEP$ for private \emph{Tables} with a simple rewriting consisting in taking the definition of the protected entity and computing the PEID column; $PEP \rightarrow PEP$ for \emph{Maps} (or for \emph{Reduce} when the PEID is in the \texttt{GROUP BY} part) and the rewriting will consist in propagating the PEID column from the input to the output; $(PEP, PEP) \rightarrow PEP$ for \emph{Join} and the rewriting will consist in adding the PEID in the \texttt{ON} clause.
 
 Another key \emph{Rewriting Rules} is $PEP \rightarrow DP$ for \emph{Reduces}, it simply means that if the parent of the \emph{Relation} can be rewritten as PEP, then we can rewrite the relation to be DP by substituting DP aggregations to the original aggregations of the \emph{Reduce}.
 
@@ -320,7 +323,7 @@ This is done in three steps illustrated in figure~\ref{fig:set_eliminate_select}
     \item[Rule Selection] All feasible allocations of one rewriting rule per \emph{Relation} are listed, a score depending on the desired ultimate output property is assigned to each allocation and the highest scoring allocation is selected. Then, a simple split $\left(\frac{\varepsilon}{n}, \frac{\delta}{n}\right)$ of the overall privacy budget $\left(\varepsilon, \delta\right)$ depending on the number of $PEP \rightarrow DP$ rules: $n$.
 \end{description}
 
-In the computation graph, while each node's multiple rewriting rules might suggest a combinatorial explosion in the number of possible paths, this is mitigated in practice. The pruning of infeasible rules, dictated by the requirement for most relations to have a PEP input for a DP or PEP outcome, significantly reduces the complexity. Hence, despite the theoretical breadth of possibilities, the actual number of feasible paths remains manageable, avoiding substantial computational problems in practice.
+In the computation graph, while each node's multiple rewriting rules might suggest a combinatorial explosion in the number of possible feasible allocations, this is mitigated in practice. The pruning of infeasible rules, dictated by the requirement for most relations to have a PEP input for a DP or PEP outcome, significantly reduces the complexity. Hence, despite the theoretical breadth of possibilities, the actual number of feasible paths remains manageable, avoiding substantial computational problems in practice.
 
 \subsubsection{Rule Application}
 
@@ -330,6 +333,7 @@ In the allocation phase, a \emph{global rewriting scheme} was set in the form of
 \section{Privacy Analysis}
 \label{sec:privacy_analysis}
 
+When rewriting, a user can
 The \qrlew{} rewriter reports the \emph{privacy loss} of a mechanism as compositions of: gaussian mechanisms, tau-thresholding \cite{korolova2009releasing,wilson2019differentially} and subsampled mechanisms \cite{balle2018privacy}.
 
 At this stage, we examine a \texttt{Relation} that takes one or two protected \texttt{Relation} inputs, where the entity to be protected is specified.

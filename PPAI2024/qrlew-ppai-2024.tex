@@ -333,13 +333,13 @@ In the allocation phase, a \emph{global rewriting scheme} was set in the form of
 \section{Privacy Analysis}
 \label{sec:privacy_analysis}
 
-When rewriting, a user can require the output \emph{Relation} to have the \emph{Published} property. All \emph{rewriting rules} with \emph{Published} outputs require their inputs to be either \emph{Public}, \emph{DP}, \emph{SD} or \emph{Published} themselves. We assume \emph{Synthetic Data} provided to the system are differentially private, so the privacy of the result depends on the way \qrlew{} rewrites \emph{Reduces} into \emph{DP} equvalents.
+When rewriting, a user can require the output \emph{Relation} to have the \emph{Published} property. All \emph{rewriting rules} with \emph{Published} outputs require their inputs to be either \emph{Public}, \emph{DP}, \emph{SD} or \emph{Published} themselves. We assume synthetic data provided to the system are differentially private, so the privacy of the result depends on the way \qrlew{} rewrites \emph{Reduces} into \emph{DP} equvalents.
 
-
-
-At this stage, we examine a \texttt{Relation} that takes one or two protected \texttt{Relation} inputs, where the entity to be protected is specified.
-To secure the outcome of the SQL query, it is imperative to protect not only the results obtained from aggregation functions but also the grouping keys.
-We will briefly describe these two steps in the following section.
+All \emph{rewriting rules} with \emph{DP} outputs require the input of the \emph{Reduce} to be \emph{PEP} so we can assume a PEID column clearly assign one and only one PE to each rows of the rewriten input. The \emph{Reduce} is made DP by:
+\begin{itemize}
+    \item Making sure the aggregate columns of the \emph{Reduce} are computed with differentially private mechanisms.
+    \item Making sure the grouping keys of the \texttt{GROUP BY} clause are either public or released through a differentially private mechanism.
+\end{itemize}
 
 \subsubsection{Protecting aggregation results}
 

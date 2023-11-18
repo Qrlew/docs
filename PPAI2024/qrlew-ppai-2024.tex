@@ -343,21 +343,25 @@ All \emph{rewriting rules} with \emph{DP} outputs require the input of the \emph
 
 \subsubsection{Protecting aggregation results}
 
-The protection of aggregation functions is carried out in three sequential steps. Given that all currently supported aggregations (\texttt{COUNT}, \texttt{SUM}, \texttt{AVG}, \texttt{VARIANCE} \texttt{STDDEV}) can be expressed as compositions of sums, our focus will be on the \texttt{SUM} aggregation. Let's consider the scenario where we aim to compute the sum of a column.
+The protection of aggregation functions is carried out in two steps. Given that all currently supported aggregations (\texttt{COUNT}, \texttt{SUM}, \texttt{AVG}, \texttt{VARIANCE} \texttt{STDDEV}) can be reduced to sums, our focus will be on \texttt{SUM} aggregations. Let's consider the scenario where we aim to compute some partial sums of a column for different groups: $j\in\{1,\ldots,m\}$, of rows.
+Let the column be a vector of $N$ real numbers: $x = \left(x_1,\ldots, x_N\right)\in\mathbb{R}^N$. We note: $\pi(x_k) = i \in \{1,\ldots,n\}$ the PEID and $g(x_k) = j \in \{1,\ldots,m\}$ the grouping key associated to $x_k$. 
+We want to compute all the:
+$$S_j = \sum_{g(x_k) = j} x_k$$
+with some DP guarantees. To this end we:
 
 \begin{enumerate}
-	\item \textbf{Limit the contribution per user within groups}:
-	We represent the contribution of each user by a vector whose each component is the sum of the contributions within one group
-    then we calculate its $\ell_2$ norm.
-    Subsequently, we constrain the contributions of a specific user by scaling $\textbf{x}$ with a factor chosen to maintain the original observations if the $\ell_2$ norm of the user's observations does not exceed the clipping factor $c$.
-    Conversely, if the $\ell_2$ norm surpasses $c$, the $\ell_2$  norm of the rescaled observations is restricted to $c$.
-    More technical details can be found in the appendix \ref{sec:limit_contrib_per_user}.
+	\item \emph{Limit the contribution of each \emph{protected entity} to the sum}:
+	We represent the contribution of each PE: $i$, by a vector: $s_i$ whose components are the partial sums within each of the $m$ groups: $s_i = \left(s_{i,1},\ldots, s_{i,m}\right)$, where:
+    $$s_{i,j} = \sum_{\substack{\pi(x_k) = i\\g(x_k) = j}}x_k$$
+    The $s_i$'s $\ell^2$ norms are then clipped:
+    $$\overline{s_i} = \left(\overline{s_{i,j}}\right)_j = \left(\frac{s_{i,j}}{\max\left(1, \frac{\|s_i\|_2}{c}\right)}\right)_j$$
+    See \ref{sec:limit_contrib_per_user} for more details.
 
-	\item \textbf{Add random noise}:
+	\item \emph{Add gaussian noise to each group}:
+	The clipped contributions are summed and perturbated with gaussian noise $\nu = \left(\nu_1,\right)$:
+    $$\widetilde{S_j} = \sum_{i=1}^n \overline{s_{i,j}} + \nu_j$$
 	The sum of the original data is substituted with the sum of the scaled data with the addition of Gaussian noise. The level of noise is parameterized by the clipping and privacy parameters.
 
-	\item \textbf{Restrict differentially private aggregation}:
-	The final operation involves confining the differentially private aggregation within the bounds automatically computed for the $\text{\texttt{SUM}}(\textbf{x})$.
 \end{enumerate}
 
 \subsubsection{Protecting grouping keys}
@@ -481,6 +485,87 @@ This year program:
     \label{fig:set_eliminate_select}
 \end{figure*}
 
-\input{appendix.tex}
+
+\section*{Appendix: Limit the contribution per user within the aggregations}
+\label{sec:limit_contrib_per_user}
+
+The observations can be represented as a matrix whose first dimension is the user
+and second dimension is the group:
+
+The coordinate $x_{ij}$ is the sum of all the observations of user $i$ within the group $j$.
+
+For each user $i$, we compute the scale factor that constrains his contribution to a maximum value of $c$:
+
+\begin{equation}
+	s_i = \frac{1}{\max ( 1, \frac{1}{c} \ell_2(x_{i,.}) )} \text{  with  } \ell_2(x_{i,.}) = \sqrt{\sum_j x^2_{ij}}.
+\end{equation}
+
+The original data is then rescaled by multiplying each observation by the corresponding user's scale factor.
+This process ensures that the $\ell_2$ contribution of each user is restricted to $c$ within the rescaled data.
+
+In our algorithm, the clipping value $c$ is given by:
+\begin{equation}
+    c = \max ( |\min \textbf{x}|, |\max \textbf{x}|),
+\end{equation}
+where $\min \textbf{x}$ and $\max \textbf{x}$ are the automatically computed bounds of $\textbf{x}$.
+
+\bigskip
+\subsection*{Description of the Rewriting Rules for Each Type of Relation}
+\label{sec:rewriting_rules}
+
+\subsubsection*{Map Function: Transforming a Single Relation}
+\begin{itemize}
+    \item Pub \textrightarrow{} Pub: A relation could stay public if it starts off public.
+    \item Pubd \textrightarrow{} Pubd: A relation could stay published if it starts off published.
+    \item PEP \textrightarrow{} DP (with specific budget): A relation could become differentially private, adopting a specific budget, if it starts off preserving protected entities.
+    \item SD \textrightarrow{} SD: A relation could remain as synthetic data if it starts off as synthetic data.
+    \item SD \textrightarrow{} Pubd (with specific synthetic data parameters): A relation could transform into published if it starts off as synthetic data, depending on specific synthetic data parameters.
+\end{itemize}
+
+\subsubsection*{Reduce Function: Transforming a Single Relation}
+\begin{itemize}
+    \item Pub \textrightarrow{} Pub: A relation could stay public if its parent is public.
+    \item Pubd \textrightarrow{} Pubd: A relation could stay published if its parent is published.
+    \item PEP \textrightarrow{} DP (with specific budget): A relation could become differentially private, adopting a specific budget, if it is preserving protected entities.
+    \item SD \textrightarrow{} SD: A relation could remain as synthetic data if its parent is synthetic data.
+    \item SD \textrightarrow{} Pubd (with specific synthetic data parameters): A relation could transform into published if it is synthetic data, depending on specific synthetic data parameters.
+\end{itemize}
+
+\subsubsection*{Join Function: Combining Two Relations}
+\begin{itemize}
+    \item Pub + Pub \textrightarrow{} Pub: Combining two public relations could result in a public relation.
+    \item Pubd + Pubd \textrightarrow{} Pubd: Combining two published relations could result in a published relation.
+    \item Pubd + PEP \textrightarrow{} PEP (with specific parameters): Combining a published relation and a relation that preserves protected entities could result in a relation that preserves protected entities, adopting specific parameters.
+    \item PEP + PEP \textrightarrow{} PEP (with specific parameters): Combining two relations that preserve protected entities could result in a relation that preserves protected entities, adopting specific parameters.
+    \item DP + PEP \textrightarrow{} PEP (with specific parameters): Combining a differentially private relation and a relation that preserves protected entities could result in a relation that preserves protected entities, adopting specific parameters.
+    \item SD + SD \textrightarrow{} SD: Combining two synthetic data relations could result in a synthetic data relation.
+\end{itemize}
+
+\subsubsection*{Set Function: Merging Two Relations}
+\begin{itemize}
+    \item Pub + Pub \textrightarrow{} Pub: Combining two public relations could result in a public relation.
+    \item Pubd + Pubd \textrightarrow{} Pubd: Combining two published relations could result in a published relation.
+    \item PEP + PEP \textrightarrow{} PEP (with specific parameters): Combining two relations that preserve protected entities could result in a relation that preserves protected entities, adopting specific parameters.
+    \item SD + SD \textrightarrow{} SD (with specific parameters): Combining two synthetic data relations could result in a synthetic data relation, adopting specific parameters.
+\end{itemize}
+
+\subsubsection*{Values Function: Creating a New Relation}
+\begin{itemize}
+    \item \textrightarrow{} SD (with specific parameters): A new relation could be created as synthetic data, depending on specific parameters.
+    \item \textrightarrow{} Pub: A new relation could be created as public.
+\end{itemize}
+
+\bigskip
+\subsection*{Visual Depiction of Algorithmic Steps}
+\label{sec:graphviz}
+
+The computation graph figures illustrate the step-by-step transformation of relations within \qrlew{}. The rectangles (relations) represent tables or intermediate results, and the circles represent the rewriting rules (feasible or not) of these relations. Here is how to understand the components and read the figures:
+
+\begin{itemize}
+    \item \textbf{Rectangles} symbolize the relations in the computation graph, which could be a base table or derived through operations such as Join, Map, Reduce, etc.
+    \item \textbf{Circles} denote the rewriting rules that can be applied to these relations. The color and label of each circle indicate the type of rewriting rule:
+    \item The \textbf{arrows} connecting the circles to the rectangles show which rewriting rules can be applied to which relations.
+    \item A sequence of transformations is shown as a path through the graph, beginning with the source relations at the bottom and culminating in the final transformed query at the top.
+\end{itemize}
 
 \end{document}

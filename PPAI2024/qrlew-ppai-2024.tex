@@ -344,24 +344,23 @@ All \emph{rewriting rules} with \emph{DP} outputs require the input of the \emph
 \subsubsection{Protecting aggregation results}
 
 The protection of aggregation functions is carried out in two steps. Given that all currently supported aggregations (\texttt{COUNT}, \texttt{SUM}, \texttt{AVG}, \texttt{VARIANCE} \texttt{STDDEV}) can be reduced to sums, our focus will be on \texttt{SUM} aggregations. Let's consider the scenario where we aim to compute some partial sums of a column for different groups: $j\in\{1,\ldots,m\}$, of rows.
-Let the column be a vector of $N$ real numbers: $x = \left(x_1,\ldots, x_N\right)\in\mathbb{R}^N$. We note: $\pi(x_k) = i \in \{1,\ldots,n\}$ the PEID and $g(x_k) = j \in \{1,\ldots,m\}$ the grouping key associated to $x_k$. 
-We want to compute all the:
-$$S_j = \sum_{g(x_k) = j} x_k$$
+Let the column be a vector of $N$ real numbers: $x = \left(x_1,\ldots, x_N\right)\in\mathbb{R}^N$. We note: $\pi_k = i \in \{1,\ldots,n\}$ the PEID and $g_k = j \in \{1,\ldots,m\}$ the grouping key associated to $x_k$. 
+We want to compute all the sums:
+$$S_j = \sum_{g_k = j} x_k$$
 with some DP guarantees. To this end we:
 
 \begin{enumerate}
 	\item \emph{Limit the contribution of each \emph{protected entity} to the sum}:
 	We represent the contribution of each PE: $i$, by a vector: $s_i$ whose components are the partial sums within each of the $m$ groups: $s_i = \left(s_{i,1},\ldots, s_{i,m}\right)$, where:
-    $$s_{i,j} = \sum_{\substack{\pi(x_k) = i\\g(x_k) = j}}x_k$$
-    The $s_i$'s $\ell^2$ norms are then clipped:
+    $$s_{i,j} = \sum_{\substack{\pi_k = i\\g_k = j}}x_k$$
+    The $s_i$'s $\ell^2$ norms are then clipped to $c$:
     $$\overline{s_i} = \left(\overline{s_{i,j}}\right)_j = \left(\frac{s_{i,j}}{\max\left(1, \frac{\|s_i\|_2}{c}\right)}\right)_j$$
     See \ref{sec:limit_contrib_per_user} for more details.
 
 	\item \emph{Add gaussian noise to each group}:
-	The clipped contributions are summed and perturbated with gaussian noise $\nu = \left(\nu_1,\right)$:
+	The clipped contributions are summed and perturbated with gaussian noise $\nu = \left(\nu_1,\ldots \nu_m\right) \sim \mathcal{N}\left(0, \sigma^2I_m\right)$:
     $$\widetilde{S_j} = \sum_{i=1}^n \overline{s_{i,j}} + \nu_j$$
-	The sum of the original data is substituted with the sum of the scaled data with the addition of Gaussian noise. The level of noise is parameterized by the clipping and privacy parameters.
-
+    With $\sigma^2={\frac {2\ln(1.25/\delta )\cdot c^{2}}{\varepsilon ^{2}}}$, so that this sum is an application of the \emph{Gaussian Mechanism} (see: theorem A.1. in \cite{dwork2014algorithmic}).
 \end{enumerate}
 
 \subsubsection{Protecting grouping keys}

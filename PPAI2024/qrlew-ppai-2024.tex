@@ -333,8 +333,9 @@ In the allocation phase, a \emph{global rewriting scheme} was set in the form of
 \section{Privacy Analysis}
 \label{sec:privacy_analysis}
 
-When rewriting, a user can
-The \qrlew{} rewriter reports the \emph{privacy loss} of a mechanism as compositions of: gaussian mechanisms, tau-thresholding \cite{korolova2009releasing,wilson2019differentially} and subsampled mechanisms \cite{balle2018privacy}.
+When rewriting, a user can require the output \emph{Relation} to have the \emph{Published} property. All \emph{rewriting rules} with \emph{Published} outputs require their inputs to be either \emph{Public}, \emph{DP}, \emph{SD} or \emph{Published} themselves. We assume \emph{Synthetic Data} provided to the system are differentially private, so the privacy of the result depends on the way \qrlew{} rewrites \emph{Reduces} into \emph{DP} equvalents.
+
+
 
 At this stage, we examine a \texttt{Relation} that takes one or two protected \texttt{Relation} inputs, where the entity to be protected is specified.
 To secure the outcome of the SQL query, it is imperative to protect not only the results obtained from aggregation functions but also the grouping keys.
@@ -372,6 +373,8 @@ The treatment of grouping keys varies depending on whether the analyst knows the
 \end{itemize}
 
 When the SQL query involves both public and private grouping keys, we perform cross joins on the grouping keys obtained through the two algorithms.
+
+The \qrlew{} rewriter reports the \emph{privacy loss} of a mechanism as compositions of: gaussian mechanisms, tau-thresholding \cite{korolova2009releasing,wilson2019differentially} and subsampled mechanisms \cite{balle2018privacy}.
 
 \section{Comparison to other systems}
 

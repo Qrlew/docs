@@ -364,8 +364,9 @@ with some DP guarantees. To this end we:
 \end{enumerate}
 
 \subsubsection{Protecting grouping keys}
-As explained by \citeauthor{wilson2019differentially}, making grouping keys public could result in privacy breaches.
-The treatment of grouping keys varies depending on whether the analyst knows them.
+
+When the grouping keys are derived from the data, they are not safe for publication.
+Following \cite{korolova2009releasing, wilson2019differentially}, we use a mechanism called \emph{}$\tau$-thresholding
 
 \begin{itemize}
 	\item \textbf{Public Grouping Keys.}We categorize grouping keys as public when the analyst specifies them in the \texttt{WHERE} clause.

@@ -222,12 +222,12 @@ Even if some bounds are known for some \emph{Relations} like source \emph{Tables
 
 To help with range propagation, \qrlew{} introduces two useful concepts:
 \begin{itemize}
-    \item The concept of \emph{$k$-Interval}, which are finite union of at most $k$ closed intervals. A \emph{$k$-Interval} can be noted:
+    \item The concept of \emph{$k$-Interval}, which are finite unions of at most $k$ closed intervals. A \emph{$k$-Interval} can be noted:
     $$I = \bigcup_{i=1}^{j\leq k}\left[a_i, b_i\right]$$
     Note that the union of \emph{$k$-Interval}s may not be a \emph{$k$-Interval} as it may be the union of more than $k$ intervals.
     Unions of many intervals can be simplified into their convex enveloppe interval, which are often sufficient bounds approximations for our use cases:
     $$J = \bigcup_{i=1}^{j> k}\left[a_i, b_i\right] \subseteq \left[\min_i a_i, \max_i b_i\right]$$
-    \item The concept of \emph{piecewise-monotonic-functions}\footnote{Which is a shorthand name for what would be better called: \emph{piecewise-coordinatewise-monotonic-functions}}, which are functions $f: \mathbb{R}^n \rightarrow \mathbb{R}$ whose domain can be partitioned in cartesian products of intervals $P_j$ on which they are \emph{coordinatewise-monotonic}.
+    \item And the concept of \emph{piecewise-monotonic-functions}\footnote{Which is a shorthand name for what would be better called: \emph{piecewise-coordinatewise-monotonic-functions}}, which are functions $f: \mathbb{R}^n \rightarrow \mathbb{R}$ whose domain can be partitioned in cartesian products of intervals: $P_j$ on which they are \emph{coordinatewise-monotonic}.
     The image of a cartesian product of $n$ \emph{$k$-Interval}s by a \emph{piecewise-monotonic-function} can be easily computed as a \emph{$k$-Interval}.
     Indeed, let $I$ be:
     $$I = I_1\times I_2\times \ldots \times I_n = \bigcup_{\substack{1\leq i_1\leq k\\\ldots\\1\leq i_n\leq k}}\left[a_{i_1}, b_{i_1}\right]\times \ldots \times \left[a_{i_n}, b_{i_n}\right]$$
@@ -250,14 +250,14 @@ Most of the range propagation in \qrlew{} is based on these concepts. It enables
 
 \subsection{Privacy Unit Definition}
 
-Tables in a database rarely come properly formated for privacy-preserving applications. Many rows in many tables may refer to the same individual, hence, \emph{adding or removing an individual} means \emph{adding or removing many rows}. To help the definition of the privacy unit \qrlew{} introduces a small PU description language.
-As examplified in listing~\ref{lst:pe}, PU definition associates to each private table in a database a path defining the PID of each row. For a table containing the PU itself, like a \texttt{users} table for example, the PU definition will look like \texttt{("users",[],"id"),} where \texttt{id} is the name of a column identifying the user, like its name. If the database defines tables related to this tables, the way the tables are related should be specified following this scheme: $(\mathtt{tab}_1, path, \mathtt{peid})$ where $\mathtt{tab}_1$ is the name of the table for which the PID is defined, $\mathtt{peid}$ is the name of the column defining the PID in the table referred by $path$ and $path$ is a list of elements of the form $[(\mathtt{ref}_1, \mathtt{tab}_2, \mathtt{id}_2),\ldots, (\mathtt{ref}_{m-1}, \mathtt{tab}_m, \mathtt{id}_m)]$
+Tables in a database rarely come properly formated for privacy-preserving applications. Many rows in many tables may refer to the same individual, hence, \emph{adding or removing an individual} means \emph{adding or removing many rows}. To help the definition of the privacy unit \qrlew{} introduces a small Privacy Unit (PU) description language.
+As examplified in listing~\ref{lst:pe}, PU definition associates to each private table in a database a path defining the PID of each row. For a table containing the PU itself, like a \texttt{users} table for example, the PU definition will look like \texttt{("users",[],"id"),} where \texttt{id} is the name of a column identifying the user, like its name. If the database defines tables related to this tables, the way the tables are related should be specified following this scheme: $(\mathtt{tab}_1, path, \mathtt{pid})$ where $\mathtt{tab}_1$ is the name of the table for which the PID is defined, $\mathtt{pid}$ is the name of the column defining the PID in the table referred by $path$ and $path$ is a list of elements of the form $[(\mathtt{ref}_1, \mathtt{tab}_2, \mathtt{id}_2),\ldots, (\mathtt{ref}_{m-1}, \mathtt{tab}_m, \mathtt{id}_m)]$
 where $\mathtt{ref}_{i-1}$ is a column in $\mathtt{tab}_{i-1}$ --- usually a foreign key --- referring to $\mathtt{tab}_i$ with a column of referred id $\mathtt{id}_i$ --- usually a primary key. Following the path of tables referring to one another, we end up with the table defining the PID (e.g. \texttt{users}).
 
 This small PU description language allows for a variety of usefull PID scenarii, beyond the simple, but restrictive \emph{privacy per row}.
 
 \begin{listing}[tb]
-\caption{Example of \emph{privacy unit} definition for a database with three tables holding users, orders and items records. Each user is protected individually by designating their \texttt{id}s as PID. Orders are attached to a user through the foreigh key: \texttt{user\_id}. Items's ownership is defined the same way by specifying the lineage: \texttt{item -> order -> user}.}%
+\caption{Example of \emph{privacy unit} definition for a database with three tables holding users, orders and items records. Each user is protected individually by designating their \texttt{id}s as PID. Orders are attached to a user through the foreign key: \texttt{user\_id}. Items's ownership is defined the same way by specifying the lineage: \texttt{item -> order -> user}.}%
 \label{lst:pe}
 \begin{lstlisting}[language=Python]
 privacy_unit = [
@@ -300,14 +300,19 @@ Each \emph{Relation} can have one of the following properties:
     \item[Differentially Private (DP)] A \emph{Relation} will be DP if it implements a DP mechanism. A DP \emph{Relation} can be safely  executed on private data and the result be published. Note that the \emph{privacy loss} associated with the DP mechanism has to be accurately accounted for (see section~\ref{sec:privacy_analysis}).
     \item[Synthetic Data (SD)] In some contexts a \emph{synthetic data} version of source tables is available. Any \emph{Relation} derived from other SD or Public \emph{Relations} is itself SD.
     \item[Public (Pub)] A relation derived from public tables is labeled as such and does not require any further protection to be disclosed.
-    \item[Published (Pubd)] A relation is considered Published if its input relations that are either Public, SD, DP or Published themselves.
+    \item[Published (Pubd)] A relation is considered Published if its input relations are either Public, DP, in some cases SD, or Published themselves. It can be considered as Published but with some more care like the need to account for the privacy loss incured by its DP ancestors.
 \end{description}
 
-These properties usually require some rewriting of the computation graph to be achieved. The requirements and rewriting for a specific \emph{Relation} to meet some required property are embodied in what we call: \emph{rewriting rules}.
-A \emph{rewriting rules} has input requirements, and an achieveble output \emph{property} that tells what \emph{property} can be achieved by rewriting provided the input \emph{property} requirements were fulfilled.
+These properties usually require some rewriting of the computation graph to be achieved. The requirements for a specific \emph{Relation} to meet some property are embodied in what we call: \emph{rewriting rules}.
+A \emph{rewriting rule} has input requirements, and an achieveble output \emph{property} that tells what \emph{property} can be achieved by rewriting provided the input \emph{property} requirements are fulfilled.
 Each \emph{Relation} can be assigned different \emph{rewriting rules} depending on their nature: \emph{Map}, \emph{Reduce}, etc. and the way they are parametrized.
 
-\emph{Rewriting Rules} can be for instance PU propagation rules. They will be of the form: $\varnothing \rightarrow PUP$ for private \emph{Tables} with a simple rewriting consisting in taking the definition of the privacy unit and computing the PID column; $PUP \rightarrow PUP$ for \emph{Maps} (or for \emph{Reduce} when the PID is in the \texttt{GROUP BY} part) and the rewriting will consist in propagating the PID column from the input to the output; $(PUP, PUP) \rightarrow PUP$ for \emph{Join} and the rewriting will consist in adding the PID in the \texttt{ON} clause.
+\emph{Rewriting Rules} can be --- for instance --- PU propagation rules of the form:
+\begin{itemize}
+    \item $\varnothing \rightarrow PUP$ for private \emph{Tables} with a simple rewriting consisting in taking the definition of the privacy unit and computing the PID column.
+    \item $PUP \rightarrow PUP$ for \emph{Maps} (or for \emph{Reduce} when the PID is in the \texttt{GROUP BY} part) with a rewriting consisting in propagating the PID column from the input to the output.
+    \item $(PUP, PUP) \rightarrow PUP$ (or its variants with one published input) for \emph{Join} and a rewriting consisting in adding the PID in the \texttt{ON} clause.
+\end{itemize}
 
 Another key \emph{Rewriting Rules} is $PUP \rightarrow DP$ for \emph{Reduces}, it simply means that if the parent of the \emph{Relation} can be rewritten as PUP, then we can rewrite the relation to be DP by substituting DP aggregations to the original aggregations of the \emph{Reduce}.
 
@@ -481,7 +486,7 @@ This year program:
 \begin{figure*}[t]
     \centering
     \includegraphics[width=0.9\textwidth]{figures/set_eliminate_select} % Reduce the figure size so that it is slightly narrower than the column.
-    \caption{The rewriting happens in thress steps}
+    \caption{The rewriting happens in three steps: \emph{Rule Setting} when we assign the set of potential rewriting rules to each \emph{Relation} in a computaton graph; \emph{Rule Elimination}, when only feasible rewriting rules are preserved; and \emph{Rule Selection}}
     \label{fig:set_eliminate_select}
 \end{figure*}
 

@@ -325,7 +325,7 @@ This is done in three steps illustrated in figure~\ref{fig:set_eliminate_select}
 \begin{description}
     \item[Rule Setting] We assign the set of potential rewriting rules to each \emph{Relation} in a computaton graph.
     \item[Rule Elimination] Only feasible rewriting rules are preserved. A rewriting rule that would require a PUP input is only feasible if its input Relation has a feasible rule outputing a PUP \emph{Relation}.
-    \item[Rule Selection] All feasible allocations of one rewriting rule per \emph{Relation} are listed, a score depending on the desired ultimate output property is assigned to each allocation and the highest scoring allocation is selected. Then, a simple split $\left(\frac{\varepsilon}{n}, \frac{\delta}{n}\right)$ of the overall privacy budget $\left(\varepsilon, \delta\right)$ depending on the number of $PUP \rightarrow DP$ rules: $n$.
+    \item[Rule Selection] All feasible allocations of one rewriting rule per \emph{Relation} are listed, a score depending on the desired ultimate output property is assigned to each allocation and the highest scoring allocation is selected. Then, a simple split $\left(\frac{\varepsilon}{n}, \frac{\delta}{n}\right)$ of the overall privacy budget $\left(\varepsilon, \delta\right)$ depending on the number of $PUP \rightarrow DP$ rules: $n$ is chosen.
 \end{description}
 
 In the computation graph, while each node's multiple rewriting rules might suggest a combinatorial explosion in the number of possible feasible allocations, this is mitigated in practice. The pruning of infeasible rules, dictated by the requirement for most relations to have a PUP input for a DP or PUP outcome, significantly reduces the complexity. Hence, despite the theoretical breadth of possibilities, the actual number of feasible paths remains manageable, avoiding substantial computational problems in practice.
@@ -333,12 +333,12 @@ In the computation graph, while each node's multiple rewriting rules might sugge
 \subsubsection{Rule Application}
 
 Once the first phase of rule allocation is achieved, starts the second phase: \emph{rule application}, as illustrated in figure~\ref{fig:rewriting}.
-In the allocation phase, a \emph{global rewriting scheme} was set in the form of an allocation satisfying a system of requirements; in the rewriting phase, each rewriting rule is applied \emph{independently} for each \emph{Relation}. This is possible because once a rewriting rule is applied to a \emph{Relation}, the \emph{Relation} is transformed into a computation graphe of \emph{Relations} whose ultimate inputs are compatible (same schema, i.e. same columns with same types, plus the new columns provided by the property achieved) with the inputs of the original \emph{Relation} and the ultimate output is also compatible with the output of the original \emph{Relation} so that rewriten \emph{Relations} can be stitched together in a larger graph the same way the original \emph{Relations} were connected: see figure~\ref{fig:rewriting}.
+In the allocation phase, a \emph{global rewriting scheme} was set in the form of an allocation satisfying a system of requirements; in the rewriting phase, each rewriting rule is applied \emph{independently} for each \emph{Relation}. This is possible because once a rewriting rule is applied to a \emph{Relation}, the \emph{Relation} is transformed into a computation graph of \emph{Relations} whose ultimate inputs are compatible (same schema, i.e. same columns with same types, plus the new columns provided by the property achieved) with the inputs of the original \emph{Relation} and the ultimate output is also compatible with the output of the original \emph{Relation} so that rewriten \emph{Relations} can be stitched together in a larger graph the same way the original \emph{Relations} were connected: see figure~\ref{fig:rewriting}.
 
 \section{Privacy Analysis}
 \label{sec:privacy_analysis}
 
-When rewriting, a user can require the output \emph{Relation} to have the \emph{Published} property. All \emph{rewriting rules} with \emph{Published} outputs require their inputs to be either \emph{Public}, \emph{DP}, \emph{SD} or \emph{Published} themselves. We assume synthetic data provided to the system are differentially private, so the privacy of the result depends on the way \qrlew{} rewrites \emph{Reduces} into \emph{DP} equvalents.
+When rewriting, a user can require the output \emph{Relation} to have the \emph{Published} property. All \emph{rewriting rules} with \emph{Published} outputs require their inputs to be either \emph{Public}, \emph{DP}, \emph{SD} or \emph{Published} themselves. We assume synthetic data provided to the system are differentially private, so the privacy of the result depends on the way \qrlew{} rewrites \emph{Reduces} into \emph{DP} equvalent \emph{Relations}.
 
 All \emph{rewriting rules} with \emph{DP} outputs require the input of the \emph{Reduce} to be \emph{PUP} so we can assume a PID column clearly assign one and only one PU to each rows of the rewriten input. The \emph{Reduce} is made DP by:
 \begin{itemize}
@@ -365,7 +365,8 @@ with some DP guarantees. To this end we:
 	\item \emph{Add gaussian noise to each group}:
 	The clipped contributions are summed and perturbated with gaussian noise $\nu = \left(\nu_1,\ldots \nu_m\right) \sim \mathcal{N}\left(0, \sigma^2I_m\right)$:
     $$\widetilde{S_j} = \sum_{i=1}^n \overline{s_{i,j}} + \nu_j$$
-    With $\sigma^2={\frac {2\ln(1.25/\delta )\cdot c^{2}}{\varepsilon ^{2}}}$, so that this sum is an application of the \emph{Gaussian Mechanism} (see: theorem A.1. in \cite{dwork2014algorithmic}).
+    With $\sigma^2={\frac {2\ln(1.25/\delta )\cdot c^{2}}{\varepsilon ^{2}}}$.
+    Because the vector of sums have $\ell^2$ \emph{Global Sensitivity} of $c$, this is an application of the \emph{Gaussian Mechanism} (see: theorem A.1. in \cite{dwork2014algorithmic}) and the mechanism is $\varepsilon, \delta$-differentially private.
 \end{enumerate}
 
 \subsubsection{Protecting grouping keys}
@@ -486,7 +487,7 @@ This year program:
 \begin{figure*}[t]
     \centering
     \includegraphics[width=0.9\textwidth]{figures/set_eliminate_select} % Reduce the figure size so that it is slightly narrower than the column.
-    \caption{The rewriting happens in three steps: \emph{Rule Setting} when we assign the set of potential rewriting rules to each \emph{Relation} in a computaton graph; \emph{Rule Elimination}, when only feasible rewriting rules are preserved; and \emph{Rule Selection}}
+    \caption{The rewriting happens in three steps: \emph{Rule Setting} when we assign the set of potential rewriting rules to each \emph{Relation} in a computaton graph; \emph{Rule Elimination}, when only feasible rewriting rules are preserved; and \emph{Rule Selection}, when an actual allocation is selected.}
     \label{fig:set_eliminate_select}
 \end{figure*}
 

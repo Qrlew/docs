@@ -297,7 +297,7 @@ Before we decribe these phases into more details, let's define the various prope
 Each \emph{Relation} can have one of the following properties:
 \begin{description}
     \item[Protected Entity Preserving (PEP)]: A \emph{Relation} is PEP if each row is associated with a PE. In practice it will have a column containing the PEID identifying the PE.
-    \item[Differentially Private (DP)] A \emph{Relation} will be DP if it implements a DP mechanism. A DP \emph{Relation} can be safely  executed on private data and the result be published. Note that the \emph{privacy loss} associated with the DP mechanism has to be accurately accounted for (see section~\ref{sec:privacy_analysis}). 
+    \item[Differentially Private (DP)] A \emph{Relation} will be DP if it implements a DP mechanism. A DP \emph{Relation} can be safely  executed on private data and the result be published. Note that the \emph{privacy loss} associated with the DP mechanism has to be accurately accounted for (see section~\ref{sec:privacy_analysis}).
     \item[Synthetic Data (SD)] In some contexts a \emph{synthetic data} version of source tables is available. Any \emph{Relation} derived from other SD or Public \emph{Relations} is itself SD.
     \item[Public (Pub)] A relation derived from public tables is labeled as such and does not require any further protection to be disclosed.
     \item[Published (Pubd)] A relation is considered Published if its input relations that are either Public, SD, DP or Published themselves.
@@ -305,7 +305,7 @@ Each \emph{Relation} can have one of the following properties:
 
 These properties usually require some rewriting of the computation graph to be achieved. The requirements and rewriting for a specific \emph{Relation} to meet some required property are embodied in what we call: \emph{rewriting rules}.
 A \emph{rewriting rules} has input requirements, and an achieveble output \emph{property} that tells what \emph{property} can be achieved by rewriting provided the input \emph{property} requirements were fulfilled.
-Each \emph{Relation} can be assigned different \emph{rewriting rules} depending on their nature: \emph{Map}, \emph{Reduce}, etc. and the way they are parametrized. 
+Each \emph{Relation} can be assigned different \emph{rewriting rules} depending on their nature: \emph{Map}, \emph{Reduce}, etc. and the way they are parametrized.
 
 \emph{Rewriting Rules} can be for instance PE propagation rules. They will be of the form: $\varnothing \rightarrow PEP$ for private \emph{Tables} with a simple rewriting consisting in taking the definition of the protected entity and computing the PEID column; $PEP \rightarrow PEP$ for \emph{Maps} (or for \emph{Reduce} when the PEID is in the \texttt{GROUP BY} part) and the rewriting will consist in propagating the PEID column from the input to the output; $(PEP, PEP) \rightarrow PEP$ for \emph{Join} and the rewriting will consist in adding the PEID in the \texttt{ON} clause.
 
@@ -344,7 +344,7 @@ All \emph{rewriting rules} with \emph{DP} outputs require the input of the \emph
 \subsubsection{Protecting aggregation results}
 
 The protection of aggregation functions is carried out in two steps. Given that all currently supported aggregations (\texttt{COUNT}, \texttt{SUM}, \texttt{AVG}, \texttt{VARIANCE} \texttt{STDDEV}) can be reduced to sums, our focus will be on \texttt{SUM} aggregations. Let's consider the scenario where we aim to compute some partial sums of a column for different groups: $j\in\{1,\ldots,m\}$, of rows.
-Let the column be a vector of $N$ real numbers: $x = \left(x_1,\ldots, x_N\right)\in\mathbb{R}^N$. We note: $\pi_k = i \in \{1,\ldots,n\}$ the PEID and $g_k = j \in \{1,\ldots,m\}$ the grouping key associated to $x_k$. 
+Let the column be a vector of $N$ real numbers: $x = \left(x_1,\ldots, x_N\right)\in\mathbb{R}^N$. We note: $\pi_k = i \in \{1,\ldots,n\}$ the PEID and $g_k = j \in \{1,\ldots,m\}$ the grouping key associated to $x_k$.
 We want to compute all the sums:
 $$S_j = \sum_{g_k = j} x_k$$
 with some DP guarantees. To this end we:
@@ -486,7 +486,7 @@ This year program:
 \end{figure*}
 
 
-\section*{Appendix: Limit the contribution per user within the aggregations}
+\section*{Limit the contribution per user within the aggregations}
 \label{sec:limit_contrib_per_user}
 
 The observations can be represented as a matrix whose first dimension is the user
@@ -567,5 +567,26 @@ The computation graph figures illustrate the step-by-step transformation of rela
     \item The \textbf{arrows} connecting the circles to the rectangles show which rewriting rules can be applied to which relations.
     \item A sequence of transformations is shown as a path through the graph, beginning with the source relations at the bottom and culminating in the final transformed query at the top.
 \end{itemize}
+
+\section*{DP evaluation}
+We've assessed the differential privacy of our code following the outlined procedure in \citeauthor{wilson2019differentially}. Our tables were constructed using columns of Halton sequences.
+Two scenarii were tested:
+
+\begin{itemize}
+    \item In the first scenario, each user possessed exactly one row.
+    \item In the second scenario, a user could have several rows, with the number of rows owned by one user following a normal distribution centered at half the size of the table.
+\end{itemize}
+
+Adjacent databases were created by removing one user compared to the reference database containing all users. Privacy profiles of the underlying distributions were computed using the formula:
+
+\begin{equation}
+    \delta(e^{\varepsilon}) = \sup_{k} \sup_{x\in\mathbb{R}} f_{D}(x) - e^{\varepsilon}f_{D_k}(x),
+\end{equation}
+
+In this context, $D$ represents the distribution of results when the query is executed on the entire dataset,
+and $D_k$ corresponds to the distribution when the query is run on the dataset excluding the data owned by the user $k$.
+The algorithm inputing the $(\varepsilon, \delta)$ parameters is indeed $(\varepsilon, \delta)$-differentially private if $\delta(e^{\varepsilon})$ in smaller than $\delta$.
+We have verified this property holds true for various queries.
+
 
 \end{document}

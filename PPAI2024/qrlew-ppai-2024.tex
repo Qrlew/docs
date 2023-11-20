@@ -157,9 +157,9 @@ This removes the need for a custom execution engine and enables \emph{differenti
 % - Interconnectivité
 \section{Definitions}
 
-\subsection*{Datasets and Protected Entities (PE)}
+\subsection*{Datasets and Privacy Units (PE)}
 
-In this paper, \emph{datasets} refers to a collection of elements in some domain $\mathcal{X}$, labelled with an identifier $i\in \mathcal{I}$ identifying the entity whose privacy we want to protect. This entity will be called \emph{Protected Entity} (PE) and the identifier will be referd to as \emph{Protected Entity ID} (PEID). Let $\mathcal{D}$ be the set of datasets of arbitrary sizes with a protected entity.
+In this paper, \emph{datasets} refers to a collection of elements in some domain $\mathcal{X}$, labelled with an identifier $i\in \mathcal{I}$ identifying the entity whose privacy we want to protect. This entity will be called \emph{Privacy Unit} (PE) and the identifier will be referd to as \emph{Privacy ID} (PID). Let $\mathcal{D}$ be the set of datasets of arbitrary sizes with a privacy unit.
 
 \subsection*{Differential Privacy (DP)}
 
@@ -168,7 +168,7 @@ $$\Pr[\mathcal{M}(D) \in S] \leq e^{\varepsilon} \cdot \Pr[\mathcal{M}(D') \in S
 
 \subsection*{Adjacent datasets}
 
-Datasets $D, D' \in \mathcal{D}$ are adjacent if they are equal up to the addition or removal of all entries sharing the same PEID. Note that this is a slightly unusual and restricted definition of adjacency, suited to our practical needs. It is close to that used in the \emph{user-level differential privacy} literature \cite{liu2020learning, wilson2019differentially} where one user can have many samples.
+Datasets $D, D' \in \mathcal{D}$ are adjacent if they are equal up to the addition or removal of all entries sharing the same PID. Note that this is a slightly unusual and restricted definition of adjacency, suited to our practical needs. It is close to that used in the \emph{user-level differential privacy} literature \cite{liu2020learning, wilson2019differentially} where one user can have many samples.
 
 \section{Assumptions and Design Goals}
 
@@ -178,7 +178,7 @@ At a high level we pursued the following requirements:
 \begin{itemize}
     \item Ease of use for the \emph{data practitionners}. The \emph{data practitionners} are assumed to be a data experts but no privacy experts. They should be able to express their queries in a standard way. We chose SQL as the query language as it is very commonly used for analytics tasks.
     \item Ease of integration for the \emph{data owner}. As SQL is a common language to express data analysis tasks, many data-stores support it from small embedded databases to big data stores.
-    \item Simplicity for the \emph{data owner} to setup privacy protection. Differential privacy is about capping the sensitivity of a result to the addition or removal of an individual that we call \emph{protected entity}. \qrlew{} assumes that the \emph{data owner} can tell if a table is public and, if it is not, that it can assign exactly one \emph{protected entity} to each row of data. In the case there are multiple related tables, \qrlew{} enables to define easily the \emph{protected entities} for each tables transitively.
+    \item Simplicity for the \emph{data owner} to setup privacy protection. Differential privacy is about capping the sensitivity of a result to the addition or removal of an individual that we call \emph{privacy unit}. \qrlew{} assumes that the \emph{data owner} can tell if a table is public and, if it is not, that it can assign exactly one \emph{privacy unit} to each row of data. In the case there are multiple related tables, \qrlew{} enables to define easily the \emph{protected entities} for each tables transitively.
     \item Simple integration with other privacy enhancing technologies such as \emph{synthetic data}. To avoid repeated privacy losses or give result when a DP rewriting is not easily available (e.g. when the query is: \texttt{SELECT * FROM table}) \qrlew{} can use \emph{synthetic data} to blend in the computation.
 \end{itemize}
 
@@ -186,7 +186,7 @@ These requirements dictated the overall \emph{query rewriting} architecture and 
 
 \section{Architecture and main features of \qrlew}
 
-The \qrlew{} library, solves the problem of running a SQL query with DP guarantees in three steps. First the SQL query submitted by the \emph{data practitionner} is parsed and converted into a \emph{Relation}, this \emph{Relation} is an intermediate representation that is designed to ease the tracking of data types ranges or possible values, to ease the tracking of the \emph{protected entity} and to ease the rewriting into a DP \emph{Relation}. Then, the rewritting into DP happens. Once the relation is rewriten into a DP one, it can be rendered as an SQL query string and submited to the data store of the \emph{data owner}. The output can then safely be shared with the \emph{data practitionner}. This process is illustrated in Figure~\ref{fig:process}.
+The \qrlew{} library, solves the problem of running a SQL query with DP guarantees in three steps. First the SQL query submitted by the \emph{data practitionner} is parsed and converted into a \emph{Relation}, this \emph{Relation} is an intermediate representation that is designed to ease the tracking of data types ranges or possible values, to ease the tracking of the \emph{privacy unit} and to ease the rewriting into a DP \emph{Relation}. Then, the rewritting into DP happens. Once the relation is rewriten into a DP one, it can be rendered as an SQL query string and submited to the data store of the \emph{data owner}. The output can then safely be shared with the \emph{data practitionner}. This process is illustrated in Figure~\ref{fig:process}.
 
 \begin{figure*}[t]
     \centering
@@ -200,7 +200,7 @@ The \qrlew{} library, solves the problem of running a SQL query with DP guarante
 As the SQL language is very rich and complex, simply parsing a query into an abstract syntaxic tree does not produce a convenient representation for our needs. Therefore, it is converted into a simpler normalized representation with properties well aligned with the requirements of Differential Privacy: the \emph{Relation}. A \emph{Relation} is a collection of rows adhering to a given \emph{schema}. It is a recursively defined structure composed of:
 \begin{description}
     \item[\emph{Tables}] This is simply a data source from a database.
-    \item[\emph{Maps}] A \emph{Map} takes an input \emph{Relation}, filters the rows and transform them one by one. The filtering conditions and row transforms are expressed with expressions similar to those of SQL. It acts as a \texttt{SELECT exprs FROM input WHERE expr LIMIT value} and therefore preserve the \emph{protected entity} ownership structure.
+    \item[\emph{Maps}] A \emph{Map} takes an input \emph{Relation}, filters the rows and transform them one by one. The filtering conditions and row transforms are expressed with expressions similar to those of SQL. It acts as a \texttt{SELECT exprs FROM input WHERE expr LIMIT value} and therefore preserve the \emph{privacy unit} ownership structure.
     \item[\emph{Reduces}] A \emph{Reduce} takes an input \emph{Relation} and aggregates some columns, possibly group by group. It acts as a \texttt{SELECT aggregates FROM input GROUP BY expr}. This is where the rewriting into DP will happen as described in section~\ref{sec:rewritting}.
     \item[\emph{Joins}] This \emph{Relation} combines two input \emph{Relations} as a \texttt{SELECT * FROM left JOIN right ON expr} would do it. The privacy properties are more complex to propagate in this case.
 \end{description}
@@ -248,16 +248,16 @@ The idea of \emph{piecewise-monotonic-function} is also very useful as in SQL ma
 
 Most of the range propagation in \qrlew{} is based on these concepts. It enables a rather simple and efficient range propagation mechanism, leading to better utility / privacy tradeoffs.
 
-\subsection{Protected Entity Definition}
+\subsection{Privacy Unit Definition}
 
-Tables in a database rarely come properly formated for privacy-preserving applications. Many rows in many tables may refer to the same individual, hence, \emph{adding or removing an individual} means \emph{adding or removing many rows}. To help the definition of the protected entity \qrlew{} introduces a small PE description language.
-As examplified in listing~\ref{lst:pe}, PE definition associates to each private table in a database a path defining the PEID of each row. For a table containing the PE itself, like a \texttt{users} table for example, the PE definition will look like \texttt{("users",[],"id"),} where \texttt{id} is the name of a column identifying the user, like its name. If the database defines tables related to this tables, the way the tables are related should be specified following this scheme: $(\mathtt{tab}_1, path, \mathtt{peid})$ where $\mathtt{tab}_1$ is the name of the table for which the PEID is defined, $\mathtt{peid}$ is the name of the column defining the PEID in the table referred by $path$ and $path$ is a list of elements of the form $[(\mathtt{ref}_1, \mathtt{tab}_2, \mathtt{id}_2),\ldots, (\mathtt{ref}_{m-1}, \mathtt{tab}_m, \mathtt{id}_m)]$
-where $\mathtt{ref}_{i-1}$ is a column in $\mathtt{tab}_{i-1}$ --- usually a foreign key --- referring to $\mathtt{tab}_i$ with a column of referred id $\mathtt{id}_i$ --- usually a primary key. Following the path of tables referring to one another, we end up with the table defining the PEID (e.g. \texttt{users}).
+Tables in a database rarely come properly formated for privacy-preserving applications. Many rows in many tables may refer to the same individual, hence, \emph{adding or removing an individual} means \emph{adding or removing many rows}. To help the definition of the privacy unit \qrlew{} introduces a small PE description language.
+As examplified in listing~\ref{lst:pe}, PE definition associates to each private table in a database a path defining the PID of each row. For a table containing the PE itself, like a \texttt{users} table for example, the PE definition will look like \texttt{("users",[],"id"),} where \texttt{id} is the name of a column identifying the user, like its name. If the database defines tables related to this tables, the way the tables are related should be specified following this scheme: $(\mathtt{tab}_1, path, \mathtt{peid})$ where $\mathtt{tab}_1$ is the name of the table for which the PID is defined, $\mathtt{peid}$ is the name of the column defining the PID in the table referred by $path$ and $path$ is a list of elements of the form $[(\mathtt{ref}_1, \mathtt{tab}_2, \mathtt{id}_2),\ldots, (\mathtt{ref}_{m-1}, \mathtt{tab}_m, \mathtt{id}_m)]$
+where $\mathtt{ref}_{i-1}$ is a column in $\mathtt{tab}_{i-1}$ --- usually a foreign key --- referring to $\mathtt{tab}_i$ with a column of referred id $\mathtt{id}_i$ --- usually a primary key. Following the path of tables referring to one another, we end up with the table defining the PID (e.g. \texttt{users}).
 
-This small PE description language allows for a variety of usefull PEID scenarii, beyond the simple, but restrictive \emph{privacy per row}.
+This small PE description language allows for a variety of usefull PID scenarii, beyond the simple, but restrictive \emph{privacy per row}.
 
 \begin{listing}[tb]
-\caption{Example of \emph{protected entity} definition for a database with three tables holding users, orders and items records. Each user is protected individually by designating their \texttt{id}s as PEID. Orders are attached to a user through the foreigh key: \texttt{user\_id}. Items's ownership is defined the same way by specifying the lineage: \texttt{item -> order -> user}.}%
+\caption{Example of \emph{privacy unit} definition for a database with three tables holding users, orders and items records. Each user is protected individually by designating their \texttt{id}s as PID. Orders are attached to a user through the foreigh key: \texttt{user\_id}. Items's ownership is defined the same way by specifying the lineage: \texttt{item -> order -> user}.}%
 \label{lst:pe}
 \begin{lstlisting}[language=Python]
 protected_entity = [
@@ -296,7 +296,7 @@ Before we decribe these phases into more details, let's define the various prope
 
 Each \emph{Relation} can have one of the following properties:
 \begin{description}
-    \item[Protected Entity Preserving (PEP)]: A \emph{Relation} is PEP if each row is associated with a PE. In practice it will have a column containing the PEID identifying the PE.
+    \item[Privacy Unit Preserving (PUP)]: A \emph{Relation} is PUP if each row is associated with a PE. In practice it will have a column containing the PID identifying the PE.
     \item[Differentially Private (DP)] A \emph{Relation} will be DP if it implements a DP mechanism. A DP \emph{Relation} can be safely  executed on private data and the result be published. Note that the \emph{privacy loss} associated with the DP mechanism has to be accurately accounted for (see section~\ref{sec:privacy_analysis}).
     \item[Synthetic Data (SD)] In some contexts a \emph{synthetic data} version of source tables is available. Any \emph{Relation} derived from other SD or Public \emph{Relations} is itself SD.
     \item[Public (Pub)] A relation derived from public tables is labeled as such and does not require any further protection to be disclosed.
@@ -307,11 +307,11 @@ These properties usually require some rewriting of the computation graph to be a
 A \emph{rewriting rules} has input requirements, and an achieveble output \emph{property} that tells what \emph{property} can be achieved by rewriting provided the input \emph{property} requirements were fulfilled.
 Each \emph{Relation} can be assigned different \emph{rewriting rules} depending on their nature: \emph{Map}, \emph{Reduce}, etc. and the way they are parametrized.
 
-\emph{Rewriting Rules} can be for instance PE propagation rules. They will be of the form: $\varnothing \rightarrow PEP$ for private \emph{Tables} with a simple rewriting consisting in taking the definition of the protected entity and computing the PEID column; $PEP \rightarrow PEP$ for \emph{Maps} (or for \emph{Reduce} when the PEID is in the \texttt{GROUP BY} part) and the rewriting will consist in propagating the PEID column from the input to the output; $(PEP, PEP) \rightarrow PEP$ for \emph{Join} and the rewriting will consist in adding the PEID in the \texttt{ON} clause.
+\emph{Rewriting Rules} can be for instance PE propagation rules. They will be of the form: $\varnothing \rightarrow PUP$ for private \emph{Tables} with a simple rewriting consisting in taking the definition of the privacy unit and computing the PID column; $PUP \rightarrow PUP$ for \emph{Maps} (or for \emph{Reduce} when the PID is in the \texttt{GROUP BY} part) and the rewriting will consist in propagating the PID column from the input to the output; $(PUP, PUP) \rightarrow PUP$ for \emph{Join} and the rewriting will consist in adding the PID in the \texttt{ON} clause.
 
-Another key \emph{Rewriting Rules} is $PEP \rightarrow DP$ for \emph{Reduces}, it simply means that if the parent of the \emph{Relation} can be rewritten as PEP, then we can rewrite the relation to be DP by substituting DP aggregations to the original aggregations of the \emph{Reduce}.
+Another key \emph{Rewriting Rules} is $PUP \rightarrow DP$ for \emph{Reduces}, it simply means that if the parent of the \emph{Relation} can be rewritten as PUP, then we can rewrite the relation to be DP by substituting DP aggregations to the original aggregations of the \emph{Reduce}.
 
-One easily see that by simply applying $PEP \rightarrow PEP$ and $PEP \rightarrow DP$ rules, one can propagate the protected entity accross the computation graph of a \emph{Relation} and compute some DP aggregate such as a noisy sum or average.
+One easily see that by simply applying $PUP \rightarrow PUP$ and $PUP \rightarrow DP$ rules, one can propagate the privacy unit accross the computation graph of a \emph{Relation} and compute some DP aggregate such as a noisy sum or average.
 
 \subsubsection{Rewriting Rule Allocation}
 
@@ -319,11 +319,11 @@ The first phase of the rewriting process consists in allocating one and only one
 This is done in three steps illustrated in figure~\ref{fig:set_eliminate_select}:
 \begin{description}
     \item[Rule Setting] We assign the set of potential rewriting rules to each \emph{Relation} in a computaton graph.
-    \item[Rule Elimination] Only feasible rewriting rules are preserved. A rewriting rule that would require a PEP input is only feasible if its input Relation has a feasible rule outputing a PEP \emph{Relation}.
-    \item[Rule Selection] All feasible allocations of one rewriting rule per \emph{Relation} are listed, a score depending on the desired ultimate output property is assigned to each allocation and the highest scoring allocation is selected. Then, a simple split $\left(\frac{\varepsilon}{n}, \frac{\delta}{n}\right)$ of the overall privacy budget $\left(\varepsilon, \delta\right)$ depending on the number of $PEP \rightarrow DP$ rules: $n$.
+    \item[Rule Elimination] Only feasible rewriting rules are preserved. A rewriting rule that would require a PUP input is only feasible if its input Relation has a feasible rule outputing a PUP \emph{Relation}.
+    \item[Rule Selection] All feasible allocations of one rewriting rule per \emph{Relation} are listed, a score depending on the desired ultimate output property is assigned to each allocation and the highest scoring allocation is selected. Then, a simple split $\left(\frac{\varepsilon}{n}, \frac{\delta}{n}\right)$ of the overall privacy budget $\left(\varepsilon, \delta\right)$ depending on the number of $PUP \rightarrow DP$ rules: $n$.
 \end{description}
 
-In the computation graph, while each node's multiple rewriting rules might suggest a combinatorial explosion in the number of possible feasible allocations, this is mitigated in practice. The pruning of infeasible rules, dictated by the requirement for most relations to have a PEP input for a DP or PEP outcome, significantly reduces the complexity. Hence, despite the theoretical breadth of possibilities, the actual number of feasible paths remains manageable, avoiding substantial computational problems in practice.
+In the computation graph, while each node's multiple rewriting rules might suggest a combinatorial explosion in the number of possible feasible allocations, this is mitigated in practice. The pruning of infeasible rules, dictated by the requirement for most relations to have a PUP input for a DP or PUP outcome, significantly reduces the complexity. Hence, despite the theoretical breadth of possibilities, the actual number of feasible paths remains manageable, avoiding substantial computational problems in practice.
 
 \subsubsection{Rule Application}
 
@@ -335,7 +335,7 @@ In the allocation phase, a \emph{global rewriting scheme} was set in the form of
 
 When rewriting, a user can require the output \emph{Relation} to have the \emph{Published} property. All \emph{rewriting rules} with \emph{Published} outputs require their inputs to be either \emph{Public}, \emph{DP}, \emph{SD} or \emph{Published} themselves. We assume synthetic data provided to the system are differentially private, so the privacy of the result depends on the way \qrlew{} rewrites \emph{Reduces} into \emph{DP} equvalents.
 
-All \emph{rewriting rules} with \emph{DP} outputs require the input of the \emph{Reduce} to be \emph{PEP} so we can assume a PEID column clearly assign one and only one PE to each rows of the rewriten input. The \emph{Reduce} is made DP by:
+All \emph{rewriting rules} with \emph{DP} outputs require the input of the \emph{Reduce} to be \emph{PUP} so we can assume a PID column clearly assign one and only one PE to each rows of the rewriten input. The \emph{Reduce} is made DP by:
 \begin{itemize}
     \item Making sure the aggregate columns of the \emph{Reduce} are computed with differentially private mechanisms.
     \item Making sure the grouping keys of the \texttt{GROUP BY} clause are either public or released through a differentially private mechanism.
@@ -344,13 +344,13 @@ All \emph{rewriting rules} with \emph{DP} outputs require the input of the \emph
 \subsubsection{Protecting aggregation results}
 
 The protection of aggregation functions is carried out in two steps. Given that all currently supported aggregations (\texttt{COUNT}, \texttt{SUM}, \texttt{AVG}, \texttt{VARIANCE} \texttt{STDDEV}) can be reduced to sums, our focus will be on \texttt{SUM} aggregations. Let's consider the scenario where we aim to compute some partial sums of a column for different groups: $j\in\{1,\ldots,m\}$, of rows.
-Let the column be a vector of $N$ real numbers: $x = \left(x_1,\ldots, x_N\right)\in\mathbb{R}^N$. We note: $\pi_k = i \in \{1,\ldots,n\}$ the PEID and $g_k = j \in \{1,\ldots,m\}$ the grouping key associated to $x_k$.
+Let the column be a vector of $N$ real numbers: $x = \left(x_1,\ldots, x_N\right)\in\mathbb{R}^N$. We note: $\pi_k = i \in \{1,\ldots,n\}$ the PID and $g_k = j \in \{1,\ldots,m\}$ the grouping key associated to $x_k$.
 We want to compute all the sums:
 $$S_j = \sum_{g_k = j} x_k$$
 with some DP guarantees. To this end we:
 
 \begin{enumerate}
-	\item \emph{Limit the contribution of each \emph{protected entity} to the sum}:
+	\item \emph{Limit the contribution of each \emph{privacy unit} to the sum}:
 	We represent the contribution of each PE: $i$, by a vector: $s_i$ whose components are the partial sums within each of the $m$ groups: $s_i = \left(s_{i,1},\ldots, s_{i,m}\right)$, where:
     $$s_{i,j} = \sum_{\substack{\pi_k = i\\g_k = j}}x_k$$
     The $s_i$'s $\ell^2$ norms are then clipped to $c$:
@@ -412,7 +412,7 @@ However, it's worth noting that the code for Chorus is no longer being actively 
 \centering
 \begin{tabular}{|c|c|c|c|c|}
 \hline
-\textbf{System} & \textbf{SQL} & \textbf{Private joins}  & \textbf{Complex protected entity} & \textbf{DP guarantees on the result}\\
+\textbf{System} & \textbf{SQL} & \textbf{Private joins}  & \textbf{Complex privacy unit} & \textbf{DP guarantees on the result}\\
 \hline
 Google DP & \textcolor{green}{$\checkmark$} & \textcolor{red}{$\times$} &  \textcolor{red}{$\times$} & \textcolor{red}{$\times$} \\
 \hline
@@ -432,7 +432,7 @@ Qrlew &  \textcolor{green}{\checkmark}&  \textcolor{green}{\checkmark}&  \textco
     This table contrasts various open-source models designed for SQL-like analysis. The columns indicate different features:
     \textbf{SQL} denotes whether the input is an SQL query,
     \textbf{Private Joins} signifies systems that automatically rewrite joins into differential privacy (DP),
-    \textbf{Complex protected entity} indicates the system's ability to handle non-trivial protected entities, such as columns from another table,
+    \textbf{Complex privacy unit} indicates the system's ability to handle non-trivial protected entities, such as columns from another table,
     and \textbf{DP guarantees on the result} specifies systems providing differential privacy guarantees on the analysis results.
 }
 \label{table:systems}
@@ -517,7 +517,7 @@ where $\min \textbf{x}$ and $\max \textbf{x}$ are the automatically computed bou
 \begin{itemize}
     \item Pub \textrightarrow{} Pub: A relation could stay public if it starts off public.
     \item Pubd \textrightarrow{} Pubd: A relation could stay published if it starts off published.
-    \item PEP \textrightarrow{} DP (with specific budget): A relation could become differentially private, adopting a specific budget, if it starts off preserving protected entities.
+    \item PUP \textrightarrow{} DP (with specific budget): A relation could become differentially private, adopting a specific budget, if it starts off preserving protected entities.
     \item SD \textrightarrow{} SD: A relation could remain as synthetic data if it starts off as synthetic data.
     \item SD \textrightarrow{} Pubd (with specific synthetic data parameters): A relation could transform into published if it starts off as synthetic data, depending on specific synthetic data parameters.
 \end{itemize}
@@ -526,7 +526,7 @@ where $\min \textbf{x}$ and $\max \textbf{x}$ are the automatically computed bou
 \begin{itemize}
     \item Pub \textrightarrow{} Pub: A relation could stay public if its parent is public.
     \item Pubd \textrightarrow{} Pubd: A relation could stay published if its parent is published.
-    \item PEP \textrightarrow{} DP (with specific budget): A relation could become differentially private, adopting a specific budget, if it is preserving protected entities.
+    \item PUP \textrightarrow{} DP (with specific budget): A relation could become differentially private, adopting a specific budget, if it is preserving protected entities.
     \item SD \textrightarrow{} SD: A relation could remain as synthetic data if its parent is synthetic data.
     \item SD \textrightarrow{} Pubd (with specific synthetic data parameters): A relation could transform into published if it is synthetic data, depending on specific synthetic data parameters.
 \end{itemize}
@@ -535,9 +535,9 @@ where $\min \textbf{x}$ and $\max \textbf{x}$ are the automatically computed bou
 \begin{itemize}
     \item Pub + Pub \textrightarrow{} Pub: Combining two public relations could result in a public relation.
     \item Pubd + Pubd \textrightarrow{} Pubd: Combining two published relations could result in a published relation.
-    \item Pubd + PEP \textrightarrow{} PEP (with specific parameters): Combining a published relation and a relation that preserves protected entities could result in a relation that preserves protected entities, adopting specific parameters.
-    \item PEP + PEP \textrightarrow{} PEP (with specific parameters): Combining two relations that preserve protected entities could result in a relation that preserves protected entities, adopting specific parameters.
-    \item DP + PEP \textrightarrow{} PEP (with specific parameters): Combining a differentially private relation and a relation that preserves protected entities could result in a relation that preserves protected entities, adopting specific parameters.
+    \item Pubd + PUP \textrightarrow{} PUP (with specific parameters): Combining a published relation and a relation that preserves protected entities could result in a relation that preserves protected entities, adopting specific parameters.
+    \item PUP + PUP \textrightarrow{} PUP (with specific parameters): Combining two relations that preserve protected entities could result in a relation that preserves protected entities, adopting specific parameters.
+    \item DP + PUP \textrightarrow{} PUP (with specific parameters): Combining a differentially private relation and a relation that preserves protected entities could result in a relation that preserves protected entities, adopting specific parameters.
     \item SD + SD \textrightarrow{} SD: Combining two synthetic data relations could result in a synthetic data relation.
 \end{itemize}
 
@@ -545,7 +545,7 @@ where $\min \textbf{x}$ and $\max \textbf{x}$ are the automatically computed bou
 \begin{itemize}
     \item Pub + Pub \textrightarrow{} Pub: Combining two public relations could result in a public relation.
     \item Pubd + Pubd \textrightarrow{} Pubd: Combining two published relations could result in a published relation.
-    \item PEP + PEP \textrightarrow{} PEP (with specific parameters): Combining two relations that preserve protected entities could result in a relation that preserves protected entities, adopting specific parameters.
+    \item PUP + PUP \textrightarrow{} PUP (with specific parameters): Combining two relations that preserve protected entities could result in a relation that preserves protected entities, adopting specific parameters.
     \item SD + SD \textrightarrow{} SD (with specific parameters): Combining two synthetic data relations could result in a synthetic data relation, adopting specific parameters.
 \end{itemize}
 

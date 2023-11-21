@@ -196,6 +196,7 @@ The \qrlew{} library, solves the problem of running a SQL query with DP guarante
 \end{figure*}
 
 \subsection{Qrlew Intermediate Representation}
+\label{sec:intermediate_representation}
 
 As the SQL language is very rich and complex, simply parsing a query into an abstract syntaxic tree does not produce a convenient representation for our needs. Therefore, it is converted into a simpler normalized representation with properties well aligned with the requirements of Differential Privacy: the \emph{Relation}. A \emph{Relation} is a collection of rows adhering to a given \emph{schema}. It is a recursively defined structure composed of:
 \begin{description}
@@ -216,6 +217,7 @@ It may also be a static list of values or a set operation between two \emph{Rela
 This representation is central to \qrlew{}; all the features described below are built upon it. A \emph{Relation} along with all the  sub-\emph{Relations} it is depending on, will be called the \emph{computation graph} or the \emph{graph} of a \emph{Relation}.
 
 \subsection{Range Propagation}
+\label{sec:range_propagation}
 
 Most DP mechanisms aggregating numbers require the knowledge of some bounds on the values (see \cite{dwork2014algorithmic}).
 Even if some bounds are known for some \emph{Relations} like source \emph{Tables}, it is not trivial to propagate these bounds through the steps of the computation.
@@ -249,6 +251,7 @@ The idea of \emph{piecewise-monotonic-function} is also very useful as in SQL ma
 Most of the range propagation in \qrlew{} is based on these concepts. It enables a rather simple and efficient range propagation mechanism, leading to better utility / privacy tradeoffs.
 
 \subsection{Privacy Unit Definition}
+\label{sec:privacy_unit_definition}
 
 Tables in a database rarely come properly formated for privacy-preserving applications. Many rows in many tables may refer to the same individual, hence, \emph{adding or removing an individual} means \emph{adding or removing many rows}. To help the definition of the privacy unit \qrlew{} introduces a small Privacy Unit (PU) description language.
 As examplified in listing~\ref{lst:pe}, PU definition associates to each private table in a database a path defining the PID of each row. For a table containing the PU itself, like a \texttt{users} table for example, the PU definition will look like \texttt{("users",[],"id"),} where \texttt{id} is the name of a column identifying the user, like its name. If the database defines tables related to this tables, the way the tables are related should be specified following this scheme: $(\mathtt{tab}_1, path, \mathtt{pid})$ where $\mathtt{tab}_1$ is the name of the table for which the PID is defined, $\mathtt{pid}$ is the name of the column defining the PID in the table referred by $path$ and $path$ is a list of elements of the form $[(\mathtt{ref}_1, \mathtt{tab}_2, \mathtt{id}_2),\ldots, (\mathtt{ref}_{m-1}, \mathtt{tab}_m, \mathtt{id}_m)]$
@@ -371,22 +374,21 @@ with some DP guarantees. To this end we:
 
 \subsubsection{Protecting grouping keys}
 
-When the grouping keys are derived from the data, they are not safe for publication.
-Following \cite{korolova2009releasing, wilson2019differentially}, we use a mechanism called \emph{}$\tau$-thresholding
+When the grouping keys from a are derived from the data, they are not safe for publication.
+Following \cite{korolova2009releasing, wilson2019differentially}, we use a mechanism called \emph{$\tau$-thresholding} to safely release these grouping keys.
+Note that, thanks to \emph{range propagation} (see \ref{sec:range_propagation}), some groups are already public and need no differentially private mechanism to be published.
+Ultimately, the rewriting of: \texttt{SELECT sum(x) FROM table GROUP BY g WHERE g IN (1, 2, 3)} as a DP equivalent will not use \emph{$\tau$-thresholding}, while \texttt{SELECT sum(x) FROM table GROUP BY g} will most certainly do if nothing more is known about \texttt{g} beforehand.
 
-\begin{itemize}
-	\item \textbf{Public Grouping Keys.}We categorize grouping keys as public when the analyst specifies them in the \texttt{WHERE} clause.
-	In this scenario, all user-specified keys must be disclosed, even if they do not exist in the database.
-	If a key is absent in the database, differentially private results will include these missing keys, and the corresponding aggregations will be random noise.
-	\item \textbf{Revealing Private Keys through $\tau$-Thresholding}
-	As introduced by \citeauthor{wilson2019differentially}, tau-thresholding involves releasing keys whose differentially private noise surpasses a threshold determined by privacy parameters.
-\end{itemize}
-
-When the SQL query involves both public and private grouping keys, we perform cross joins on the grouping keys obtained through the two algorithms.
-
-The \qrlew{} rewriter reports the \emph{privacy loss} of a mechanism as compositions of: gaussian mechanisms, tau-thresholding \cite{korolova2009releasing,wilson2019differentially} and subsampled mechanisms \cite{balle2018privacy}.
+To sumarize the various mechanisms used in \qrlew{} to date:
+the rewriting of \emph{Reduces} with $PUP \rightarrow DP$ rules requires the use of \emph{gaussian mechanisms} and \emph{$\tau$-thresholding} mechanisms;
+then the DP mechanisms used in all the rewritings are aggregated by the \qrlew{} rewriter as a composed mechanism.
+The overall privacy loss is aggregated in a RDP acountant \cite{mironov2017renyi}.
 
 \section{Comparison to other systems}
+
+There are existing open-source libraries for analytics with differential privacy.
+
+% Some libraries such as GoogleDP \cite{g}
 
 The Google Differential Privacy extension for PostgreSQL introduces differential privacy estimators for common aggregations.
 Despite its straightforward installation, using it can be challenging for non-experts.
@@ -413,6 +415,26 @@ Additionally, the execution of SQL analysis requires a Python post-processing st
 Chorus is the closest framework to \qrlew, and in the work by \citeauthor{johnson2020chorus},
 there is a strong emphasis on conducting all analyses directly within the database.
 However, it's worth noting that the code for Chorus is no longer being actively maintained.
+
+% \begin{table*}[h]
+%     \centering
+%     \begin{tabular}{|c c c c c|}
+%     \hline
+%     Data practitionner interface & Complex privacy unit & Possibility to use synthetic data & Execution environment\\
+%     \hline
+%     Google DP & \textcolor{green}{$\checkmark$} & \textcolor{red}{$\times$} &  \textcolor{red}{$\times$} & \textcolor{red}{$\times$} \\
+%     \hline
+%     Smartnoise SQL &  \textcolor{green}{\checkmark} & \textcolor{red}{$\times$} & \textcolor{red}{$\times$} & \textcolor{green}{$\checkmark$} \\
+%     \hline
+%     OpenDP & \textcolor{red}{$\times$} & \textcolor{red}{$\times$} & \textcolor{red}{$\times$} & \textcolor{green}{$\checkmark$} \\
+%     \hline
+%     Tumult Analytics &  \textcolor{red}{$\times$}&  \textcolor{green}{\checkmark} &  \textcolor{green}{\checkmark} & \textcolor{green}{$\checkmark$} \\
+%     \hline
+%     Chorus & \textcolor{green}{\checkmark} & \textcolor{green}{\checkmark} &  \textcolor{red}{$\times$} & \textcolor{green}{$\checkmark$}\\
+%     \hline
+%     Qrlew &  \textcolor{green}{\checkmark}&  \textcolor{green}{\checkmark}&  \textcolor{green}{\checkmark}&  \textcolor{green}{\checkmark} \\
+%     \hline
+% \end{tabular}
 
 \begin{table*}[h]
 \centering

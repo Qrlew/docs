@@ -386,10 +386,34 @@ The overall privacy loss is aggregated in a RDP acountant \cite{mironov2017renyi
 
 \section{Comparison to other systems}
 
-There are existing open-source libraries for analytics with differential privacy.
+There are a few existing open-source libraries for differential privacy.
 
-Some are collections of building blocks, such as emph{Google DP} \cite{GoogleDP} which is a library with reference implementations of many differentially private mechanisms in various languages (C++, Go and Java).
-Google built higher level applications on top of them: \cite{ZetaSQL}, \cite{PrivacyOnBeam} and \
+Some libraries focus on deep learninng and \emph{DP-SGD} \cite{abadi2016deep}, such as: \emph{Opacus} \cite{yousefpour2021opacus}, \emph{Tensorflow Privacy} \cite{TensorFlowPrivacy} or \emph{Optax's DP-SGD} \cite{deepmind2020jax}. \qrlew{} has a very different goal.
+
+\emph{GoogleDP} \cite{GoogleDP} is a library implementing many differentially private mechanisms in various languages (C++, Go and Java).
+\emph{IBM's diffprivlib} \cite{diffprivlib} is also a rich library implementing a wide variety of DP primites in python and in particular many DP versions of classical machine learning algorithms. 
+These libraries provide the bricks for experts to build DP algorithms. \qrleHOw can you confine its effect to a zone?w{} has a very different approach, it is a high level tool designed to take queries writen in SQL by a data practitionner with no expertise in privacy and to rewrite them into DP equivalnt able to run on any SQL-enabled data store. \qrlew{} implemented very few DP mechanisms to date, but automated the whole process of rewriting a qurery, while these library offer a rich variety of DP mechanism, and give full control to the user to use them as they wish.
+
+Google built several higher-level tools on top of \cite{GoogleDP}.
+\emph{PrivacyOnBeam} \cite{PrivacyOnBeam} is a framework to run DP jobs written in Apache Beam with its Go SDK.
+\emph{PipelineDP} \cite{PipelineDP} is a framework that let analysts write Beam-like or Spark-like programs and have them run on Apache Spark or Apache Beam as back-end. It focuses on the Beam and Spark ecosystem, while \qrlew{} tries to provide an SQL interface to the analyst and runs on SQL-enabled back-ends (including Spark, a variety of data warehouses, and more traditional databases).
+\cite{ZetaSQL}, gives the user a way to write SQL-like queries and have them executed on tables using GoogleDB custom code, so it is not  compatible with any SQL data store and support relatively simple queries only.
+
+\emph{OpenDP} \cite{OpenDP} is a powerful Rust library with a python bindings. It offers many possibilities of building complex DP computations by composing basic elements. Nonetheless, it require both expertise in privacy and to learn a new API to describe a query. Also, the computations are handled by the Rust core, so it does not integrate easily with existing data stores and may not scale well either.
+
+\emph{Tumult Analytics} \cite{berghel2022tumult} shares many of the nice composable design of OpenDP, but runs on Apache Spark, making it a scalable alternative to OpenDP. Still, it require the learning of a specific API (close to that of Spark) and cannot leverage any SQL back-end.
+
+\emph{SmartNoise SQL}
+
+criteria- Data practitionner has to be privacy expert
+- Data practitionner has to learn a new language or API
+
+features
+- advanced privacy unit
+- 
+
+Some libraries are target a particular 
+Google built higher level applications on top of them:  .
 
 The Google Differential Privacy extension for PostgreSQL introduces differential privacy estimators for common aggregations.
 Despite its straightforward installation, using it can be challenging for non-experts.

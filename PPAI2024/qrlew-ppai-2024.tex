@@ -82,20 +82,11 @@
 \affiliations{
     %Afiliations
     \textsuperscript{\rm 1}Sarus Technologies\\
-    % If you have multiple authors and multiple affiliations
-    % use superscripts in text and roman font to identify them.
-    % For example,
 
-    % Sunil Issar\textsuperscript{\rm 2},
-    % J. Scott Penberthy\textsuperscript{\rm 3},
-    % George Ferguson\textsuperscript{\rm 4},
-    % Hans Guesgen\textsuperscript{\rm 5}
-    % Note that the comma should be placed after the superscript
-
-    1900 Embarcadero Road, Suite 101\\
-    Palo Alto, California 94303-3310 USA\\
+    128 rue la Boétie\\
+    75008, Paris, France\\
     % email address must be in roman text type, not monospace or sans serif
-    proceedings-questions@aaai.org
+    contact@sarus.tech
 %
 % See more examples next
 }
@@ -416,7 +407,7 @@ Beyond that, \qrlew{} brings unique functionalities, such as:
     \item all the compute happens in the DB.
 \end{itemize}
 
-This last point comes with some limitations (see section~\ref{sec:limitations}), but opens new possibilities like the delegation of the rewriting to a trusted third party. The data practitioner could simply write his desired query in SQL, send it to the rewriter that would keep track of the privacy losses and use \qrlew{} to rewrite the query, sign it, and send it back to the data practitioner that can then send the data-owner, who will check the signature certifying the DP properties of the rewritten query\footnote{A proof of concept is available at: \texttt{https://github.com/Qrlew/server}}.
+This last point comes with some limitations (see section~\ref{sec:limitations}), but opens new possibilities like the delegation of the rewriting to a trusted third party. The data practitioner could simply write his desired query in SQL, send it to the rewriter that would keep track of the privacy losses and use \qrlew{} to rewrite the query, sign it, and send it back to the data practitioner that can then send the data-owner, who will check the signature certifying the DP properties of the rewritten query\footnote{A proof of concept is available at: \url{https://github.com/Qrlew/server}}.
 
 \section{Known Limitations}
 \label{sec:limitations}
@@ -430,8 +421,8 @@ This last point comes with some limitations (see section~\ref{sec:limitations}),
 \section{Conclusion}
 
 \qrlew{} is a novel way of bringing DP to analytics. It brings both a unique set of features, an extended coverage of standard SQL, and full execution in the SQL engine, which opens up new ways to integrate a privacy layer in a data practitioner -- data owner relationship.
-The code is available on github: \texttt{https://github.com/Qrlew/qrlew} with a Python bindings: \texttt{https://github.com/Qrlew/pyqrlew}, a short description: \texttt{https://qrlew.github.io/}\\
-and an interactive demo: \texttt{https://qrlew.github.io/dp}.
+The code is available on github: \url{https://github.com/Qrlew/qrlew} with a Python bindings: \url{https://github.com/Qrlew/pyqrlew}, a short description: \url{https://qrlew.github.io/}\\
+and an interactive demo: \url{https://qrlew.github.io/dp}.
 
 \bibliography{qrlew}
 \appendix

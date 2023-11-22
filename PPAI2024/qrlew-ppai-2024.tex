@@ -177,7 +177,7 @@ These requirements dictated the overall \emph{query rewriting} architecture and 
 
 \section{Architecture and main features of \qrlew}
 
-The \qrlew{} library, solves the problem of running a SQL query with DP guarantees in three steps. First the SQL query submitted by the \emph{data practitioner} is parsed and converted into a \emph{Relation}, this \emph{Relation} is an intermediate representation that is designed to ease the tracking of data types ranges or possible values, to ease the tracking of the \emph{privacy unit} and to ease the rewriting into a DP \emph{Relation}. Then, the rewriting into DP happens. Once the relation is rewritten into a DP one, it can be rendered as an SQL query string and submitted to the data store of the \emph{data owner}. The output can then safely be shared with the \emph{data practitioner}. This process is illustrated in Figure~\ref{fig:process}.
+The \qrlew{} library, solves the problem of running a SQL query with DP guarantees in three steps. First the SQL query submitted by the \emph{data practitioner} is parsed and converted into a \emph{Relation}, this \emph{Relation} is an intermediate representation that is designed to ease the tracking of data types ranges or possible values, to ease the tracking of the \emph{privacy unit} and to ease the rewriting into a DP \emph{Relation}. Then, the rewriting into DP happens. Once the relation is rewritten into a DP one, it can be rendered as an SQL query string and submitted to the data store of the \emph{data owner}. The output can then safely be shared with the \emph{data practitioner}. This process is illustrated in figure~\ref{fig:process}.
 
 \begin{figure*}[t]
     \centering
@@ -205,7 +205,7 @@ It may also be a static list of values or a set operation between two \emph{Rela
     \label{process}
 \end{figure}
 
-This representation is central to \qrlew{}; all the features described below are built upon it. A \emph{Relation} along with all the  sub-\emph{Relations} it is depending on, will be called the \emph{computation graph} or the \emph{graph} of a \emph{Relation}.
+This representation is central to \qrlew{}; all the features described below are built upon it. A \emph{Relation}, along with all the sub-\emph{Relations} it depends on, will be called the \emph{computation graph} or the \emph{graph} of a \emph{Relation}.
 
 \subsection{Range Propagation}
 \label{sec:range_propagation}
@@ -342,7 +342,8 @@ All \emph{rewriting rules} with \emph{DP} outputs require the input of the \emph
 
 \subsubsection{Protecting aggregation results}
 
-The protection of aggregation functions is carried out in two steps. Given that all currently supported aggregations (\texttt{COUNT}, \texttt{SUM}, \texttt{AVG}, \texttt{VARIANCE} \texttt{STDDEV}) can be reduced to sums, our focus will be on \texttt{SUM} aggregations. Let's consider the scenario where we aim to compute some partial sums of a column for different groups: $j\in\{1,\ldots,m\}$, of rows.
+The protection of aggregation functions is carried out in two steps. Given that all currently supported aggregations (\texttt{COUNT}, \texttt{SUM}, \texttt{AVG}, \texttt{VARIANCE} \texttt{STDDEV}) can be reduced to sums, our focus will be on \texttt{SUM} aggregations, i.e. the computation of partial sums of a column for different groups: $j\in\{1,\ldots,m\}$, of rows.
+
 Let the column be a vector of $N$ real numbers: $x = \left(x_1,\ldots, x_N\right)\in\mathbb{R}^N$. We note: $\pi_k = i \in \{1,\ldots,n\}$ the PID and $g_k = j \in \{1,\ldots,m\}$ the grouping key associated to $x_k$.
 We want to compute all the sums:
 $$S_j = \sum_{g_k = j} x_k$$
@@ -354,7 +355,7 @@ with some DP guarantees. To this end we:
     $$s_{i,j} = \sum_{\substack{\pi_k = i\\g_k = j}}x_k$$
     The $s_i$'s $\ell^2$ norms are then clipped to $c$:
     $$\overline{s_i} = \left(\overline{s_{i,j}}\right)_j = \left(\frac{s_{i,j}}{\max\left(1, \frac{\|s_i\|_2}{c}\right)}\right)_j$$
-    See \ref{sec:limit_contrib_per_user} for more details.
+    See section~\ref{sec:limit_contrib_per_user} for more details.
 
 	\item \emph{Add gaussian noise to each group}:
 	The clipped contributions are summed and perturbed with gaussian noise $\nu = \left(\nu_1,\ldots \nu_m\right) \sim \mathcal{N}\left(0, \sigma^2I_m\right)$:
@@ -367,7 +368,7 @@ with some DP guarantees. To this end we:
 
 When the grouping keys from a are derived from the data, they are not safe for publication.
 Following \cite{korolova2009releasing, wilson2019differentially}, we use a mechanism called \emph{$\tau$-thresholding} to safely release these grouping keys.
-Note that, thanks to \emph{range propagation} (see \ref{sec:range_propagation}), some groups are already public and need no differentially private mechanism to be published.
+Note that, thanks to \emph{range propagation} (see section~\ref{sec:range_propagation}), some groups are already public and need no differentially private mechanism to be published.
 Ultimately, the rewriting of: \texttt{SELECT sum(x) FROM table GROUP BY g WHERE g IN (1, 2, 3)} as a DP equivalent will not use \emph{$\tau$-thresholding}, while \texttt{SELECT sum(x) FROM table GROUP BY g} will most certainly do if nothing more is known about \texttt{g} beforehand.
 
 To summarize the various mechanisms used in \qrlew{} to date:
@@ -379,11 +380,11 @@ The overall privacy loss is aggregated in a RDP accountant \cite{mironov2017reny
 
 There are a few existing open-source libraries for differential privacy.
 
-Some libraries focus on deep learning and \emph{DP-SGD} \cite{abadi2016deep}, such as: \emph{Opacus} \cite{yousefpour2021opacus}, \emph{Tensorflow Privacy} \cite{TensorFlowPrivacy} or \emph{Optax's DP-SGD} \cite{deepmind2020jax}. \qrlew{} has a very different goal.
+Some libraries focus on deep learning and \emph{DP-SGD} \cite{abadi2016deep}, such as: \emph{Opacus} \cite{yousefpour2021opacus}, \emph{Tensorflow Privacy} \cite{TensorFlowPrivacy} or \emph{Optax's DP-SGD} \cite{deepmind2020jax}. \qrlew{} has a very different goal: analytics and SQL.
 
 \emph{GoogleDP} \cite{GoogleDP} is a library implementing many differentially private mechanisms in various languages (C++, Go and Java).
 \emph{IBM's diffprivlib} \cite{diffprivlib} is also a rich library implementing a wide variety of DP primitives in python and in particular many DP versions of classical machine learning algorithms. 
-These libraries provide the bricks for experts to build DP algorithms. \qrlew{} can you confine its effect to a zone?w{} has a very different approach, it is a high level tool designed to take queries written in SQL by a data practitioner with no expertise in privacy and to rewrite them into DP equivalent able to run on any SQL-enabled data store. \qrlew{} implemented very few DP mechanisms to date, but automated the whole process of rewriting a query, while these library offer a rich variety of DP mechanism, and give full control to the user to use them as they wish.
+These libraries provide the bricks for experts to build DP algorithms. \qrlew{} has a very different approach, it is a high level tool designed to take queries written in SQL by a data practitioner with no expertise in privacy and to rewrite them into DP equivalent able to run on any SQL-enabled data store. \qrlew{} implemented very few DP mechanisms to date, but automated the whole process of rewriting a query, while these library offer a rich variety of DP mechanism, and give full control to the user to use them as they wish.
 
 Google built several higher-level tools on top of \cite{GoogleDP}.
 \emph{PrivacyOnBeam} \cite{PrivacyOnBeam} is a framework to run DP jobs written in Apache Beam with its Go SDK.
@@ -442,7 +443,8 @@ and an interactive demo: \url{https://qrlew.github.io/dp}.
 
 In our algorithm, the clipping value $c$ is given by:
 \begin{equation}
-    c = k \max ( |\min \textbf{x}|, |\max \textbf{x}|),
+    c = k ¡
+\dot\max ( |\min \textbf{x}|, |\max \textbf{x}|),
 \end{equation}
 where $\min \textbf{x}$ and $\max \textbf{x}$ are the known bounds of $\textbf{x}$ and $k$ is some parameter of the engine that can be used to trade some lower noise for some extra bias.
 

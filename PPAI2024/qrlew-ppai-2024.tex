@@ -121,7 +121,7 @@ With \qrlew{}, a \emph{data practitioner} can express their data queries in stan
 In recent years, the importance of safeguarding privacy when dealing with personal data has continuously increased.
 Traditional anonymization techniques have proven vulnerable to re-identification, as demonstrated by numerous works \cite{archie2018s, dwork2017exposed, narayanan2008robust, sweeney2013identifying}.
 The total cost of data breaches has also significantly increased \cite{ibm2023cost} and governments have introduced stricter data protection laws.
-Yet, the collection, sharing, and utilization of data hold the potential to generate significant value across various industries, including healthcare, finance, transportation, and energy distribution.
+Yet, the collection, sharing, and utilization of data holds the potential to generate significant value across various industries, including healthcare, finance, transportation, and energy distribution.
 
 To realize these benefits while managing privacy risks, researchers have turned to \emph{differential privacy (DP)} \cite{wood2018differential, dwork2014algorithmic}, which has become the \emph{gold standard} for privacy protection since its introduction by Dwork et al. in 2006 \cite{dwork2006calibrating} due to its provable and automatic privacy guarantees.
 
@@ -150,7 +150,7 @@ This removes the need for a custom execution engine and enables \emph{differenti
 
 \subsection*{Datasets and Privacy Units (PU)}
 
-In this paper, \emph{datasets} refers to a collection of elements in some domain $\mathcal{X}$, labelled with an identifier $i\in \mathcal{I}$ identifying the entity whose privacy we want to protect. This entity will be called \emph{Privacy Unit} (PU) and the identifier will be referd to as \emph{Privacy ID} (PID). Let $\mathcal{D}$ be the set of datasets of arbitrary sizes with a privacy unit.
+In this paper, \emph{datasets} refer to a collection of elements in some domain $\mathcal{X}$, labelled with an identifier $i\in \mathcal{I}$ identifying the entity whose privacy we want to protect. This entity will be called \emph{Privacy Unit} (PU) and the identifier will be referred to as \emph{Privacy ID} (PID). Let $\mathcal{D}$ be the set of datasets of arbitrary sizes with a privacy unit.
 
 \subsection*{Differential Privacy (DP)}
 
@@ -173,11 +173,11 @@ At a high level we pursued the following requirements:
     \item Simple integration with other privacy enhancing technologies such as \emph{synthetic data}. To avoid repeated privacy losses or give result when a DP rewriting is not easily available (e.g. when the query is: \texttt{SELECT * FROM table}) \qrlew{} can use \emph{synthetic data} to blend in the computation.
 \end{itemize}
 
-These requirements dictated the overall \emph{query rewriting} architecture and many features, the most important of which, are detailed bellow.
+These requirements dictated the overall \emph{query rewriting} architecture and many features, the most important of which, are detailed below.
 
 \section{Architecture and main features of \qrlew}
 
-The \qrlew{} library, solves the problem of running a SQL query with DP guarantees in three steps. First the SQL query submitted by the \emph{data practitioner} is parsed and converted into a \emph{Relation}, this \emph{Relation} is an intermediate representation that is designed to ease the tracking of data types ranges or possible values, to ease the tracking of the \emph{privacy unit} and to ease the rewriting into a DP \emph{Relation}. Then, the rewritting into DP happens. Once the relation is rewriten into a DP one, it can be rendered as an SQL query string and submited to the data store of the \emph{data owner}. The output can then safely be shared with the \emph{data practitioner}. This process is illustrated in Figure~\ref{fig:process}.
+The \qrlew{} library, solves the problem of running a SQL query with DP guarantees in three steps. First the SQL query submitted by the \emph{data practitioner} is parsed and converted into a \emph{Relation}, this \emph{Relation} is an intermediate representation that is designed to ease the tracking of data types ranges or possible values, to ease the tracking of the \emph{privacy unit} and to ease the rewriting into a DP \emph{Relation}. Then, the rewriting into DP happens. Once the relation is rewritten into a DP one, it can be rendered as an SQL query string and submitted to the data store of the \emph{data owner}. The output can then safely be shared with the \emph{data practitioner}. This process is illustrated in Figure~\ref{fig:process}.
 
 \begin{figure*}[t]
     \centering
@@ -189,7 +189,7 @@ The \qrlew{} library, solves the problem of running a SQL query with DP guarante
 \subsection{Qrlew Intermediate Representation}
 \label{sec:intermediate_representation}
 
-As the SQL language is very rich and complex, simply parsing a query into an abstract syntaxic tree does not produce a convenient representation for our needs. Therefore, it is converted into a simpler normalized representation with properties well aligned with the requirements of Differential Privacy: the \emph{Relation}. A \emph{Relation} is a collection of rows adhering to a given \emph{schema}. It is a recursively defined structure composed of:
+As the SQL language is very rich and complex, simply parsing a query into an abstract syntax tree does not produce a convenient representation for our needs. Therefore, it is converted into a simpler normalized representation with properties well aligned with the requirements of Differential Privacy: the \emph{Relation}. A \emph{Relation} is a collection of rows adhering to a given \emph{schema}. It is a recursively defined structure composed of:
 \begin{description}
     \item[\emph{Tables}] This is simply a data source from a database.
     \item[\emph{Maps}] A \emph{Map} takes an input \emph{Relation}, filters the rows and transform them one by one. The filtering conditions and row transforms are expressed with expressions similar to those of SQL. It acts as a \texttt{SELECT exprs FROM input WHERE expr LIMIT value} and therefore preserve the \emph{privacy unit} ownership structure.
@@ -201,7 +201,7 @@ It may also be a static list of values or a set operation between two \emph{Rela
 \begin{figure}[t]
     \centering
     \includegraphics[width=0.4\textwidth]{figures/relation}
-    \caption{\emph{Relation} (\emph{Map}) associeted to the query: \texttt{SELECT a, count(abs(10*a+b)) AS x FROM table\_1 WHERE b>-0.1 AND a IN (1,2,3) GROUP BY a}. The arrows point to the inputs of each \emph{Relation}. Note the propagation of the data type ranges.}
+    \caption{\emph{Relation} (\emph{Map}) associated to the query: \texttt{SELECT a, count(abs(10*a+b)) AS x FROM table\_1 WHERE b>-0.1 AND a IN (1,2,3) GROUP BY a}. The arrows point to the inputs of each \emph{Relation}. Note the propagation of the data type ranges.}
     \label{process}
 \end{figure}
 
@@ -218,7 +218,7 @@ To help with range propagation, \qrlew{} introduces two useful concepts:
     \item The concept of \emph{$k$-Interval}, which are finite unions of at most $k$ closed intervals. A \emph{$k$-Interval} can be noted:
     $$I = \bigcup_{i=1}^{j\leq k}\left[a_i, b_i\right]$$
     Note that the union of \emph{$k$-Interval}s may not be a \emph{$k$-Interval} as it may be the union of more than $k$ intervals.
-    Unions of many intervals can be simplified into their convex enveloppe interval, which are often sufficient bounds approximations for our use cases:
+    Unions of many intervals can be simplified into their convex envelope interval, which are often sufficient bounds approximations for our use cases:
     $$J = \bigcup_{i=1}^{j> k}\left[a_i, b_i\right] \subseteq \left[\min_i a_i, \max_i b_i\right]$$
     \item And the concept of \emph{piecewise-monotonic-functions}\footnote{Which is a shorthand name for what would be better called: \emph{piecewise-coordinatewise-monotonic-functions}}, which are functions $f: \mathbb{R}^n \rightarrow \mathbb{R}$ whose domain can be partitioned in cartesian products of intervals: $P_j$ on which they are \emph{coordinatewise-monotonic}.
     The image of a cartesian product of $n$ \emph{$k$-Interval}s by a \emph{piecewise-monotonic-function} can be easily computed as a \emph{$k$-Interval}.
@@ -227,7 +227,7 @@ To help with range propagation, \qrlew{} introduces two useful concepts:
     If $f$ is \emph{piecewise-monotonic}, then one can show that on each partition $P_j$ where it is \emph{coordinatewise-monotonic}, if we note:
     $$I_j = I \cap P_j = \bigcup_{\substack{1\leq j_1\leq k\\\ldots\\1\leq j_n\leq k}}\left[a_{j_1}, b_{j_1}\right]\times \ldots \times \left[a_{j_n}, b_{j_n}\right]$$
     $$f(I_j) = \bigcup_{\substack{1\leq i_1\leq k\\\ldots\\1\leq i_n\leq k}}\text{Conv}\left(f\left( \left\{a_{i_1}, b_{i_1}\right\}\times \ldots \times \left\{a_{i_n}, b_{i_n}\right\}\right)\right)$$
-    where $\text{Conv}\left(f\left( \left\{a_{i_1}, b_{i_1}\right\}\times \ldots \times \left\{a_{i_n}, b_{i_n}\right\}\right)\right)$ can be efficiently computed in $n$ steps, without testing all the $2^n$ combinantions, thanks to the coordinatewise monotony of $f$ on $P_j$.
+    where $\text{Conv}\left(f\left( \left\{a_{i_1}, b_{i_1}\right\}\times \ldots \times \left\{a_{i_n}, b_{i_n}\right\}\right)\right)$ can be efficiently computed in $n$ steps, without testing all the $2^n$ combinations, thanks to the coordinatewise monotony of $f$ on $P_j$.
     Then $f(I) = \bigcup_j f(I_j)$, of which we can derive the bounding: $f(I) \subseteq \text{Conv}\left(\bigcup_j f(I_j)\right)$ when the number of terms in the union exceeds $k$.
 \end{itemize}
 
@@ -244,11 +244,11 @@ Most of the range propagation in \qrlew{} is based on these concepts. It enables
 \subsection{Privacy Unit Definition}
 \label{sec:privacy_unit_definition}
 
-Tables in a database rarely come properly formated for privacy-preserving applications. Many rows in many tables may refer to the same individual, hence, \emph{adding or removing an individual} means \emph{adding or removing many rows}. To help the definition of the privacy unit \qrlew{} introduces a small Privacy Unit (PU) description language.
-As examplified in listing~\ref{lst:pe}, PU definition associates to each private table in a database a path defining the PID of each row. For a table containing the PU itself, like a \texttt{users} table for example, the PU definition will look like \texttt{("users",[],"id"),} where \texttt{id} is the name of a column identifying the user, like its name. If the database defines tables related to this tables, the way the tables are related should be specified following this scheme: $(\mathtt{tab}_1, path, \mathtt{pid})$ where $\mathtt{tab}_1$ is the name of the table for which the PID is defined, $\mathtt{pid}$ is the name of the column defining the PID in the table referred by $path$ and $path$ is a list of elements of the form $[(\mathtt{ref}_1, \mathtt{tab}_2, \mathtt{id}_2),\ldots, (\mathtt{ref}_{m-1}, \mathtt{tab}_m, \mathtt{id}_m)]$
+Tables in a database rarely come properly formatted for privacy-preserving applications. Many rows in many tables may refer to the same individual, hence, \emph{adding or removing an individual} means \emph{adding or removing many rows}. To help the definition of the privacy unit \qrlew{} introduces a small Privacy Unit (PU) description language.
+As exemplified in listing~\ref{lst:pe}, PU definition associates to each private table in a database a path defining the PID of each row. For a table containing the PU itself, like a \texttt{users} table for example, the PU definition will look like \texttt{("users",[],"id"),} where \texttt{id} is the name of a column identifying the user, like its name. If the database defines tables related to this tables, the way the tables are related should be specified following this scheme: $(\mathtt{tab}_1, path, \mathtt{pid})$ where $\mathtt{tab}_1$ is the name of the table for which the PID is defined, $\mathtt{pid}$ is the name of the column defining the PID in the table referred by $path$ and $path$ is a list of elements of the form $[(\mathtt{ref}_1, \mathtt{tab}_2, \mathtt{id}_2),\ldots, (\mathtt{ref}_{m-1}, \mathtt{tab}_m, \mathtt{id}_m)]$
 where $\mathtt{ref}_{i-1}$ is a column in $\mathtt{tab}_{i-1}$ --- usually a foreign key --- referring to $\mathtt{tab}_i$ with a column of referred id $\mathtt{id}_i$ --- usually a primary key. Following the path of tables referring to one another, we end up with the table defining the PID (e.g. \texttt{users}).
 
-This small PU description language allows for a variety of usefull PID scenarii, beyond the simple, but restrictive \emph{privacy per row}.
+This small PU description language allows for a variety of useful PID scenarii, beyond the simple, but restrictive \emph{privacy per row}.
 
 \begin{listing}[tb]
 \caption{Example of \emph{privacy unit} definition for a database with three tables holding users, orders and items records. Each user is protected individually by designating their \texttt{id}s as PID. Orders are attached to a user through the foreign key: \texttt{user\_id}. Items's ownership is defined the same way by specifying the lineage: \texttt{item -> order -> user}.}%
@@ -273,7 +273,7 @@ privacy_unit = [
 Rewriting in \qrlew{}, refers to the process of altering the \emph{computation graph} by substituting computation \emph{sub-graphs} to \emph{Relations} (see figure~\ref{fig:rewriting}) to alter the properties of the result. This substitution aims to achieve specific objectives, such as ensuring privacy through the incorporation of differentially private mechanisms. The rewriting process (see figure~\ref{fig:rewriting}) happens in two phases:
 \begin{itemize}
     \item a \emph{rewriting rule allocation} phase, where each \emph{Relation} in the \emph{computation graph} gets allocated a \emph{rewriting rule} (RR) compatible with its input and with the desired output property;
-    \item a \emph{rule application} phase, where each \emph{Relation} is rewritten to a small \emph{computation graph} implementing the logic of the rewriting and stitched together with the other rewriten \emph{Relations}.
+    \item a \emph{rule application} phase, where each \emph{Relation} is rewritten to a small \emph{computation graph} implementing the logic of the rewriting and stitched together with the other rewritten \emph{Relations}.
 \end{itemize}
 
 \begin{figure*}[t]
@@ -294,11 +294,11 @@ Each \emph{Relation} can have one of the following properties:
     \item[Differentially Private (DP)] A \emph{Relation} will be DP if it implements a DP mechanism. A DP \emph{Relation} can be safely  executed on private data and the result be published. Note that the \emph{privacy loss} associated with the DP mechanism has to be accurately accounted for (see section~\ref{sec:privacy_analysis}).
     \item[Synthetic Data (SD)] In some contexts a \emph{synthetic data} version of source tables is available. Any \emph{Relation} derived from other SD or Public \emph{Relations} is itself SD.
     \item[Public (Pub)] A relation derived from public tables is labeled as such and does not require any further protection to be disclosed.
-    \item[Published (Pubd)] A relation is considered Published if its input relations are either Public, DP, in some cases SD, or Published themselves. It can be considered as Published but with some more care like the need to account for the privacy loss incured by its DP ancestors.
+    \item[Published (Pubd)] A relation is considered Published if its input relations are either Public, DP, in some cases SD, or Published themselves. It can be considered as Published but with some more care like the need to account for the privacy loss incurred by its DP ancestors.
 \end{description}
 
 These properties usually require some rewriting of the computation graph to be achieved. The requirements for a specific \emph{Relation} to meet some property are embodied in what we call: \emph{rewriting rules}.
-A \emph{rewriting rule} has input requirements, and an achieveble output \emph{property} that tells what \emph{property} can be achieved by rewriting provided the input \emph{property} requirements are fulfilled.
+A \emph{rewriting rule} has input requirements, and an achievable output \emph{property} that tells what \emph{property} can be achieved by rewriting provided the input \emph{property} requirements are fulfilled.
 Each \emph{Relation} can be assigned different \emph{rewriting rules} depending on their nature: \emph{Map}, \emph{Reduce}, etc. and the way they are parametrized.
 
 \emph{Rewriting Rules} can be --- for instance --- PU propagation rules of the form:
@@ -310,15 +310,15 @@ Each \emph{Relation} can be assigned different \emph{rewriting rules} depending 
 
 Another key \emph{Rewriting Rules} is $PUP \rightarrow DP$ for \emph{Reduces}, it simply means that if the parent of the \emph{Relation} can be rewritten as PUP, then we can rewrite the relation to be DP by substituting DP aggregations to the original aggregations of the \emph{Reduce}.
 
-One easily see that by simply applying $PUP \rightarrow PUP$ and $PUP \rightarrow DP$ rules, one can propagate the privacy unit accross the computation graph of a \emph{Relation} and compute some DP aggregate such as a noisy sum or average.
+One easily see that by simply applying $PUP \rightarrow PUP$ and $PUP \rightarrow DP$ rules, one can propagate the privacy unit across the computation graph of a \emph{Relation} and compute some DP aggregate such as a noisy sum or average.
 
 \subsubsection{Rewriting Rule Allocation}
 
 The first phase of the rewriting process consists in allocating one and only one rule to each \emph{Relation}.
 This is done in three steps illustrated in figure~\ref{fig:set_eliminate_select}:
 \begin{description}
-    \item[Rule Setting] We assign the set of potential rewriting rules to each \emph{Relation} in a computaton graph.
-    \item[Rule Elimination] Only feasible rewriting rules are preserved. A rewriting rule that would require a PUP input is only feasible if its input Relation has a feasible rule outputing a PUP \emph{Relation}.
+    \item[Rule Setting] We assign the set of potential rewriting rules to each \emph{Relation} in a computation graph.
+    \item[Rule Elimination] Only feasible rewriting rules are preserved. A rewriting rule that would require a PUP input is only feasible if its input Relation has a feasible rule outputting a PUP \emph{Relation}.
     \item[Rule Selection] All feasible allocations of one rewriting rule per \emph{Relation} are listed, a score depending on the desired ultimate output property is assigned to each allocation and the highest scoring allocation is selected. Then, a simple split $\left(\frac{\varepsilon}{n}, \frac{\delta}{n}\right)$ of the overall privacy budget $\left(\varepsilon, \delta\right)$ depending on the number of $PUP \rightarrow DP$ rules: $n$ is chosen.
 \end{description}
 
@@ -327,14 +327,14 @@ In the computation graph, while each node's multiple rewriting rules might sugge
 \subsubsection{Rule Application}
 
 Once the first phase of rule allocation is achieved, starts the second phase: \emph{rule application}, as illustrated in figure~\ref{fig:rewriting}.
-In the allocation phase, a \emph{global rewriting scheme} was set in the form of an allocation satisfying a system of requirements; in the rewriting phase, each rewriting rule is applied \emph{independently} for each \emph{Relation}. This is possible because once a rewriting rule is applied to a \emph{Relation}, the \emph{Relation} is transformed into a computation graph of \emph{Relations} whose ultimate inputs are compatible (same schema, i.e. same columns with same types, plus the new columns provided by the property achieved) with the inputs of the original \emph{Relation} and the ultimate output is also compatible with the output of the original \emph{Relation} so that rewriten \emph{Relations} can be stitched together in a larger graph the same way the original \emph{Relations} were connected: see figure~\ref{fig:rewriting}.
+In the allocation phase, a \emph{global rewriting scheme} was set in the form of an allocation satisfying a system of requirements; in the rewriting phase, each rewriting rule is applied \emph{independently} for each \emph{Relation}. This is possible because once a rewriting rule is applied to a \emph{Relation}, the \emph{Relation} is transformed into a computation graph of \emph{Relations} whose ultimate inputs are compatible (same schema, i.e. same columns with same types, plus the new columns provided by the property achieved) with the inputs of the original \emph{Relation} and the ultimate output is also compatible with the output of the original \emph{Relation} so that rewritten \emph{Relations} can be stitched together in a larger graph the same way the original \emph{Relations} were connected: see figure~\ref{fig:rewriting}.
 
 \section{Privacy Analysis}
 \label{sec:privacy_analysis}
 
-When rewriting, a user can require the output \emph{Relation} to have the \emph{Published} property. All \emph{rewriting rules} with \emph{Published} outputs require their inputs to be either \emph{Public}, \emph{DP}, \emph{SD} or \emph{Published} themselves. We assume synthetic data provided to the system are differentially private, so the privacy of the result depends on the way \qrlew{} rewrites \emph{Reduces} into \emph{DP} equvalent \emph{Relations}.
+When rewriting, a user can require the output \emph{Relation} to have the \emph{Published} property. All \emph{rewriting rules} with \emph{Published} outputs require their inputs to be either \emph{Public}, \emph{DP}, \emph{SD} or \emph{Published} themselves. We assume synthetic data provided to the system are differentially private, so the privacy of the result depends on the way \qrlew{} rewrites \emph{Reduces} into \emph{DP} equivalent \emph{Relations}.
 
-All \emph{rewriting rules} with \emph{DP} outputs require the input of the \emph{Reduce} to be \emph{PUP} so we can assume a PID column clearly assign one and only one PU to each rows of the rewriten input. The \emph{Reduce} is made DP by:
+All \emph{rewriting rules} with \emph{DP} outputs require the input of the \emph{Reduce} to be \emph{PUP} so we can assume a PID column clearly assign one and only one PU to each rows of the rewritten input. The \emph{Reduce} is made DP by:
 \begin{itemize}
     \item Making sure the aggregate columns of the \emph{Reduce} are computed with differentially private mechanisms.
     \item Making sure the grouping keys of the \texttt{GROUP BY} clause are either public or released through a differentially private mechanism.
@@ -357,7 +357,7 @@ with some DP guarantees. To this end we:
     See \ref{sec:limit_contrib_per_user} for more details.
 
 	\item \emph{Add gaussian noise to each group}:
-	The clipped contributions are summed and perturbated with gaussian noise $\nu = \left(\nu_1,\ldots \nu_m\right) \sim \mathcal{N}\left(0, \sigma^2I_m\right)$:
+	The clipped contributions are summed and perturbed with gaussian noise $\nu = \left(\nu_1,\ldots \nu_m\right) \sim \mathcal{N}\left(0, \sigma^2I_m\right)$:
     $$\widetilde{S_j} = \sum_{i=1}^n \overline{s_{i,j}} + \nu_j$$
     With $\sigma^2={\frac {2\ln(1.25/\delta )\cdot c^{2}}{\varepsilon ^{2}}}$.
     Note that the vector of sums has $\ell^2$ \emph{Global Sensitivity} of $c$, so this is an application of the \emph{Gaussian Mechanism} (see: theorem A.1. in \cite{dwork2014algorithmic}) and the mechanism is $\varepsilon, \delta$-differentially private.
@@ -370,20 +370,20 @@ Following \cite{korolova2009releasing, wilson2019differentially}, we use a mecha
 Note that, thanks to \emph{range propagation} (see \ref{sec:range_propagation}), some groups are already public and need no differentially private mechanism to be published.
 Ultimately, the rewriting of: \texttt{SELECT sum(x) FROM table GROUP BY g WHERE g IN (1, 2, 3)} as a DP equivalent will not use \emph{$\tau$-thresholding}, while \texttt{SELECT sum(x) FROM table GROUP BY g} will most certainly do if nothing more is known about \texttt{g} beforehand.
 
-To sumarize the various mechanisms used in \qrlew{} to date:
+To summarize the various mechanisms used in \qrlew{} to date:
 the rewriting of \emph{Reduces} with $PUP \rightarrow DP$ rules requires the use of \emph{gaussian mechanisms} and \emph{$\tau$-thresholding} mechanisms;
 then the DP mechanisms used in all the rewritings are aggregated by the \qrlew{} rewriter as a composed mechanism.
-The overall privacy loss is aggregated in a RDP acountant \cite{mironov2017renyi}.
+The overall privacy loss is aggregated in a RDP accountant \cite{mironov2017renyi}.
 
 \section{Comparison to other systems}
 
 There are a few existing open-source libraries for differential privacy.
 
-Some libraries focus on deep learninng and \emph{DP-SGD} \cite{abadi2016deep}, such as: \emph{Opacus} \cite{yousefpour2021opacus}, \emph{Tensorflow Privacy} \cite{TensorFlowPrivacy} or \emph{Optax's DP-SGD} \cite{deepmind2020jax}. \qrlew{} has a very different goal.
+Some libraries focus on deep learning and \emph{DP-SGD} \cite{abadi2016deep}, such as: \emph{Opacus} \cite{yousefpour2021opacus}, \emph{Tensorflow Privacy} \cite{TensorFlowPrivacy} or \emph{Optax's DP-SGD} \cite{deepmind2020jax}. \qrlew{} has a very different goal.
 
 \emph{GoogleDP} \cite{GoogleDP} is a library implementing many differentially private mechanisms in various languages (C++, Go and Java).
-\emph{IBM's diffprivlib} \cite{diffprivlib} is also a rich library implementing a wide variety of DP primites in python and in particular many DP versions of classical machine learning algorithms. 
-These libraries provide the bricks for experts to build DP algorithms. \qrlew{} can you confine its effect to a zone?w{} has a very different approach, it is a high level tool designed to take queries writen in SQL by a data practitioner with no expertise in privacy and to rewrite them into DP equivalnt able to run on any SQL-enabled data store. \qrlew{} implemented very few DP mechanisms to date, but automated the whole process of rewriting a qurery, while these library offer a rich variety of DP mechanism, and give full control to the user to use them as they wish.
+\emph{IBM's diffprivlib} \cite{diffprivlib} is also a rich library implementing a wide variety of DP primitives in python and in particular many DP versions of classical machine learning algorithms. 
+These libraries provide the bricks for experts to build DP algorithms. \qrlew{} can you confine its effect to a zone?w{} has a very different approach, it is a high level tool designed to take queries written in SQL by a data practitioner with no expertise in privacy and to rewrite them into DP equivalent able to run on any SQL-enabled data store. \qrlew{} implemented very few DP mechanisms to date, but automated the whole process of rewriting a query, while these library offer a rich variety of DP mechanism, and give full control to the user to use them as they wish.
 
 Google built several higher-level tools on top of \cite{GoogleDP}.
 \emph{PrivacyOnBeam} \cite{PrivacyOnBeam} is a framework to run DP jobs written in Apache Beam with its Go SDK.
@@ -394,7 +394,7 @@ Google built several higher-level tools on top of \cite{GoogleDP}.
 
 \emph{Tumult Analytics} \cite{berghel2022tumult} shares many of the nice composable design of OpenDP, but runs on Apache Spark, making it a scalable alternative to OpenDP. Still, it require the learning of a specific API (close to that of Spark) and cannot leverage any SQL back-end.
 
-\emph{SmartNoise SQL} is a library that share some of the design choices of \qrlew{}. An analyst can write SQL queries, but the scope of possible queries is relatively limited: no \texttt{JOIN}s, no subqueries, no CTEs (\texttt{WITH}) that \qrlew{} supports. Also, it does not run the full computation in the DB so the integration with existing systems may not be straightforward.
+\emph{SmartNoise SQL} is a library that share some of the design choices of \qrlew{}. An analyst can write SQL queries, but the scope of possible queries is relatively limited: no \texttt{JOIN}s, no sub-queries, no CTEs (\texttt{WITH}) that \qrlew{} supports. Also, it does not run the full computation in the DB so the integration with existing systems may not be straightforward.
 
 Other systems such as \emph{PINQ} \cite{mcsherry2009privacy} and \emph{Chorus} \cite{johnson2020chorus} are prototypes that do not seem to be actively maintained. \emph{Chorus} shares many of the design goals of \qrlew{}, but requires post-processing outside of the DB, which can make the integration more complex on the data-owner side (as the computation happens in two distinct places).
 
@@ -402,7 +402,7 @@ Beyond that, \qrlew{} brings unique functionalities, such as:
 \begin{itemize}
     \item advanced automated range propagation;
     \item the possibility to automatically blend in synthetic data;
-    \item advanced privacy unit definition capabilities accross many related tables;
+    \item advanced privacy unit definition capabilities across many related tables;
     \item the possibility for the non-expert to simply write standard SQL, but for the DP aware analyst to improve its utility by adding \texttt{WHERE x < b} or \texttt{WHERE x IN (1,2,3)} to give hints to the \qrlew{};
     \item all the compute happens in the DB.
 \end{itemize}
@@ -432,7 +432,7 @@ and an interactive demo: \url{https://qrlew.github.io/dp}.
 \begin{figure*}[t]
     \centering
     \includegraphics[width=0.9\textwidth]{figures/set_eliminate_select} % Reduce the figure size so that it is slightly narrower than the column.
-    \caption{The rewriting happens in three steps: \emph{Rule Setting} when we assign the set of potential rewriting rules to each \emph{Relation} in a computaton graph; \emph{Rule Elimination}, when only feasible rewriting rules are preserved; and \emph{Rule Selection}, when an actual allocation is selected.}
+    \caption{The rewriting happens in three steps: \emph{Rule Setting} when we assign the set of potential rewriting rules to each \emph{Relation} in a computation graph; \emph{Rule Elimination}, when only feasible rewriting rules are preserved; and \emph{Rule Selection}, when an actual allocation is selected.}
     \label{fig:set_eliminate_select}
 \end{figure*}
 
@@ -463,7 +463,7 @@ Adjacent databases were created by removing one user compared to the reference d
 
 In this context, $D$ represents the distribution of results when the query is executed on the entire dataset,
 and $D_k$ corresponds to the distribution when the query is run on the dataset excluding the data owned by the user $k$.
-The algorithm inputing the $(\varepsilon, \delta)$ parameters is indeed $(\varepsilon, \delta)$-differentially private if $\delta(e^{\varepsilon})$ in smaller than $\delta$.
+The algorithm inputting the $(\varepsilon, \delta)$ parameters is indeed $(\varepsilon, \delta)$-differentially private if $\delta(e^{\varepsilon})$ in smaller than $\delta$.
 We have verified this property holds true for various queries.
 
 \end{document}

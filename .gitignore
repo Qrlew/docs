@@ -301,4 +301,6 @@ TSWLatexianTemp*
 #*Notes.bib
 
 # Remove this later
-qrlew-ppai-2024.pdf
+# qrlew-ppai-2024.pdf
+
+*.zip

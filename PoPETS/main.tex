@@ -1,19 +1,21 @@
-\documentclass{article}
-\usepackage[utf8]{inputenc}  % general document formatting
-\usepackage{geometry} % page size and margins
-\geometry{a4paper}
-% \usepackage{hyperref}  % use links
-\usepackage[colorlinks = true, linkcolor = red, urlcolor = red, citecolor = red, anchorcolor = red]{hyperref}
-\usepackage{graphicx}  % use graphics
-\usepackage{datetime}  % define date
-\newdate{date}{21}{11}{2023}
-\usepackage{amsmath,amssymb,amsfonts,amsthm}  % math symbols
-\usepackage{algorithm}
-\usepackage{algorithmic}
-\usepackage{mathtools}
-\usepackage[usestackEOL]{stackengine}
-\stackMath
-% Nice listings
+\documentclass[sigconf,anonymous,review,balance=false]{acmart}
+\usepackage{popets}
+
+% Copyright
+\setcopyright{popets}
+\copyrightyear{YYYY}
+
+% Issue info
+\acmYear{YYYY}
+\acmVolume{YYYY}
+\acmNumber{X}
+\acmDOI{XXXXXXX.XXXXXXX}
+\acmISBN{}
+\acmConference{Proceedings on Privacy Enhancing Technologies}
+\settopmatter{printacmref=false,printccs=false,printfolios=true}
+
+%% Some custom imports
+%% Nice listings
 \usepackage{caption}
 \usepackage{newfloat}
 \usepackage{listings}
@@ -29,29 +31,69 @@
 
 \newcommand{\qrlew}{\emph{Qrlew}}
 
-\title{\qrlew: Rewriting SQL into Differentially Private SQL}
-\author {
-    % Authors
-    Nicolas Grislain\\
-    \href{mailto:ng@sarus.tech}{ng@sarus.tech}
-    \and
-    Paul Roussel\\
-    \href{mailto:pr@sarus.tech}{pr@sarus.tech}
-    \and
-    Victoria de Sainte Agathe\\
-    \href{mailto:vdsa@sarus.tech}{vdsa@sarus.tech}
-}
-\date{\displaydate{date}}
-
 \begin{document}
 
-\maketitle
+%%
+%% The "title" command has an optional parameter,
+%% allowing the author to define a "short title" to be used in page headers.
+\title[\qrlew]{\qrlew: Rewriting SQL into Differentially Private SQL}
 
+%%%%%%%%%%%%%%%% Authors' Info %%%%%%%%%%%%%%%%%
+%%
+%% The "author" command and its associated commands are used to define
+%% the authors and their affiliations.
+
+\author{Nicolas Grislain}
+\orcid{0000-0002-3577-0588}
+\affiliation{%
+  \institution{Sarus Technologies}
+  \city{Paris}
+  \country{France}
+}
+\email{ng@sarus.tech}
+
+\author{Paul Roussel}
+\affiliation{%
+  \institution{Sarus Technologies}
+  \city{Paris}
+  \country{France}
+}
+\email{pr@sarus.tech}
+
+\author{Valerie B\'eranger}
+\affiliation{%
+  \institution{Sarus Technologies}
+  \city{Paris}
+  \country{France}
+}
+\email{vdsa@sarus.tech}
+
+%%
+%% By default, the full list of authors will be used in the page
+%% headers. Often, this list is too long, and will overlap
+%% other information printed in the page headers. This command allows
+%% the author to define a more concise list
+%% of authors' names for this purpose.
+
+\renewcommand{\shortauthors}{Grislain et al.}
+
+%%
+%% The abstract is a short summary of the work to be presented in the
+%% article.
 \begin{abstract}
 This paper introduces \qrlew{}, an \emph{open source} library that can parse SQL queries into \emph{Relations} --- an intermediate representation --- that keeps track of rich data types, value ranges, and row ownership; so that they can easily be rewritten into \emph{differentially-private} equivalent and turned back into SQL queries for execution in a variety of standard data stores.
 
 With \qrlew{}, a \emph{data practitioner} can express their data queries in standard SQL; the \emph{data owner} can run the rewritten query without any technical integration and with strong privacy guarantees on the output; and the query rewriting can be operated by a privacy-expert who must be trusted by the owner, but may belong to a separate organization.
 \end{abstract}
+
+
+%%
+%% Keywords. The author(s) should pick words that accurately describe
+%% the work being presented. Separate the keywords with commas.
+\keywords{databases, privacy, differential privacy, analytics, rewriting, SQL, big data}
+
+\maketitle
+
 
 \section{Introduction}
 
@@ -137,7 +179,7 @@ It may also be a static list of values or a set operation between two \emph{Rela
 
 \begin{figure}[t]
     \centering
-    \includegraphics[width=0.7\textwidth]{figures/relation}
+    \includegraphics[width=0.4\textwidth]{figures/relation}
     \caption{\emph{Relation} (\emph{Map}) associated to the query: \texttt{SELECT a, count(abs(10*a+b)) AS x FROM table\_1 WHERE b>-0.1 AND a IN (1,2,3) GROUP BY a}. The arrows point to the inputs of each \emph{Relation}. Note the propagation of the data type ranges.}
     \label{process}
 \end{figure}
@@ -263,7 +305,7 @@ In the computation graph, while each node's multiple rewriting rules might sugge
 
 \begin{figure*}[t]
     \centering
-    \includegraphics[width=0.9\textwidth]{figures/set_eliminate_select} % Reduce the figure size so that it is slightly narrower than the column.
+    \includegraphics[width=0.8\textwidth]{figures/set_eliminate_select} % Reduce the figure size so that it is slightly narrower than the column.
     \caption{The rewriting happens in three steps: \emph{Rule Setting} when we assign the set of potential rewriting rules to each \emph{Relation} in a computation graph; \emph{Rule Elimination}, when only feasible rewriting rules are preserved; and \emph{Rule Selection}, when an actual allocation is selected.}
     \label{fig:set_eliminate_select}
 \end{figure*}
@@ -284,7 +326,7 @@ All \emph{rewriting rules} with \emph{DP} outputs require the input of the \emph
     \item Making sure the grouping keys of the \texttt{GROUP BY} clause are either public or released through a differentially private mechanism.
 \end{itemize}
 
-\subsubsection{Protecting aggregation results}
+\subsection{Protecting aggregation results}
 
 The protection of aggregation functions is carried out in two steps. Given that all currently supported aggregations (\texttt{COUNT}, \texttt{SUM}, \texttt{AVG}, \texttt{VARIANCE} \texttt{STDDEV}) can be reduced to sums, our focus will be on \texttt{SUM} aggregations, i.e. the computation of partial sums of a column for different groups: $j\in\{1,\ldots,m\}$, of rows.
 
@@ -308,7 +350,7 @@ with some DP guarantees. To this end we:
     Note that the vector of sums has $\ell^2$ \emph{Global Sensitivity} of $c$, so this is an application of the \emph{Gaussian Mechanism} (see: theorem A.1. in \cite{dwork2014algorithmic}) and the mechanism is $\varepsilon, \delta$-differentially private.
 \end{enumerate}
 
-\subsubsection{Protecting grouping keys}
+\subsection{Protecting grouping keys}
 
 When the grouping keys from a are derived from the data, they are not safe for publication.
 Following \cite{korolova2009releasing, wilson2019differentially}, we use a mechanism called \emph{$\tau$-thresholding} to safely release these grouping keys.
@@ -369,11 +411,16 @@ This last point comes with some limitations (see section~\ref{sec:limitations}),
 The code is available on github: \url{https://github.com/Qrlew/qrlew} with a Python bindings: \url{https://github.com/Qrlew/pyqrlew}, a short description: \url{https://qrlew.github.io/}\\
 and an interactive demo: \url{https://qrlew.github.io/dp}.
 
-\bibliographystyle{alpha}
+%%
+%% The next two lines define the bibliography style to be used, and
+%% the bibliography file.
+\bibliographystyle{ACM-Reference-Format}
 \bibliography{qrlew}
-\appendix
 
-\section*{Appendix}
+
+%%
+%% If your work has an appendix, this is the place to put it.
+\appendix
 
 \section*{Clipping value used to limit the contribution per user within the aggregations}
 \label{sec:limit_contrib_per_user}
@@ -405,3 +452,6 @@ The algorithm inputting the $(\varepsilon, \delta)$ parameters is indeed $(\vare
 We have verified this property holds true for various queries.
 
 \end{document}
+\endinput
+%%
+%% End of file `sample-sigconf.tex'.

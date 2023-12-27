@@ -14,7 +14,8 @@ author = 'Sarus Technologies'
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
 extensions = [
-    'myst_parser',
+    # 'myst_parser',
+    'myst_nb',
     'sphinx.ext.doctest',
     'sphinx.ext.autodoc',
     'sphinx.ext.autosummary',

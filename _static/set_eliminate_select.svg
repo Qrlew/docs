@@ -1,0 +1,2896 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="360mm"
+   height="500mm"
+   viewBox="0 0 1020.1283 1418.6606"
+   version="1.1"
+   id="svg143"
+   sodipodi:docname="set_eliminate_select.svg"
+   inkscape:version="1.3 (0e150ed, 2023-07-21)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs143">
+    <rect
+       x="494.03572"
+       y="537.62711"
+       width="330.95339"
+       height="105.84487"
+       id="rect56" />
+    <marker
+       style="overflow:visible"
+       id="ConcaveTriangle"
+       refX="0"
+       refY="0"
+       orient="auto-start-reverse"
+       inkscape:stockid="Concave triangle arrow"
+       markerWidth="1"
+       markerHeight="1"
+       viewBox="0 0 1 1"
+       inkscape:isstock="true"
+       inkscape:collect="always"
+       preserveAspectRatio="xMidYMid">
+      <path
+         transform="scale(0.7)"
+         d="M -2,-4 9,0 -2,4 c 2,-2.33 2,-5.66 0,-8 z"
+         style="fill:context-stroke;fill-rule:evenodd;stroke:none"
+         id="path7" />
+    </marker>
+    <rect
+       x="494.03572"
+       y="537.62711"
+       width="348.73109"
+       height="146.62557"
+       id="rect61" />
+    <rect
+       x="494.03572"
+       y="537.62711"
+       width="364.58251"
+       height="134.73701"
+       id="rect95" />
+    <rect
+       x="494.03572"
+       y="537.62711"
+       width="179.64935"
+       height="180.9703"
+       id="rect99" />
+  </defs>
+  <sodipodi:namedview
+     id="namedview143"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="pt"
+     inkscape:zoom="1.7358468"
+     inkscape:cx="613.53341"
+     inkscape:cy="1028.8927"
+     inkscape:window-width="2528"
+     inkscape:window-height="1367"
+     inkscape:window-x="1796"
+     inkscape:window-y="0"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="svg143" />
+  <g
+     id="g146"
+     transform="translate(-37.126081,-10.727378)">
+    <g
+       id="node1"
+       class="node"
+       transform="translate(47.30024,409.03602)">
+      <title
+         id="title2">graph_qqit</title>
+      <path
+         fill="#428e92"
+         stroke="#000000"
+         stroke-opacity="0.333333"
+         d="m 320.58,-384.37 c 0,0 -206.63,0 -206.63,0 -6,0 -12,6 -12,12 0,0 0,26 0,26 0,6 6,12 12,12 0,0 206.63,0 206.63,0 6,0 12,-6 12,-12 0,0 0,-26 0,-26 0,-6 -6,-12 -12,-12"
+         id="path2"
+         style="fill:#b6d7a8;fill-opacity:1" />
+      <text
+         text-anchor="start"
+         x="189.46001"
+         y="-361.47"
+         font-family="'Red Hat Display', sans-serif"
+         font-weight="bold"
+         font-size="11px"
+         fill="#000000"
+         fill-opacity="0.733333"
+         id="text2">MAP_94NB</text>
+      <text
+         text-anchor="start"
+         x="115.86"
+         y="-350.47"
+         font-family="'Red Hat Display', sans-serif"
+         font-size="11px"
+         fill="#000000"
+         fill-opacity="0.733333"
+         id="text3">order_id, sum_price, count_price, mean_price</text>
+    </g>
+    <g
+       id="node2"
+       class="node"
+       transform="translate(47.30024,409.03602)">
+      <title
+         id="title3">graph_bm1k</title>
+      <circle
+         fill="#17becf"
+         stroke="#000000"
+         stroke-opacity="0.333333"
+         cx="30.26"
+         cy="-275.10999"
+         id="ellipse3"
+         r="30.030001"
+         style="fill:#17becf;fill-opacity:0.5" />
+      <text
+         text-anchor="start"
+         x="24.040001"
+         y="-282.31"
+         font-family="'Red Hat Display', sans-serif"
+         font-size="8px"
+         id="text4">Pub</text>
+      <text
+         text-anchor="start"
+         x="27.26"
+         y="-272.70999"
+         font-family="'Red Hat Display', sans-serif"
+         font-size="8px"
+         id="text5">→</text>
+      <text
+         text-anchor="start"
+         x="24.040001"
+         y="-263.10999"
+         font-family="'Red Hat Display', sans-serif"
+         font-size="8px"
+         id="text6">Pub</text>
+    </g>
+    <g
+       id="edge17"
+       class="edge"
+       transform="translate(47.30024,409.03602)">
+      <title
+         id="title6">graph_qqit-&gt;graph_bm1k</title>
+      <path
+         fill="none"
+         stroke="#2b303a"
+         stroke-dasharray="1, 5"
+         d="m 134.84,-334.25 c -22.22,7.89 -45.84,17.58 -66.58,28.88 -2.23,1.22 -4.48,2.56 -6.7,3.99"
+         id="path6" />
+      <polygon
+         fill="#2b303a"
+         stroke="#2b303a"
+         points="53.19,-295.59 59.42,-304.16 63.4,-298.4 "
+         id="polygon6" />
+    </g>
+    <g
+       id="node3"
+       class="node"
+       transform="translate(47.30024,409.03602)">
+      <title
+         id="title7">graph_k66i</title>
+      <circle
+         fill="#9467bd"
+         stroke="#000000"
+         stroke-opacity="0.333333"
+         cx="105.26"
+         cy="-275.10999"
+         id="ellipse7"
+         r="30.030001"
+         style="fill:#9467bd;fill-opacity:0.5" />
+      <text
+         text-anchor="start"
+         x="97.040001"
+         y="-282.31"
+         font-family="'Red Hat Display', sans-serif"
+         font-size="8px"
+         id="text7">Pubd</text>
+      <text
+         text-anchor="start"
+         x="102.26"
+         y="-272.70999"
+         font-family="'Red Hat Display', sans-serif"
+         font-size="8px"
+         id="text8">→</text>
+      <text
+         text-anchor="start"
+         x="97.040001"
+         y="-263.10999"
+         font-family="'Red Hat Display', sans-serif"
+         font-size="8px"
+         id="text9">Pubd</text>
+    </g>
+    <g
+       id="edge18"
+       class="edge"
+       transform="translate(47.30024,409.03602)">
+      <title
+         id="title9">graph_qqit-&gt;graph_k66i</title>
+      <path
+         fill="none"
+         stroke="#2b303a"
+         stroke-dasharray="1, 5"
+         d="m 183.19,-334.35 c -12.61,9 -26.99,19.36 -39.93,28.98 -2.04,1.52 -4.14,3.09 -6.26,4.69"
+         id="path9" />
+      <polygon
+         fill="#2b303a"
+         stroke="#2b303a"
+         points="128.88,-294.5 134.72,-303.34 138.96,-297.77 "
+         id="polygon9" />
+    </g>
+    <g
+       id="node4"
+       class="node"
+       transform="translate(47.30024,409.03602)">
+      <title
+         id="title10">graph_r8zf</title>
+      <circle
+         fill="#9467bd"
+         stroke="#000000"
+         stroke-opacity="0.333333"
+         cx="180.25999"
+         cy="-275.10999"
+         id="ellipse10"
+         r="30.030001"
+         style="fill:#9467bd;fill-opacity:0.5" />
+      <text
+         text-anchor="start"
+         x="175.14999"
+         y="-282.31"
+         font-family="'Red Hat Display', sans-serif"
+         font-size="8px"
+         id="text10">DP</text>
+      <text
+         text-anchor="start"
+         x="177.25999"
+         y="-272.70999"
+         font-family="'Red Hat Display', sans-serif"
+         font-size="8px"
+         id="text11">→</text>
+      <text
+         text-anchor="start"
+         x="172.03999"
+         y="-263.10999"
+         font-family="'Red Hat Display', sans-serif"
+         font-size="8px"
+         id="text12">Pubd</text>
+    </g>
+    <g
+       id="edge19"
+       class="edge"
+       transform="translate(47.30024,409.03602)">
+      <title
+         id="title12">graph_qqit-&gt;graph_r8zf</title>
+      <path
+         fill="none"
+         stroke="#2b303a"
+         stroke-dasharray="1, 5"
+         d="m 206.36,-334.14 c -3.08,6.87 -6.51,14.49 -9.84,21.9"
+         id="path12" />
+      <polygon
+         fill="#2b303a"
+         stroke="#2b303a"
+         points="192.38,-303.05 193.29,-313.61 199.68,-310.74 "
+         id="polygon12" />
+    </g>
+    <g
+       id="node5"
+       class="node"
+       transform="translate(47.30024,409.03602)">
+      <title
+         id="title13">graph_ubt6</title>
+      <circle
+         fill="#ff7f0e"
+         stroke="#000000"
+         stroke-opacity="0.333333"
+         cx="255.25999"
+         cy="-275.10999"
+         id="ellipse13"
+         r="30.030001"
+         style="fill:#ff7f0e;fill-opacity:0.5" />
+      <text
+         text-anchor="start"
+         x="248.37"
+         y="-282.31"
+         font-family="'Red Hat Display', sans-serif"
+         font-size="8px"
+         id="text13">PUP</text>
+      <text
+         text-anchor="start"
+         x="252.25999"
+         y="-272.70999"
+         font-family="'Red Hat Display', sans-serif"
+         font-size="8px"
+         id="text14">→</text>
+      <text
+         text-anchor="start"
+         x="248.37"
+         y="-263.10999"
+         font-family="'Red Hat Display', sans-serif"
+         font-size="8px"
+         id="text15">PUP</text>
+    </g>
+    <g
+       id="edge20"
+       class="edge"
+       transform="translate(47.30024,409.03602)">
+      <title
+         id="title15">graph_qqit-&gt;graph_ubt6</title>
+      <path
+         fill="none"
+         stroke="#2b303a"
+         stroke-dasharray="1, 5"
+         d="m 228.46,-334.14 c 3.2,6.93 6.76,14.64 10.21,22.11"
+         id="path15" />
+      <polygon
+         fill="#2b303a"
+         stroke="#2b303a"
+         points="242.95,-302.76 235.58,-310.37 241.94,-313.31 "
+         id="polygon15" />
+    </g>
+    <g
+       id="node6"
+       class="node"
+       transform="translate(47.30024,409.03602)">
+      <title
+         id="title16">graph_16vh</title>
+      <circle
+         fill="#1f77b4"
+         stroke="#000000"
+         stroke-opacity="0.333333"
+         cx="330.26001"
+         cy="-275.10999"
+         id="ellipse16"
+         r="30.030001"
+         style="fill:#1f77b4;fill-opacity:0.5" />
+      <text
+         text-anchor="start"
+         x="325.14999"
+         y="-282.31"
+         font-family="'Red Hat Display', sans-serif"
+         font-size="8px"
+         id="text16">SD</text>
+      <text
+         text-anchor="start"
+         x="327.26001"
+         y="-272.70999"
+         font-family="'Red Hat Display', sans-serif"
+         font-size="8px"
+         id="text17">→</text>
+      <text
+         text-anchor="start"
+         x="325.14999"
+         y="-263.10999"
+         font-family="'Red Hat Display', sans-serif"
+         font-size="8px"
+         id="text18">SD</text>
+    </g>
+    <g
+       id="edge21"
+       class="edge"
+       transform="translate(47.30024,409.03602)">
+      <title
+         id="title18">graph_qqit-&gt;graph_16vh</title>
+      <path
+         fill="none"
+         stroke="#2b303a"
+         stroke-dasharray="1, 5"
+         d="m 252.2,-334.13 c 12.7,8.93 27.11,19.19 40.06,28.76 2.06,1.51 4.16,3.08 6.28,4.67"
+         id="path18" />
+      <polygon
+         fill="#2b303a"
+         stroke="#2b303a"
+         points="306.66,-294.53 296.58,-297.79 300.82,-303.36 "
+         id="polygon18" />
+    </g>
+    <g
+       id="node7"
+       class="node"
+       transform="translate(47.30024,409.03602)">
+      <title
+         id="title19">graph_a6u2</title>
+      <path
+         fill="#00363a"
+         stroke="#000000"
+         stroke-opacity="0.333333"
+         d="m 597.88,-300.11 c 0,0 -211.23,0 -211.23,0 -6,0 -12,6 -12,12 0,0 0,26 0,26 0,6 6,12 12,12 0,0 211.23,0 211.23,0 6,0 12,-6 12,-12 0,0 0,-26 0,-26 0,-6 -6,-12 -12,-12"
+         id="path19"
+         style="fill:#274e13;fill-opacity:1" />
+      <text
+         text-anchor="start"
+         x="453.16"
+         y="-277.20999"
+         font-family="'Red Hat Display', sans-serif"
+         font-weight="bold"
+         font-size="11px"
+         fill="#ffffff"
+         fill-opacity="0.733333"
+         id="text19">REDUCE_X2CQ</text>
+      <text
+         text-anchor="start"
+         x="388.70999"
+         y="-266.20999"
+         font-family="'Red Hat Display', sans-serif"
+         font-size="11px"
+         fill="#ffffff"
+         fill-opacity="0.733333"
+         id="text20">field_1by4, field_z039, field_lr4c, field_wm9y</text>
+    </g>
+    <g
+       id="edge16"
+       class="edge"
+       transform="translate(47.30024,409.03602)">
+      <title
+         id="title20">graph_qqit-&gt;graph_a6u2</title>
+      <path
+         fill="none"
+         stroke="#2b303a"
+         d="m 297.54,-334.36 c 32.76,9.8 70.79,21.17 104.5,31.26"
+         id="path20" />
+      <polygon
+         fill="#2b303a"
+         stroke="#2b303a"
+         points="411.88,-300.16 401.3,-299.67 403.31,-306.37 "
+         id="polygon20" />
+    </g>
+    <g
+       id="node8"
+       class="node"
+       transform="translate(47.30024,409.03602)">
+      <title
+         id="title21">graph_nd2w</title>
+      <circle
+         fill="#17becf"
+         stroke="#000000"
+         stroke-opacity="0.333333"
+         cx="305.26001"
+         cy="-185.58"
+         id="ellipse21"
+         r="30.030001"
+         style="fill:#17becf;fill-opacity:0.5" />
+      <text
+         text-anchor="start"
+         x="299.04001"
+         y="-192.78"
+         font-family="'Red Hat Display', sans-serif"
+         font-size="8px"
+         id="text21">Pub</text>
+      <text
+         text-anchor="start"
+         x="302.26001"
+         y="-183.17999"
+         font-family="'Red Hat Display', sans-serif"
+         font-size="8px"
+         id="text22">→</text>
+      <text
+         text-anchor="start"
+         x="299.04001"
+         y="-173.58"
+         font-family="'Red Hat Display', sans-serif"
+         font-size="8px"
+         id="text23">Pub</text>
+    </g>
+    <g
+       id="edge11"
+       class="edge"
+       transform="translate(47.30024,409.03602)">
+      <title
+         id="title23">graph_a6u2-&gt;graph_nd2w</title>
+      <path
+         fill="none"
+         stroke="#2b303a"
+         stroke-dasharray="1, 5"
+         d="m 418.75,-250.09 c -24.68,9.29 -51.91,20.92 -75.49,34.24 -2.22,1.26 -4.45,2.63 -6.66,4.08"
+         id="path23" />
+      <polygon
+         fill="#2b303a"
+         stroke="#2b303a"
+         points="328.26,-205.94 334.45,-214.54 338.46,-208.8 "
+         id="polygon23" />
+    </g>
+    <g
+       id="node9"
+       class="node"
+       transform="translate(47.30024,409.03602)">
+      <title
+         id="title24">graph_1_v2</title>
+      <circle
+         fill="#9467bd"
+         stroke="#000000"
+         stroke-opacity="0.333333"
+         cx="380.26001"
+         cy="-185.58"
+         id="ellipse24"
+         r="30.030001"
+         style="fill:#9467bd;fill-opacity:0.5" />
+      <text
+         text-anchor="start"
+         x="372.04001"
+         y="-192.78"
+         font-family="'Red Hat Display', sans-serif"
+         font-size="8px"
+         id="text24">Pubd</text>
+      <text
+         text-anchor="start"
+         x="377.26001"
+         y="-183.17999"
+         font-family="'Red Hat Display', sans-serif"
+         font-size="8px"
+         id="text25">→</text>
+      <text
+         text-anchor="start"
+         x="372.04001"
+         y="-173.58"
+         font-family="'Red Hat Display', sans-serif"
+         font-size="8px"
+         id="text26">Pubd</text>
+    </g>
+    <g
+       id="edge12"
+       class="edge"
+       transform="translate(47.30024,409.03602)">
+      <title
+         id="title26">graph_a6u2-&gt;graph_1_v2</title>
+      <path
+         fill="none"
+         stroke="#2b303a"
+         stroke-dasharray="1, 5"
+         d="m 461.36,-249.96 c -15.29,11.95 -33.74,26.37 -49.17,38.43"
+         id="path26" />
+      <polygon
+         fill="#2b303a"
+         stroke="#2b303a"
+         points="403.96,-205.1 409.68,-214.02 414,-208.5 "
+         id="polygon26" />
+    </g>
+    <g
+       id="node10"
+       class="node"
+       transform="translate(47.30024,409.03602)">
+      <title
+         id="title27">graph_o410</title>
+      <circle
+         fill="#d62728"
+         stroke="#000000"
+         stroke-opacity="0.333333"
+         cx="455.26001"
+         cy="-185.58"
+         id="ellipse27"
+         r="30.030001"
+         style="fill:#d62728;fill-opacity:0.5" />
+      <text
+         text-anchor="start"
+         x="448.37"
+         y="-192.78"
+         font-family="'Red Hat Display', sans-serif"
+         font-size="8px"
+         id="text27">PUP</text>
+      <text
+         text-anchor="start"
+         x="452.26001"
+         y="-183.17999"
+         font-family="'Red Hat Display', sans-serif"
+         font-size="8px"
+         id="text28">→</text>
+      <text
+         text-anchor="start"
+         x="450.14999"
+         y="-173.58"
+         font-family="'Red Hat Display', sans-serif"
+         font-size="8px"
+         id="text29">DP</text>
+    </g>
+    <g
+       id="edge13"
+       class="edge"
+       transform="translate(47.30024,409.03602)">
+      <title
+         id="title29">graph_a6u2-&gt;graph_o410</title>
+      <path
+         fill="none"
+         stroke="#2b303a"
+         stroke-dasharray="1, 5"
+         d="m 481.96,-249.73 c -3.46,8.17 -7.39,17.48 -11.15,26.38"
+         id="path29" />
+      <polygon
+         fill="#2b303a"
+         stroke="#2b303a"
+         points="466.82,-213.91 467.49,-224.49 473.93,-221.76 "
+         id="polygon29" />
+    </g>
+    <g
+       id="node11"
+       class="node"
+       transform="translate(47.30024,409.03602)">
+      <title
+         id="title30">graph_rs3d</title>
+      <circle
+         fill="#1f77b4"
+         stroke="#000000"
+         stroke-opacity="0.333333"
+         cx="530.26001"
+         cy="-185.58"
+         id="ellipse30"
+         r="30.030001"
+         style="fill:#1f77b4;fill-opacity:0.5" />
+      <text
+         text-anchor="start"
+         x="525.15002"
+         y="-192.78"
+         font-family="'Red Hat Display', sans-serif"
+         font-size="8px"
+         id="text30">SD</text>
+      <text
+         text-anchor="start"
+         x="527.26001"
+         y="-183.17999"
+         font-family="'Red Hat Display', sans-serif"
+         font-size="8px"
+         id="text31">→</text>
+      <text
+         text-anchor="start"
+         x="525.15002"
+         y="-173.58"
+         font-family="'Red Hat Display', sans-serif"
+         font-size="8px"
+         id="text32">SD</text>
+    </g>
+    <g
+       id="edge14"
+       class="edge"
+       transform="translate(47.30024,409.03602)">
+      <title
+         id="title32">graph_a6u2-&gt;graph_rs3d</title>
+      <path
+         fill="none"
+         stroke="#2b303a"
+         stroke-dasharray="1, 5"
+         d="m 502.85,-249.73 c 3.62,8.34 7.75,17.85 11.68,26.91"
+         id="path32" />
+      <polygon
+         fill="#2b303a"
+         stroke="#2b303a"
+         points="518.53,-213.6 511.34,-221.38 517.76,-224.17 "
+         id="polygon32" />
+    </g>
+    <g
+       id="node12"
+       class="node"
+       transform="translate(47.30024,409.03602)">
+      <title
+         id="title33">graph_l3hd</title>
+      <circle
+         fill="#9467bd"
+         stroke="#000000"
+         stroke-opacity="0.333333"
+         cx="605.26001"
+         cy="-185.58"
+         id="ellipse33"
+         r="30.030001"
+         style="fill:#9467bd;fill-opacity:0.5" />
+      <text
+         text-anchor="start"
+         x="600.15002"
+         y="-192.78"
+         font-family="'Red Hat Display', sans-serif"
+         font-size="8px"
+         id="text33">SD</text>
+      <text
+         text-anchor="start"
+         x="602.26001"
+         y="-183.17999"
+         font-family="'Red Hat Display', sans-serif"
+         font-size="8px"
+         id="text34">→</text>
+      <text
+         text-anchor="start"
+         x="597.03998"
+         y="-173.58"
+         font-family="'Red Hat Display', sans-serif"
+         font-size="8px"
+         id="text35">Pubd</text>
+    </g>
+    <g
+       id="edge15"
+       class="edge"
+       transform="translate(47.30024,409.03602)">
+      <title
+         id="title35">graph_a6u2-&gt;graph_l3hd</title>
+      <path
+         fill="none"
+         stroke="#2b303a"
+         stroke-dasharray="1, 5"
+         d="m 523.44,-249.96 c 15.54,12.04 34.31,26.58 49.95,38.69"
+         id="path35" />
+      <polygon
+         fill="#2b303a"
+         stroke="#2b303a"
+         points="581.72,-204.82 571.67,-208.18 575.95,-213.71 "
+         id="polygon35" />
+    </g>
+    <g
+       id="node13"
+       class="node"
+       transform="translate(47.30024,409.03602)">
+      <title
+         id="title36">graph_70r1</title>
+      <path
+         fill="#428e92"
+         stroke="#000000"
+         stroke-opacity="0.333333"
+         d="m 768.41,-210.58 c 0,0 -106.29,0 -106.29,0 -6,0 -12,6 -12,12 0,0 0,26 0,26 0,6 6,12 12,12 0,0 106.29,0 106.29,0 6,0 12,-6 12,-12 0,0 0,-26 0,-26 0,-6 -6,-12 -12,-12"
+         id="path36"
+         style="fill:#b6d7a8;fill-opacity:1" />
+      <text
+         text-anchor="start"
+         x="686.23999"
+         y="-187.67999"
+         font-family="'Red Hat Display', sans-serif"
+         font-weight="bold"
+         font-size="11px"
+         fill="#000000"
+         fill-opacity="0.733333"
+         id="text36">MAP_OQR1</text>
+      <text
+         text-anchor="start"
+         x="663.94"
+         y="-176.67999"
+         font-family="'Red Hat Display', sans-serif"
+         font-size="11px"
+         fill="#000000"
+         fill-opacity="0.733333"
+         id="text37">field_z650, field_08wv</text>
+    </g>
+    <g
+       id="edge10"
+       class="edge"
+       transform="translate(47.30024,409.03602)">
+      <title
+         id="title37">graph_a6u2-&gt;graph_70r1</title>
+      <path
+         fill="none"
+         stroke="#2b303a"
+         d="m 554.72,-250.02 c 26.96,10.44 58.83,22.84 87.54,34.17 1.22,0.48 2.44,0.97 3.68,1.46"
+         id="path37" />
+      <polygon
+         fill="#2b303a"
+         stroke="#2b303a"
+         points="655.53,-210.59 644.94,-211.02 647.52,-217.53 "
+         id="polygon37" />
+    </g>
+    <g
+       id="node14"
+       class="node"
+       transform="translate(47.30024,409.03602)">
+      <title
+         id="title38">graph_bmk8</title>
+      <circle
+         fill="#17becf"
+         stroke="#000000"
+         stroke-opacity="0.333333"
+         cx="528.26001"
+         cy="-96.050003"
+         id="ellipse38"
+         r="30.030001"
+         style="fill:#17becf;fill-opacity:0.5" />
+      <text
+         text-anchor="start"
+         x="522.03998"
+         y="-103.25"
+         font-family="'Red Hat Display', sans-serif"
+         font-size="8px"
+         id="text38">Pub</text>
+      <text
+         text-anchor="start"
+         x="525.26001"
+         y="-93.650002"
+         font-family="'Red Hat Display', sans-serif"
+         font-size="8px"
+         id="text39">→</text>
+      <text
+         text-anchor="start"
+         x="522.03998"
+         y="-84.050003"
+         font-family="'Red Hat Display', sans-serif"
+         font-size="8px"
+         id="text40">Pub</text>
+    </g>
+    <g
+       id="edge5"
+       class="edge"
+       transform="translate(47.30024,409.03602)">
+      <title
+         id="title40">graph_70r1-&gt;graph_bmk8</title>
+      <path
+         fill="none"
+         stroke="#2b303a"
+         stroke-dasharray="1, 5"
+         d="m 655.54,-160.55 c -4.49,1.78 -8.95,3.54 -13.28,5.23 -33.66,13.17 -44.45,11.34 -76,29 -2.22,1.25 -4.46,2.61 -6.67,4.05"
+         id="path40" />
+      <polygon
+         fill="#2b303a"
+         stroke="#2b303a"
+         points="551.24,-116.44 557.44,-125.03 561.44,-119.29 "
+         id="polygon40" />
+    </g>
+    <g
+       id="node15"
+       class="node"
+       transform="translate(47.30024,409.03602)">
+      <title
+         id="title41">graph_i7k9</title>
+      <circle
+         fill="#9467bd"
+         stroke="#000000"
+         stroke-opacity="0.333333"
+         cx="603.26001"
+         cy="-96.050003"
+         id="ellipse41"
+         r="30.030001"
+         style="fill:#9467bd;fill-opacity:0.5" />
+      <text
+         text-anchor="start"
+         x="595.03998"
+         y="-103.25"
+         font-family="'Red Hat Display', sans-serif"
+         font-size="8px"
+         id="text41">Pubd</text>
+      <text
+         text-anchor="start"
+         x="600.26001"
+         y="-93.650002"
+         font-family="'Red Hat Display', sans-serif"
+         font-size="8px"
+         id="text42">→</text>
+      <text
+         text-anchor="start"
+         x="595.03998"
+         y="-84.050003"
+         font-family="'Red Hat Display', sans-serif"
+         font-size="8px"
+         id="text43">Pubd</text>
+    </g>
+    <g
+       id="edge6"
+       class="edge"
+       transform="translate(47.30024,409.03602)">
+      <title
+         id="title43">graph_70r1-&gt;graph_i7k9</title>
+      <path
+         fill="none"
+         stroke="#2b303a"
+         stroke-dasharray="1, 5"
+         d="m 684.36,-160.43 c -15.29,11.95 -33.74,26.37 -49.17,38.43"
+         id="path43" />
+      <polygon
+         fill="#2b303a"
+         stroke="#2b303a"
+         points="626.96,-115.57 632.68,-124.49 637,-118.97 "
+         id="polygon43" />
+    </g>
+    <g
+       id="node16"
+       class="node"
+       transform="translate(47.30024,409.03602)">
+      <title
+         id="title44">graph_2obg</title>
+      <circle
+         fill="#9467bd"
+         stroke="#000000"
+         stroke-opacity="0.333333"
+         cx="678.26001"
+         cy="-96.050003"
+         id="ellipse44"
+         r="30.030001"
+         style="fill:#9467bd;fill-opacity:0.5" />
+      <text
+         text-anchor="start"
+         x="673.15002"
+         y="-103.25"
+         font-family="'Red Hat Display', sans-serif"
+         font-size="8px"
+         id="text44">DP</text>
+      <text
+         text-anchor="start"
+         x="675.26001"
+         y="-93.650002"
+         font-family="'Red Hat Display', sans-serif"
+         font-size="8px"
+         id="text45">→</text>
+      <text
+         text-anchor="start"
+         x="670.03998"
+         y="-84.050003"
+         font-family="'Red Hat Display', sans-serif"
+         font-size="8px"
+         id="text46">Pubd</text>
+    </g>
+    <g
+       id="edge7"
+       class="edge"
+       transform="translate(47.30024,409.03602)">
+      <title
+         id="title46">graph_70r1-&gt;graph_2obg</title>
+      <path
+         fill="none"
+         stroke="#2b303a"
+         stroke-dasharray="1, 5"
+         d="m 704.96,-160.2 c -3.46,8.17 -7.39,17.47 -11.15,26.38"
+         id="path46" />
+      <polygon
+         fill="#2b303a"
+         stroke="#2b303a"
+         points="689.82,-124.38 690.49,-134.96 696.93,-132.23 "
+         id="polygon46" />
+    </g>
+    <g
+       id="node17"
+       class="node"
+       transform="translate(47.30024,409.03602)">
+      <title
+         id="title47">graph_rbrn</title>
+      <circle
+         fill="#ff7f0e"
+         stroke="#000000"
+         stroke-opacity="0.333333"
+         cx="753.26001"
+         cy="-96.050003"
+         id="ellipse47"
+         r="30.030001"
+         style="fill:#ff7f0e;fill-opacity:0.5" />
+      <text
+         text-anchor="start"
+         x="746.37"
+         y="-103.25"
+         font-family="'Red Hat Display', sans-serif"
+         font-size="8px"
+         id="text47">PUP</text>
+      <text
+         text-anchor="start"
+         x="750.26001"
+         y="-93.650002"
+         font-family="'Red Hat Display', sans-serif"
+         font-size="8px"
+         id="text48">→</text>
+      <text
+         text-anchor="start"
+         x="746.37"
+         y="-84.050003"
+         font-family="'Red Hat Display', sans-serif"
+         font-size="8px"
+         id="text49">PUP</text>
+    </g>
+    <g
+       id="edge8"
+       class="edge"
+       transform="translate(47.30024,409.03602)">
+      <title
+         id="title49">graph_70r1-&gt;graph_rbrn</title>
+      <path
+         fill="none"
+         stroke="#2b303a"
+         stroke-dasharray="1, 5"
+         d="m 725.85,-160.2 c 3.62,8.33 7.75,17.84 11.68,26.91"
+         id="path49" />
+      <polygon
+         fill="#2b303a"
+         stroke="#2b303a"
+         points="741.53,-124.07 734.34,-131.85 740.76,-134.64 "
+         id="polygon49" />
+    </g>
+    <g
+       id="node18"
+       class="node"
+       transform="translate(47.30024,409.03602)">
+      <title
+         id="title50">graph_cqhx</title>
+      <circle
+         fill="#1f77b4"
+         stroke="#000000"
+         stroke-opacity="0.333333"
+         cx="828.26001"
+         cy="-96.050003"
+         id="ellipse50"
+         r="30.030001"
+         style="fill:#1f77b4;fill-opacity:0.5" />
+      <text
+         text-anchor="start"
+         x="823.15002"
+         y="-103.25"
+         font-family="'Red Hat Display', sans-serif"
+         font-size="8px"
+         id="text50">SD</text>
+      <text
+         text-anchor="start"
+         x="825.26001"
+         y="-93.650002"
+         font-family="'Red Hat Display', sans-serif"
+         font-size="8px"
+         id="text51">→</text>
+      <text
+         text-anchor="start"
+         x="823.15002"
+         y="-84.050003"
+         font-family="'Red Hat Display', sans-serif"
+         font-size="8px"
+         id="text52">SD</text>
+    </g>
+    <g
+       id="edge9"
+       class="edge"
+       transform="translate(47.30024,409.03602)">
+      <title
+         id="title52">graph_70r1-&gt;graph_cqhx</title>
+      <path
+         fill="none"
+         stroke="#2b303a"
+         stroke-dasharray="1, 5"
+         d="m 746.44,-160.43 c 15.54,12.04 34.31,26.57 49.95,38.69"
+         id="path52" />
+      <polygon
+         fill="#2b303a"
+         stroke="#2b303a"
+         points="804.72,-115.29 794.67,-118.65 798.95,-124.18 "
+         id="polygon52" />
+    </g>
+    <g
+       id="node19"
+       class="node"
+       transform="translate(47.30024,409.03602)">
+      <title
+         id="title53">graph_u0za</title>
+      <path
+         fill="#ff1744"
+         stroke="#000000"
+         stroke-opacity="0.333333"
+         d="m 978.07,-121.05 c 0,0 -93.61,0 -93.61,0 -6,0 -12,6 -12,12 0,0 0,26 0,26 0,6 6,12 12,12 0,0 93.61,0 93.61,0 6,0 12,-6 12,-12 0,0 0,-26 0,-26 0,-6 -6,-12 -12,-12"
+         id="path53"
+         style="fill:#990000;fill-opacity:1" />
+      <text
+         text-anchor="start"
+         x="914.77002"
+         y="-98.150002"
+         font-family="'Red Hat Display', sans-serif"
+         font-weight="bold"
+         font-size="11px"
+         fill="#ffffff"
+         fill-opacity="0.733333"
+         id="text53">ITEMS</text>
+      <text
+         text-anchor="start"
+         x="886.35999"
+         y="-87.150002"
+         font-family="'Red Hat Display', sans-serif"
+         font-size="11px"
+         fill="#ffffff"
+         fill-opacity="0.733333"
+         id="text54">order_id, item, price</text>
+    </g>
+    <g
+       id="edge4"
+       class="edge"
+       transform="translate(47.30024,409.03602)">
+      <title
+         id="title54">graph_70r1-&gt;graph_u0za</title>
+      <path
+         fill="none"
+         stroke="#2b303a"
+         d="m 779.03,-160.57 c 26.75,10.27 58.11,22.56 86.23,34.25 1.02,0.42 2.04,0.85 3.06,1.28"
+         id="path54" />
+      <polygon
+         fill="#2b303a"
+         stroke="#2b303a"
+         points="877.68,-121.06 867.11,-121.75 869.85,-128.19 "
+         id="polygon54" />
+    </g>
+    <g
+       id="node20"
+       class="node"
+       transform="translate(47.30024,409.03602)">
+      <title
+         id="title55">graph_g2xc</title>
+      <circle
+         fill="#bcbd22"
+         stroke="#000000"
+         stroke-opacity="0.333333"
+         cx="881.26001"
+         cy="-18.389999"
+         id="ellipse55"
+         r="18.200001"
+         style="fill:#bcbd22;fill-opacity:0.5" />
+      <text
+         text-anchor="start"
+         x="874.59998"
+         y="-15.99"
+         font-family="'Red Hat Display', sans-serif"
+         font-size="8px"
+         id="text55">Priv</text>
+    </g>
+    <g
+       id="edge1"
+       class="edge"
+       transform="translate(47.30024,409.03602)">
+      <title
+         id="title56">graph_u0za-&gt;graph_g2xc</title>
+      <path
+         fill="none"
+         stroke="#2b303a"
+         stroke-dasharray="1, 5"
+         d="m 915.17,-70.7 c -6,9.07 -12.78,19.33 -18.69,28.28"
+         id="path56" />
+      <polygon
+         fill="#2b303a"
+         stroke="#2b303a"
+         points="890.92,-34 893.51,-44.27 899.35,-40.41 "
+         id="polygon56" />
+    </g>
+    <g
+       id="node21"
+       class="node"
+       transform="translate(47.30024,409.03602)">
+      <title
+         id="title57">graph_x4km</title>
+      <circle
+         fill="#1f77b4"
+         stroke="#000000"
+         stroke-opacity="0.333333"
+         cx="931.26001"
+         cy="-18.389999"
+         id="ellipse57"
+         r="18"
+         style="fill:#1f77b4;fill-opacity:0.5" />
+      <text
+         text-anchor="start"
+         x="926.15002"
+         y="-15.99"
+         font-family="'Red Hat Display', sans-serif"
+         font-size="8px"
+         id="text57">SD</text>
+    </g>
+    <g
+       id="edge2"
+       class="edge"
+       transform="translate(47.30024,409.03602)">
+      <title
+         id="title58">graph_u0za-&gt;graph_x4km</title>
+      <path
+         fill="none"
+         stroke="#2b303a"
+         stroke-dasharray="1, 5"
+         d="m 931.26,-70.7 c 0,7.6 0,16.04 0,23.84"
+         id="path58" />
+      <polygon
+         fill="#2b303a"
+         stroke="#2b303a"
+         points="931.26,-36.75 927.76,-46.75 934.76,-46.75 "
+         id="polygon58" />
+    </g>
+    <g
+       id="node22"
+       class="node"
+       transform="translate(47.30024,409.03602)">
+      <title
+         id="title59">graph_5fao</title>
+      <circle
+         fill="#ff7f0e"
+         stroke="#000000"
+         stroke-opacity="0.333333"
+         cx="981.26001"
+         cy="-18.389999"
+         id="ellipse59"
+         r="18.290001"
+         style="fill:#ff7f0e;fill-opacity:0.5" />
+      <text
+         text-anchor="start"
+         x="974.37"
+         y="-15.99"
+         font-family="'Red Hat Display', sans-serif"
+         font-size="8px"
+         id="text59">PUP</text>
+    </g>
+    <g
+       id="edge3"
+       class="edge"
+       transform="translate(47.30024,409.03602)">
+      <title
+         id="title60">graph_u0za-&gt;graph_5fao</title>
+      <path
+         fill="none"
+         stroke="#2b303a"
+         stroke-dasharray="1, 5"
+         d="m 947.36,-70.7 c 5.91,8.94 12.58,19.04 18.44,27.9"
+         id="path60" />
+      <polygon
+         fill="#2b303a"
+         stroke="#2b303a"
+         points="971.32,-34.45 962.88,-40.86 968.72,-44.72 "
+         id="polygon60" />
+    </g>
+  </g>
+  <g
+     id="g143"
+     transform="translate(-33.454271,157.36943)">
+    <g
+       id="g63"
+       class="node"
+       transform="translate(212.62843,745.59697)">
+      <title
+         id="title62">graph_ahv7</title>
+      <path
+         fill="#428e92"
+         stroke="#000000"
+         stroke-opacity="0.333333"
+         d="m 245.58,-384.37 c 0,0 -206.63,0 -206.63,0 -6,0 -12,6 -12,12 0,0 0,26 0,26 0,6 6,12 12,12 0,0 206.63,0 206.63,0 6,0 12,-6 12,-12 0,0 0,-26 0,-26 0,-6 -6,-12 -12,-12"
+         id="path62"
+         style="fill:#b6d7a8;fill-opacity:1" />
+      <text
+         text-anchor="start"
+         x="114.46"
+         y="-361.47"
+         font-family="'Red Hat Display', sans-serif"
+         font-weight="bold"
+         font-size="11px"
+         fill="#000000"
+         fill-opacity="0.733333"
+         id="text62">MAP_94NB</text>
+      <text
+         text-anchor="start"
+         x="40.860001"
+         y="-350.47"
+         font-family="'Red Hat Display', sans-serif"
+         font-size="11px"
+         fill="#000000"
+         fill-opacity="0.733333"
+         id="text63">order_id, sum_price, count_price, mean_price</text>
+    </g>
+    <g
+       id="g66"
+       class="node"
+       transform="translate(212.62843,745.59697)">
+      <title
+         id="title63">graph_e4_l</title>
+      <circle
+         fill="#9467bd"
+         stroke="#000000"
+         stroke-opacity="0.333333"
+         cx="30.26"
+         cy="-275.10999"
+         id="ellipse63"
+         r="30.030001"
+         style="fill:#9467bd;fill-opacity:0.5" />
+      <text
+         text-anchor="start"
+         x="22.040001"
+         y="-282.31"
+         font-family="'Red Hat Display', sans-serif"
+         font-size="8px"
+         id="text64">Pubd</text>
+      <text
+         text-anchor="start"
+         x="27.26"
+         y="-272.70999"
+         font-family="'Red Hat Display', sans-serif"
+         font-size="8px"
+         id="text65">→</text>
+      <text
+         text-anchor="start"
+         x="22.040001"
+         y="-263.10999"
+         font-family="'Red Hat Display', sans-serif"
+         font-size="8px"
+         id="text66">Pubd</text>
+    </g>
+    <g
+       id="g67"
+       class="edge"
+       transform="translate(212.62843,745.59697)">
+      <title
+         id="title66">graph_ahv7-&gt;graph_e4_l</title>
+      <path
+         fill="none"
+         stroke="#2b303a"
+         stroke-dasharray="1, 5"
+         d="m 108.19,-334.35 c -12.61,9 -26.99,19.36 -39.93,28.98 -2.04,1.52 -4.14,3.09 -6.26,4.69"
+         id="path66" />
+      <polygon
+         fill="#2b303a"
+         stroke="#2b303a"
+         points="59.72,-303.34 63.96,-297.77 53.88,-294.5 "
+         id="polygon66" />
+    </g>
+    <g
+       id="g69"
+       class="node"
+       transform="translate(212.62843,745.59697)">
+      <title
+         id="title67">graph_x8rw</title>
+      <circle
+         fill="#9467bd"
+         stroke="#000000"
+         stroke-opacity="0.333333"
+         cx="105.26"
+         cy="-275.10999"
+         id="ellipse67"
+         r="30.030001"
+         style="fill:#9467bd;fill-opacity:0.5" />
+      <text
+         text-anchor="start"
+         x="100.15"
+         y="-282.31"
+         font-family="'Red Hat Display', sans-serif"
+         font-size="8px"
+         id="text67">DP</text>
+      <text
+         text-anchor="start"
+         x="102.26"
+         y="-272.70999"
+         font-family="'Red Hat Display', sans-serif"
+         font-size="8px"
+         id="text68">→</text>
+      <text
+         text-anchor="start"
+         x="97.040001"
+         y="-263.10999"
+         font-family="'Red Hat Display', sans-serif"
+         font-size="8px"
+         id="text69">Pubd</text>
+    </g>
+    <g
+       id="g70"
+       class="edge"
+       transform="translate(212.62843,745.59697)">
+      <title
+         id="title69">graph_ahv7-&gt;graph_x8rw</title>
+      <path
+         fill="none"
+         stroke="#2b303a"
+         stroke-dasharray="1, 5"
+         d="m 131.36,-334.14 c -3.08,6.87 -6.51,14.49 -9.84,21.9"
+         id="path69" />
+      <polygon
+         fill="#2b303a"
+         stroke="#2b303a"
+         points="118.29,-313.61 124.68,-310.74 117.38,-303.05 "
+         id="polygon69" />
+    </g>
+    <g
+       id="g72"
+       class="node"
+       transform="translate(212.62843,745.59697)">
+      <title
+         id="title70">graph_n44p</title>
+      <circle
+         fill="#1f77b4"
+         stroke="#000000"
+         stroke-opacity="0.333333"
+         cx="180.25999"
+         cy="-275.10999"
+         id="ellipse70"
+         r="30.030001"
+         style="fill:#1f77b4;fill-opacity:0.5" />
+      <text
+         text-anchor="start"
+         x="175.14999"
+         y="-282.31"
+         font-family="'Red Hat Display', sans-serif"
+         font-size="8px"
+         id="text70">SD</text>
+      <text
+         text-anchor="start"
+         x="177.25999"
+         y="-272.70999"
+         font-family="'Red Hat Display', sans-serif"
+         font-size="8px"
+         id="text71">→</text>
+      <text
+         text-anchor="start"
+         x="175.14999"
+         y="-263.10999"
+         font-family="'Red Hat Display', sans-serif"
+         font-size="8px"
+         id="text72">SD</text>
+    </g>
+    <g
+       id="g73"
+       class="edge"
+       transform="translate(212.62843,745.59697)">
+      <title
+         id="title72">graph_ahv7-&gt;graph_n44p</title>
+      <path
+         fill="none"
+         stroke="#2b303a"
+         stroke-dasharray="1, 5"
+         d="m 153.46,-334.14 c 3.2,6.93 6.76,14.64 10.21,22.11"
+         id="path72" />
+      <polygon
+         fill="#2b303a"
+         stroke="#2b303a"
+         points="160.58,-310.37 166.94,-313.31 167.95,-302.76 "
+         id="polygon72" />
+    </g>
+    <g
+       id="g74"
+       class="node"
+       transform="translate(212.62843,745.59697)">
+      <title
+         id="title73">graph_gzc4</title>
+      <path
+         fill="#00363a"
+         stroke="#000000"
+         stroke-opacity="0.333333"
+         d="m 447.88,-300.11 c 0,0 -211.23,0 -211.23,0 -6,0 -12,6 -12,12 0,0 0,26 0,26 0,6 6,12 12,12 0,0 211.23,0 211.23,0 6,0 12,-6 12,-12 0,0 0,-26 0,-26 0,-6 -6,-12 -12,-12"
+         id="path73"
+         style="fill:#274e13;fill-opacity:1" />
+      <text
+         text-anchor="start"
+         x="303.16"
+         y="-277.20999"
+         font-family="'Red Hat Display', sans-serif"
+         font-weight="bold"
+         font-size="11px"
+         fill="#ffffff"
+         fill-opacity="0.733333"
+         id="text73">REDUCE_X2CQ</text>
+      <text
+         text-anchor="start"
+         x="238.71001"
+         y="-266.20999"
+         font-family="'Red Hat Display', sans-serif"
+         font-size="11px"
+         fill="#ffffff"
+         fill-opacity="0.733333"
+         id="text74">field_1by4, field_z039, field_lr4c, field_wm9y</text>
+    </g>
+    <g
+       id="g75"
+       class="edge"
+       transform="translate(212.62843,745.59697)">
+      <title
+         id="title74">graph_ahv7-&gt;graph_gzc4</title>
+      <path
+         fill="none"
+         stroke="#2b303a"
+         d="m 200.65,-334.36 c 23.11,9.5 49.82,20.49 73.78,30.35"
+         id="path74" />
+      <polygon
+         fill="#2b303a"
+         stroke="#2b303a"
+         points="273.23,-300.72 275.89,-307.2 283.81,-300.16 "
+         id="polygon74" />
+    </g>
+    <g
+       id="g77"
+       class="node"
+       transform="translate(212.62843,745.59697)">
+      <title
+         id="title75">graph_3hay</title>
+      <circle
+         fill="#d62728"
+         stroke="#000000"
+         stroke-opacity="0.333333"
+         cx="230.25999"
+         cy="-185.58"
+         id="ellipse75"
+         r="30.030001"
+         style="fill:#d62728;fill-opacity:0.5" />
+      <text
+         text-anchor="start"
+         x="223.37"
+         y="-192.78"
+         font-family="'Red Hat Display', sans-serif"
+         font-size="8px"
+         id="text75">PUP</text>
+      <text
+         text-anchor="start"
+         x="227.25999"
+         y="-183.17999"
+         font-family="'Red Hat Display', sans-serif"
+         font-size="8px"
+         id="text76">→</text>
+      <text
+         text-anchor="start"
+         x="225.14999"
+         y="-173.58"
+         font-family="'Red Hat Display', sans-serif"
+         font-size="8px"
+         id="text77">DP</text>
+    </g>
+    <g
+       id="g78"
+       class="edge"
+       transform="translate(212.62843,745.59697)">
+      <title
+         id="title77">graph_gzc4-&gt;graph_3hay</title>
+      <path
+         fill="none"
+         stroke="#2b303a"
+         stroke-dasharray="1, 5"
+         d="m 311.36,-249.96 c -15.29,11.95 -33.74,26.37 -49.17,38.43"
+         id="path77" />
+      <polygon
+         fill="#2b303a"
+         stroke="#2b303a"
+         points="259.68,-214.02 264,-208.5 253.96,-205.1 "
+         id="polygon77" />
+    </g>
+    <g
+       id="g80"
+       class="node"
+       transform="translate(212.62843,745.59697)">
+      <title
+         id="title78">graph_kowg</title>
+      <circle
+         fill="#1f77b4"
+         stroke="#000000"
+         stroke-opacity="0.333333"
+         cx="305.26001"
+         cy="-185.58"
+         id="ellipse78"
+         r="30.030001"
+         style="fill:#1f77b4;fill-opacity:0.5" />
+      <text
+         text-anchor="start"
+         x="300.14999"
+         y="-192.78"
+         font-family="'Red Hat Display', sans-serif"
+         font-size="8px"
+         id="text78">SD</text>
+      <text
+         text-anchor="start"
+         x="302.26001"
+         y="-183.17999"
+         font-family="'Red Hat Display', sans-serif"
+         font-size="8px"
+         id="text79">→</text>
+      <text
+         text-anchor="start"
+         x="300.14999"
+         y="-173.58"
+         font-family="'Red Hat Display', sans-serif"
+         font-size="8px"
+         id="text80">SD</text>
+    </g>
+    <g
+       id="g81"
+       class="edge"
+       transform="translate(212.62843,745.59697)">
+      <title
+         id="title80">graph_gzc4-&gt;graph_kowg</title>
+      <path
+         fill="none"
+         stroke="#2b303a"
+         stroke-dasharray="1, 5"
+         d="m 331.96,-249.73 c -3.46,8.17 -7.39,17.48 -11.15,26.38"
+         id="path80" />
+      <polygon
+         fill="#2b303a"
+         stroke="#2b303a"
+         points="317.49,-224.49 323.93,-221.76 316.82,-213.91 "
+         id="polygon80" />
+    </g>
+    <g
+       id="g83"
+       class="node"
+       transform="translate(212.62843,745.59697)">
+      <title
+         id="title81">graph_apzt</title>
+      <circle
+         fill="#9467bd"
+         stroke="#000000"
+         stroke-opacity="0.333333"
+         cx="380.26001"
+         cy="-185.58"
+         id="ellipse81"
+         r="30.030001"
+         style="fill:#9467bd;fill-opacity:0.5" />
+      <text
+         text-anchor="start"
+         x="375.14999"
+         y="-192.78"
+         font-family="'Red Hat Display', sans-serif"
+         font-size="8px"
+         id="text81">SD</text>
+      <text
+         text-anchor="start"
+         x="377.26001"
+         y="-183.17999"
+         font-family="'Red Hat Display', sans-serif"
+         font-size="8px"
+         id="text82">→</text>
+      <text
+         text-anchor="start"
+         x="372.04001"
+         y="-173.58"
+         font-family="'Red Hat Display', sans-serif"
+         font-size="8px"
+         id="text83">Pubd</text>
+    </g>
+    <g
+       id="g84"
+       class="edge"
+       transform="translate(212.62843,745.59697)">
+      <title
+         id="title83">graph_gzc4-&gt;graph_apzt</title>
+      <path
+         fill="none"
+         stroke="#2b303a"
+         stroke-dasharray="1, 5"
+         d="m 352.85,-249.73 c 3.62,8.34 7.75,17.85 11.68,26.91"
+         id="path83" />
+      <polygon
+         fill="#2b303a"
+         stroke="#2b303a"
+         points="361.34,-221.38 367.76,-224.17 368.53,-213.6 "
+         id="polygon83" />
+    </g>
+    <g
+       id="g85"
+       class="node"
+       transform="translate(212.62843,745.59697)">
+      <title
+         id="title84">graph_fmxd</title>
+      <path
+         fill="#428e92"
+         stroke="#000000"
+         stroke-opacity="0.333333"
+         d="m 543.41,-210.58 c 0,0 -106.29,0 -106.29,0 -6,0 -12,6 -12,12 0,0 0,26 0,26 0,6 6,12 12,12 0,0 106.29,0 106.29,0 6,0 12,-6 12,-12 0,0 0,-26 0,-26 0,-6 -6,-12 -12,-12"
+         id="path84"
+         style="fill:#b6d7a8;fill-opacity:1" />
+      <text
+         text-anchor="start"
+         x="461.23999"
+         y="-187.67999"
+         font-family="'Red Hat Display', sans-serif"
+         font-weight="bold"
+         font-size="11px"
+         fill="#000000"
+         fill-opacity="0.733333"
+         id="text84">MAP_OQR1</text>
+      <text
+         text-anchor="start"
+         x="438.94"
+         y="-176.67999"
+         font-family="'Red Hat Display', sans-serif"
+         font-size="11px"
+         fill="#000000"
+         fill-opacity="0.733333"
+         id="text85">field_z650, field_08wv</text>
+    </g>
+    <g
+       id="g86"
+       class="edge"
+       transform="translate(212.62843,745.59697)">
+      <title
+         id="title85">graph_gzc4-&gt;graph_fmxd</title>
+      <path
+         fill="none"
+         stroke="#2b303a"
+         d="m 383.1,-249.96 c 17.87,10.57 39,23.07 57.76,34.16"
+         id="path85" />
+      <polygon
+         fill="#2b303a"
+         stroke="#2b303a"
+         points="439.17,-212.73 442.74,-218.76 449.56,-210.65 "
+         id="polygon85" />
+    </g>
+    <g
+       id="g88"
+       class="node"
+       transform="translate(212.62843,745.59697)">
+      <title
+         id="title86">graph_g7_r</title>
+      <circle
+         fill="#ff7f0e"
+         stroke="#000000"
+         stroke-opacity="0.333333"
+         cx="415.26001"
+         cy="-96.050003"
+         id="ellipse86"
+         r="30.030001"
+         style="fill:#ff7f0e;fill-opacity:0.5" />
+      <text
+         text-anchor="start"
+         x="408.37"
+         y="-103.25"
+         font-family="'Red Hat Display', sans-serif"
+         font-size="8px"
+         id="text86">PUP</text>
+      <text
+         text-anchor="start"
+         x="412.26001"
+         y="-93.650002"
+         font-family="'Red Hat Display', sans-serif"
+         font-size="8px"
+         id="text87">→</text>
+      <text
+         text-anchor="start"
+         x="408.37"
+         y="-84.050003"
+         font-family="'Red Hat Display', sans-serif"
+         font-size="8px"
+         id="text88">PUP</text>
+    </g>
+    <g
+       id="g89"
+       class="edge"
+       transform="translate(212.62843,745.59697)">
+      <title
+         id="title88">graph_fmxd-&gt;graph_g7_r</title>
+      <path
+         fill="none"
+         stroke="#2b303a"
+         stroke-dasharray="1, 5"
+         d="m 469.37,-160.2 c -8.79,10.26 -19.1,22.29 -28.35,33.09"
+         id="path88" />
+      <polygon
+         fill="#2b303a"
+         stroke="#2b303a"
+         points="438.35,-129.38 443.67,-124.82 434.5,-119.51 "
+         id="polygon88" />
+    </g>
+    <g
+       id="g91"
+       class="node"
+       transform="translate(212.62843,745.59697)">
+      <title
+         id="title89">graph_blh2</title>
+      <circle
+         fill="#1f77b4"
+         stroke="#000000"
+         stroke-opacity="0.333333"
+         cx="490.26001"
+         cy="-96.050003"
+         id="ellipse89"
+         r="30.030001"
+         style="fill:#1f77b4;fill-opacity:0.5" />
+      <text
+         text-anchor="start"
+         x="485.14999"
+         y="-103.25"
+         font-family="'Red Hat Display', sans-serif"
+         font-size="8px"
+         id="text89">SD</text>
+      <text
+         text-anchor="start"
+         x="487.26001"
+         y="-93.650002"
+         font-family="'Red Hat Display', sans-serif"
+         font-size="8px"
+         id="text90">→</text>
+      <text
+         text-anchor="start"
+         x="485.14999"
+         y="-84.050003"
+         font-family="'Red Hat Display', sans-serif"
+         font-size="8px"
+         id="text91">SD</text>
+    </g>
+    <g
+       id="g92"
+       class="edge"
+       transform="translate(212.62843,745.59697)">
+      <title
+         id="title91">graph_fmxd-&gt;graph_blh2</title>
+      <path
+         fill="none"
+         stroke="#2b303a"
+         stroke-dasharray="1, 5"
+         d="m 490.26,-160.2 c 0,7.33 0,15.56 0,23.6"
+         id="path91" />
+      <polygon
+         fill="#2b303a"
+         stroke="#2b303a"
+         points="486.76,-136.59 493.76,-136.59 490.26,-126.59 "
+         id="polygon91" />
+    </g>
+    <g
+       id="g93"
+       class="node"
+       transform="translate(212.62843,745.59697)">
+      <title
+         id="title92">graph_u0za</title>
+      <path
+         fill="#ff1744"
+         stroke="#000000"
+         stroke-opacity="0.333333"
+         d="m 640.07,-121.05 c 0,0 -93.61,0 -93.61,0 -6,0 -12,6 -12,12 0,0 0,26 0,26 0,6 6,12 12,12 0,0 93.61,0 93.61,0 6,0 12,-6 12,-12 0,0 0,-26 0,-26 0,-6 -6,-12 -12,-12"
+         id="path92"
+         style="fill:#990000;fill-opacity:1" />
+      <text
+         text-anchor="start"
+         x="576.77002"
+         y="-98.150002"
+         font-family="'Red Hat Display', sans-serif"
+         font-weight="bold"
+         font-size="11px"
+         fill="#ffffff"
+         fill-opacity="0.733333"
+         id="text92">ITEMS</text>
+      <text
+         text-anchor="start"
+         x="548.35999"
+         y="-87.150002"
+         font-family="'Red Hat Display', sans-serif"
+         font-size="11px"
+         fill="#ffffff"
+         fill-opacity="0.733333"
+         id="text93">order_id, item, price</text>
+    </g>
+    <g
+       id="g94"
+       class="edge"
+       transform="translate(212.62843,745.59697)">
+      <title
+         id="title93">graph_fmxd-&gt;graph_u0za</title>
+      <path
+         fill="none"
+         stroke="#2b303a"
+         d="m 518.68,-160.43 c 11.94,10.14 25.95,22.05 38.6,32.79"
+         id="path93" />
+      <polygon
+         fill="#2b303a"
+         stroke="#2b303a"
+         points="555.05,-124.93 559.59,-130.27 564.94,-121.12 "
+         id="polygon93" />
+    </g>
+    <g
+       id="g95"
+       class="node"
+       transform="translate(212.62843,745.59697)">
+      <title
+         id="title94">graph_g2xc</title>
+      <circle
+         fill="#bcbd22"
+         stroke="#000000"
+         stroke-opacity="0.333333"
+         cx="543.26001"
+         cy="-18.389999"
+         id="ellipse94"
+         r="18.200001"
+         style="fill:#bcbd22;fill-opacity:0.5" />
+      <text
+         text-anchor="start"
+         x="536.59998"
+         y="-15.99"
+         font-family="'Red Hat Display', sans-serif"
+         font-size="8px"
+         id="text94">Priv</text>
+    </g>
+    <g
+       id="g96"
+       class="edge"
+       transform="translate(212.62843,745.59697)">
+      <title
+         id="title95">graph_u0za-&gt;graph_g2xc</title>
+      <path
+         fill="none"
+         stroke="#2b303a"
+         stroke-dasharray="1, 5"
+         d="m 577.17,-70.7 c -6,9.07 -12.78,19.33 -18.69,28.28"
+         id="path95" />
+      <polygon
+         fill="#2b303a"
+         stroke="#2b303a"
+         points="555.51,-44.27 561.35,-40.41 552.92,-34 "
+         id="polygon95" />
+    </g>
+    <g
+       id="g97"
+       class="node"
+       transform="translate(212.62843,745.59697)">
+      <title
+         id="title96">graph_x4km</title>
+      <circle
+         fill="#1f77b4"
+         stroke="#000000"
+         stroke-opacity="0.333333"
+         cx="593.26001"
+         cy="-18.389999"
+         id="ellipse96"
+         r="18"
+         style="fill:#1f77b4;fill-opacity:0.5" />
+      <text
+         text-anchor="start"
+         x="588.15002"
+         y="-15.99"
+         font-family="'Red Hat Display', sans-serif"
+         font-size="8px"
+         id="text96">SD</text>
+    </g>
+    <g
+       id="g98"
+       class="edge"
+       transform="translate(212.62843,745.59697)">
+      <title
+         id="title97">graph_u0za-&gt;graph_x4km</title>
+      <path
+         fill="none"
+         stroke="#2b303a"
+         stroke-dasharray="1, 5"
+         d="m 593.26,-70.7 c 0,7.6 0,16.04 0,23.84"
+         id="path97" />
+      <polygon
+         fill="#2b303a"
+         stroke="#2b303a"
+         points="589.76,-46.75 596.76,-46.75 593.26,-36.75 "
+         id="polygon97" />
+    </g>
+    <g
+       id="g99"
+       class="node"
+       transform="translate(212.62843,745.59697)">
+      <title
+         id="title98">graph_5fao</title>
+      <circle
+         fill="#ff7f0e"
+         stroke="#000000"
+         stroke-opacity="0.333333"
+         cx="643.26001"
+         cy="-18.389999"
+         id="ellipse98"
+         r="18.290001"
+         style="fill:#ff7f0e;fill-opacity:0.5" />
+      <text
+         text-anchor="start"
+         x="636.37"
+         y="-15.99"
+         font-family="'Red Hat Display', sans-serif"
+         font-size="8px"
+         id="text98">PUP</text>
+    </g>
+    <g
+       id="g100"
+       class="edge"
+       transform="translate(212.62843,745.59697)">
+      <title
+         id="title99">graph_u0za-&gt;graph_5fao</title>
+      <path
+         fill="none"
+         stroke="#2b303a"
+         stroke-dasharray="1, 5"
+         d="m 609.36,-70.7 c 5.91,8.94 12.58,19.04 18.44,27.9"
+         id="path99" />
+      <polygon
+         fill="#2b303a"
+         stroke="#2b303a"
+         points="624.88,-40.86 630.72,-44.72 633.32,-34.45 "
+         id="polygon99" />
+    </g>
+  </g>
+  <g
+     id="g147"
+     transform="translate(-73.644861,26.148917)">
+    <g
+       id="g144"
+       transform="translate(0,-2.46025)">
+      <g
+         id="g103"
+         class="node"
+         transform="translate(102.40963,1383.4955)">
+        <title
+           id="title102">graph_w9tz</title>
+        <path
+           fill="#428e92"
+           stroke="#000000"
+           stroke-opacity="0.333333"
+           d="m 218.72,-383.59 c 0,0 -206.63,0 -206.63,0 -6,0 -12,6 -12,12 0,0 0,26 0,26 0,6 6,12 12,12 0,0 206.63,0 206.63,0 6,0 12,-6 12,-12 0,0 0,-26 0,-26 0,-6 -6,-12 -12,-12"
+           id="path102"
+           style="fill:#b6d7a8;fill-opacity:1" />
+        <text
+           text-anchor="start"
+           x="87.599998"
+           y="-360.69"
+           font-family="'Red Hat Display', sans-serif"
+           font-weight="bold"
+           font-size="11px"
+           fill="#000000"
+           fill-opacity="0.733333"
+           id="text102">MAP_94NB</text>
+        <text
+           text-anchor="start"
+           x="14"
+           y="-349.69"
+           font-family="'Red Hat Display', sans-serif"
+           font-size="11px"
+           fill="#000000"
+           fill-opacity="0.733333"
+           id="text103">order_id, sum_price, count_price, mean_price</text>
+      </g>
+      <g
+         id="g106"
+         class="node"
+         transform="translate(102.40963,1383.4955)">
+        <title
+           id="title103">graph_z6j4</title>
+        <circle
+           fill="#1f77b4"
+           stroke="#000000"
+           stroke-opacity="0.333333"
+           cx="34.41"
+           cy="-274.32001"
+           id="ellipse103"
+           r="30.030001"
+           style="fill:#1f77b4;fill-opacity:0.5" />
+        <text
+           text-anchor="start"
+           x="29.299999"
+           y="-281.51999"
+           font-family="'Red Hat Display', sans-serif"
+           font-size="8px"
+           id="text104">SD</text>
+        <text
+           text-anchor="start"
+           x="31.41"
+           y="-271.92001"
+           font-family="'Red Hat Display', sans-serif"
+           font-size="8px"
+           id="text105">→</text>
+        <text
+           text-anchor="start"
+           x="29.299999"
+           y="-262.32001"
+           font-family="'Red Hat Display', sans-serif"
+           font-size="8px"
+           id="text106">SD</text>
+      </g>
+      <g
+         id="g107"
+         class="edge"
+         transform="translate(102.40963,1383.4955)">
+        <title
+           id="title106">graph_w9tz-&gt;graph_z6j4</title>
+        <path
+           fill="none"
+           stroke="#2b303a"
+           stroke-dasharray="1, 5"
+           d="m 91.54,-333.35 c -9.15,9.29 -19.66,19.98 -29.16,29.62"
+           id="path106" />
+        <polygon
+           fill="#2b303a"
+           stroke="#2b303a"
+           points="64.86,-301.26 55.35,-296.59 59.87,-306.17 "
+           id="polygon106" />
+      </g>
+      <g
+         id="g108"
+         class="node"
+         transform="translate(102.40963,1383.4955)">
+        <title
+           id="title107">graph_10eu</title>
+        <path
+           fill="#00363a"
+           stroke="#000000"
+           stroke-opacity="0.333333"
+           d="m 302.02,-299.32 c 0,0 -211.23,0 -211.23,0 -6,0 -12,6 -12,12 0,0 0,26 0,26 0,6 6,12 12,12 0,0 211.23,0 211.23,0 6,0 12,-6 12,-12 0,0 0,-26 0,-26 0,-6 -6,-12 -12,-12"
+           id="path107"
+           style="fill:#274e13;fill-opacity:1" />
+        <text
+           text-anchor="start"
+           x="157.3"
+           y="-276.42001"
+           font-family="'Red Hat Display', sans-serif"
+           font-weight="bold"
+           font-size="11px"
+           fill="#ffffff"
+           fill-opacity="0.733333"
+           id="text107">REDUCE_X2CQ</text>
+        <text
+           text-anchor="start"
+           x="92.849998"
+           y="-265.42001"
+           font-family="'Red Hat Display', sans-serif"
+           font-size="11px"
+           fill="#ffffff"
+           fill-opacity="0.733333"
+           id="text108">field_1by4, field_z039, field_lr4c, field_wm9y</text>
+      </g>
+      <g
+         id="g109"
+         class="edge"
+         transform="translate(102.40963,1383.4955)">
+        <title
+           id="title108">graph_w9tz-&gt;graph_10eu</title>
+        <path
+           fill="none"
+           stroke="#2b303a"
+           d="m 139.27,-333.35 c 8.24,8.37 17.59,17.87 26.31,26.72"
+           id="path108" />
+        <polygon
+           fill="#2b303a"
+           stroke="#2b303a"
+           points="168.19,-308.97 172.71,-299.38 163.2,-304.05 "
+           id="polygon108" />
+      </g>
+      <g
+         id="g111"
+         class="node"
+         transform="translate(102.40963,1383.4955)">
+        <title
+           id="title109">graph_4bq6</title>
+        <circle
+           fill="#1f77b4"
+           stroke="#000000"
+           stroke-opacity="0.333333"
+           cx="141.41"
+           cy="-184.78999"
+           id="ellipse109"
+           r="30.030001"
+           style="fill:#1f77b4;fill-opacity:0.5" />
+        <text
+           text-anchor="start"
+           x="136.3"
+           y="-191.99001"
+           font-family="'Red Hat Display', sans-serif"
+           font-size="8px"
+           id="text109">SD</text>
+        <text
+           text-anchor="start"
+           x="138.41"
+           y="-182.39"
+           font-family="'Red Hat Display', sans-serif"
+           font-size="8px"
+           id="text110">→</text>
+        <text
+           text-anchor="start"
+           x="136.3"
+           y="-172.78999"
+           font-family="'Red Hat Display', sans-serif"
+           font-size="8px"
+           id="text111">SD</text>
+      </g>
+      <g
+         id="g112"
+         class="edge"
+         transform="translate(102.40963,1383.4955)">
+        <title
+           id="title111">graph_10eu-&gt;graph_4bq6</title>
+        <path
+           fill="none"
+           stroke="#2b303a"
+           stroke-dasharray="1, 5"
+           d="m 181.09,-248.94 c -5.7,9.06 -12.27,19.52 -18.4,29.27"
+           id="path111" />
+        <polygon
+           fill="#2b303a"
+           stroke="#2b303a"
+           points="165.5,-217.56 157.22,-210.96 159.58,-221.29 "
+           id="polygon111" />
+      </g>
+      <g
+         id="g113"
+         class="node"
+         transform="translate(102.40963,1383.4955)">
+        <title
+           id="title112">graph_7fhk</title>
+        <path
+           fill="#428e92"
+           stroke="#000000"
+           stroke-opacity="0.333333"
+           d="m 304.55,-209.79 c 0,0 -106.28,0 -106.28,0 -6,0 -12,6 -12,12 0,0 0,26 0,26 0,6 6,12 12,12 0,0 106.28,0 106.28,0 6,0 12,-6 12,-12 0,0 0,-26 0,-26 0,-6 -6,-12 -12,-12"
+           id="path112"
+           style="fill:#b6d7a8;fill-opacity:1" />
+        <text
+           text-anchor="start"
+           x="222.38"
+           y="-186.89"
+           font-family="'Red Hat Display', sans-serif"
+           font-weight="bold"
+           font-size="11px"
+           fill="#000000"
+           fill-opacity="0.733333"
+           id="text112">MAP_OQR1</text>
+        <text
+           text-anchor="start"
+           x="200.09"
+           y="-175.89"
+           font-family="'Red Hat Display', sans-serif"
+           font-size="11px"
+           fill="#000000"
+           fill-opacity="0.733333"
+           id="text113">field_z650, field_08wv</text>
+      </g>
+      <g
+         id="g114"
+         class="edge"
+         transform="translate(102.40963,1383.4955)">
+        <title
+           id="title113">graph_10eu-&gt;graph_7fhk</title>
+        <path
+           fill="none"
+           stroke="#2b303a"
+           d="m 211.73,-248.94 c 5.9,9.39 12.74,20.27 19.06,30.33"
+           id="path113" />
+        <polygon
+           fill="#2b303a"
+           stroke="#2b303a"
+           points="233.81,-220.37 236.17,-210.04 227.88,-216.65 "
+           id="polygon113" />
+      </g>
+      <g
+         id="g116"
+         class="node"
+         transform="translate(102.40963,1383.4955)">
+        <title
+           id="title114">graph_k3em</title>
+        <circle
+           fill="#1f77b4"
+           stroke="#000000"
+           stroke-opacity="0.333333"
+           cx="200.41"
+           cy="-95.260002"
+           id="ellipse114"
+           r="30.030001"
+           style="fill:#1f77b4;fill-opacity:0.5" />
+        <text
+           text-anchor="start"
+           x="195.3"
+           y="-102.46"
+           font-family="'Red Hat Display', sans-serif"
+           font-size="8px"
+           id="text114">SD</text>
+        <text
+           text-anchor="start"
+           x="197.41"
+           y="-92.860001"
+           font-family="'Red Hat Display', sans-serif"
+           font-size="8px"
+           id="text115">→</text>
+        <text
+           text-anchor="start"
+           x="195.3"
+           y="-83.260002"
+           font-family="'Red Hat Display', sans-serif"
+           font-size="8px"
+           id="text116">SD</text>
+      </g>
+      <g
+         id="g117"
+         class="edge"
+         transform="translate(102.40963,1383.4955)">
+        <title
+           id="title116">graph_7fhk-&gt;graph_k3em</title>
+        <path
+           fill="none"
+           stroke="#2b303a"
+           stroke-dasharray="1, 5"
+           d="m 237.2,-159.41 c -5.23,8.98 -11.27,19.33 -16.91,29.02"
+           id="path116" />
+        <polygon
+           fill="#2b303a"
+           stroke="#2b303a"
+           points="223.31,-128.61 215.25,-121.74 217.26,-132.14 "
+           id="polygon116" />
+      </g>
+      <g
+         id="g118"
+         class="node"
+         transform="translate(102.40963,1383.4955)">
+        <title
+           id="title117">graph_vcpn</title>
+        <path
+           fill="#ff1744"
+           stroke="#000000"
+           stroke-opacity="0.333333"
+           d="m 350.21,-120.26 c 0,0 -93.6,0 -93.6,0 -6,0 -12,6 -12,12 0,0 0,26 0,26 0,6 6,12 12,12 0,0 93.6,0 93.6,0 6,0 12,-6 12,-12 0,0 0,-26 0,-26 0,-6 -6,-12 -12,-12"
+           id="path117"
+           style="fill:#990000;fill-opacity:1" />
+        <text
+           text-anchor="start"
+           x="286.91"
+           y="-97.360001"
+           font-family="'Red Hat Display', sans-serif"
+           font-weight="bold"
+           font-size="11px"
+           fill="#ffffff"
+           fill-opacity="0.733333"
+           id="text117">ITEMS</text>
+        <text
+           text-anchor="start"
+           x="258.51001"
+           y="-86.360001"
+           font-family="'Red Hat Display', sans-serif"
+           font-size="11px"
+           fill="#ffffff"
+           fill-opacity="0.733333"
+           id="text118">order_id, item, price</text>
+      </g>
+      <g
+         id="g119"
+         class="edge"
+         transform="translate(102.40963,1383.4955)">
+        <title
+           id="title118">graph_7fhk-&gt;graph_vcpn</title>
+        <path
+           fill="none"
+           stroke="#2b303a"
+           d="m 265.89,-159.41 c 5.52,9.29 11.91,20.05 17.84,30.02"
+           id="path118" />
+        <polygon
+           fill="#2b303a"
+           stroke="#2b303a"
+           points="286.9,-130.9 289,-120.51 280.88,-127.32 "
+           id="polygon118" />
+      </g>
+      <g
+         id="g120"
+         class="node"
+         transform="translate(102.40963,1383.4955)">
+        <title
+           id="title119">graph_h_wh</title>
+        <circle
+           fill="#1f77b4"
+           stroke="#000000"
+           stroke-opacity="0.333333"
+           cx="303.41"
+           cy="-18"
+           id="ellipse119"
+           r="18"
+           style="fill:#1f77b4;fill-opacity:0.5" />
+        <text
+           text-anchor="start"
+           x="298.29999"
+           y="-15.6"
+           font-family="'Red Hat Display', sans-serif"
+           font-size="8px"
+           id="text119">SD</text>
+      </g>
+      <g
+         id="g121"
+         class="edge"
+         transform="translate(102.40963,1383.4955)">
+        <title
+           id="title120">graph_vcpn-&gt;graph_h_wh</title>
+        <path
+           fill="none"
+           stroke="#2b303a"
+           stroke-dasharray="1, 5"
+           d="m 303.41,-70.04 c 0,7.57 0,15.96 0,23.72"
+           id="path120" />
+        <polygon
+           fill="#2b303a"
+           stroke="#2b303a"
+           points="306.91,-46.27 303.41,-36.27 299.91,-46.27 "
+           id="polygon120" />
+      </g>
+    </g>
+    <g
+       id="g145"
+       transform="translate(0,2.1202492)">
+      <g
+         id="g124"
+         class="node"
+         transform="translate(702.70842,1379.355)">
+        <title
+           id="title123">graph_4_0s</title>
+        <path
+           fill="#428e92"
+           stroke="#000000"
+           stroke-opacity="0.333333"
+           d="m 218.72,-384.37 c 0,0 -206.63,0 -206.63,0 -6,0 -12,6 -12,12 0,0 0,26 0,26 0,6 6,12 12,12 0,0 206.63,0 206.63,0 6,0 12,-6 12,-12 0,0 0,-26 0,-26 0,-6 -6,-12 -12,-12"
+           id="path123"
+           style="fill:#b6d7a8;fill-opacity:1" />
+        <text
+           text-anchor="start"
+           x="87.599998"
+           y="-361.47"
+           font-family="'Red Hat Display', sans-serif"
+           font-weight="bold"
+           font-size="11px"
+           fill="#000000"
+           fill-opacity="0.733333"
+           id="text123">MAP_94NB</text>
+        <text
+           text-anchor="start"
+           x="14"
+           y="-350.47"
+           font-family="'Red Hat Display', sans-serif"
+           font-size="11px"
+           fill="#000000"
+           fill-opacity="0.733333"
+           id="text124">order_id, sum_price, count_price, mean_price</text>
+      </g>
+      <g
+         id="g127"
+         class="node"
+         transform="translate(702.70842,1379.355)">
+        <title
+           id="title124">graph_9ojp</title>
+        <circle
+           fill="#9467bd"
+           stroke="#000000"
+           stroke-opacity="0.333333"
+           cx="34.41"
+           cy="-275.10999"
+           id="ellipse124"
+           r="30.030001"
+           style="fill:#9467bd;fill-opacity:0.5" />
+        <text
+           text-anchor="start"
+           x="29.299999"
+           y="-282.31"
+           font-family="'Red Hat Display', sans-serif"
+           font-size="8px"
+           id="text125">DP</text>
+        <text
+           text-anchor="start"
+           x="31.41"
+           y="-272.70999"
+           font-family="'Red Hat Display', sans-serif"
+           font-size="8px"
+           id="text126">→</text>
+        <text
+           text-anchor="start"
+           x="26.18"
+           y="-263.10999"
+           font-family="'Red Hat Display', sans-serif"
+           font-size="8px"
+           id="text127">Pubd</text>
+      </g>
+      <g
+         id="g128"
+         class="edge"
+         transform="translate(702.70842,1379.355)">
+        <title
+           id="title127">graph_4_0s-&gt;graph_9ojp</title>
+        <path
+           fill="none"
+           stroke="#2b303a"
+           stroke-dasharray="1, 5"
+           d="m 91.54,-334.14 c -9.15,9.29 -19.66,19.98 -29.16,29.62"
+           id="path127" />
+        <polygon
+           fill="#2b303a"
+           stroke="#2b303a"
+           points="59.87,-306.96 64.86,-302.05 55.35,-297.38 "
+           id="polygon127" />
+      </g>
+      <g
+         id="g129"
+         class="node"
+         transform="translate(702.70842,1379.355)">
+        <title
+           id="title128">graph_1s4j</title>
+        <path
+           fill="#00363a"
+           stroke="#000000"
+           stroke-opacity="0.333333"
+           d="m 302.02,-300.11 c 0,0 -211.23,0 -211.23,0 -6,0 -12,6 -12,12 0,0 0,26 0,26 0,6 6,12 12,12 0,0 211.23,0 211.23,0 6,0 12,-6 12,-12 0,0 0,-26 0,-26 0,-6 -6,-12 -12,-12"
+           id="path128"
+           style="fill:#274e13;fill-opacity:1" />
+        <text
+           text-anchor="start"
+           x="157.3"
+           y="-277.20999"
+           font-family="'Red Hat Display', sans-serif"
+           font-weight="bold"
+           font-size="11px"
+           fill="#ffffff"
+           fill-opacity="0.733333"
+           id="text128">REDUCE_X2CQ</text>
+        <text
+           text-anchor="start"
+           x="92.849998"
+           y="-266.20999"
+           font-family="'Red Hat Display', sans-serif"
+           font-size="11px"
+           fill="#ffffff"
+           fill-opacity="0.733333"
+           id="text129">field_1by4, field_z039, field_lr4c, field_wm9y</text>
+      </g>
+      <g
+         id="g130"
+         class="edge"
+         transform="translate(702.70842,1379.355)">
+        <title
+           id="title129">graph_4_0s-&gt;graph_1s4j</title>
+        <path
+           fill="none"
+           stroke="#2b303a"
+           d="m 139.27,-334.14 c 8.24,8.37 17.59,17.87 26.31,26.72"
+           id="path129" />
+        <polygon
+           fill="#2b303a"
+           stroke="#2b303a"
+           points="163.2,-304.84 168.19,-309.76 172.71,-300.17 "
+           id="polygon129" />
+      </g>
+      <g
+         id="g132"
+         class="node"
+         transform="translate(702.70842,1379.355)">
+        <title
+           id="title130">graph_oice</title>
+        <circle
+           fill="#d62728"
+           stroke="#000000"
+           stroke-opacity="0.333333"
+           cx="141.41"
+           cy="-185.58"
+           id="ellipse130"
+           r="30.030001"
+           style="fill:#d62728;fill-opacity:0.5" />
+        <text
+           text-anchor="start"
+           x="134.52"
+           y="-192.78"
+           font-family="'Red Hat Display', sans-serif"
+           font-size="8px"
+           id="text130">PUP</text>
+        <text
+           text-anchor="start"
+           x="138.41"
+           y="-183.17999"
+           font-family="'Red Hat Display', sans-serif"
+           font-size="8px"
+           id="text131">→</text>
+        <text
+           text-anchor="start"
+           x="136.3"
+           y="-173.58"
+           font-family="'Red Hat Display', sans-serif"
+           font-size="8px"
+           id="text132">DP</text>
+      </g>
+      <g
+         id="g133"
+         class="edge"
+         transform="translate(702.70842,1379.355)">
+        <title
+           id="title132">graph_1s4j-&gt;graph_oice</title>
+        <path
+           fill="none"
+           stroke="#2b303a"
+           stroke-dasharray="1, 5"
+           d="m 181.09,-249.73 c -5.7,9.06 -12.27,19.52 -18.4,29.27"
+           id="path132" />
+        <polygon
+           fill="#2b303a"
+           stroke="#2b303a"
+           points="159.58,-222.08 165.5,-218.35 157.22,-211.75 "
+           id="polygon132" />
+      </g>
+      <g
+         id="g134"
+         class="node"
+         transform="translate(702.70842,1379.355)">
+        <title
+           id="title133">graph_e2rv</title>
+        <path
+           fill="#428e92"
+           stroke="#000000"
+           stroke-opacity="0.333333"
+           d="m 304.55,-210.58 c 0,0 -106.28,0 -106.28,0 -6,0 -12,6 -12,12 0,0 0,26 0,26 0,6 6,12 12,12 0,0 106.28,0 106.28,0 6,0 12,-6 12,-12 0,0 0,-26 0,-26 0,-6 -6,-12 -12,-12"
+           id="path133"
+           style="fill:#b6d7a8;fill-opacity:1" />
+        <text
+           text-anchor="start"
+           x="222.38"
+           y="-187.67999"
+           font-family="'Red Hat Display', sans-serif"
+           font-weight="bold"
+           font-size="11px"
+           fill="#000000"
+           fill-opacity="0.733333"
+           id="text133">MAP_OQR1</text>
+        <text
+           text-anchor="start"
+           x="200.09"
+           y="-176.67999"
+           font-family="'Red Hat Display', sans-serif"
+           font-size="11px"
+           fill="#000000"
+           fill-opacity="0.733333"
+           id="text134">field_z650, field_08wv</text>
+      </g>
+      <g
+         id="g135"
+         class="edge"
+         transform="translate(702.70842,1379.355)">
+        <title
+           id="title134">graph_1s4j-&gt;graph_e2rv</title>
+        <path
+           fill="none"
+           stroke="#2b303a"
+           d="m 211.73,-249.73 c 5.9,9.39 12.74,20.27 19.06,30.33"
+           id="path134" />
+        <polygon
+           fill="#2b303a"
+           stroke="#2b303a"
+           points="227.88,-217.44 233.81,-221.16 236.17,-210.83 "
+           id="polygon134" />
+      </g>
+      <g
+         id="g137"
+         class="node"
+         transform="translate(702.70842,1379.355)">
+        <title
+           id="title135">graph__lva</title>
+        <circle
+           fill="#ff7f0e"
+           stroke="#000000"
+           stroke-opacity="0.333333"
+           cx="200.41"
+           cy="-96.050003"
+           id="ellipse135"
+           r="30.030001"
+           style="fill:#ff7f0e;fill-opacity:0.5" />
+        <text
+           text-anchor="start"
+           x="193.52"
+           y="-103.25"
+           font-family="'Red Hat Display', sans-serif"
+           font-size="8px"
+           id="text135">PUP</text>
+        <text
+           text-anchor="start"
+           x="197.41"
+           y="-93.650002"
+           font-family="'Red Hat Display', sans-serif"
+           font-size="8px"
+           id="text136">→</text>
+        <text
+           text-anchor="start"
+           x="193.52"
+           y="-84.050003"
+           font-family="'Red Hat Display', sans-serif"
+           font-size="8px"
+           id="text137">PUP</text>
+      </g>
+      <g
+         id="g138"
+         class="edge"
+         transform="translate(702.70842,1379.355)">
+        <title
+           id="title137">graph_e2rv-&gt;graph__lva</title>
+        <path
+           fill="none"
+           stroke="#2b303a"
+           stroke-dasharray="1, 5"
+           d="m 237.2,-160.2 c -5.23,8.98 -11.27,19.34 -16.91,29.02"
+           id="path137" />
+        <polygon
+           fill="#2b303a"
+           stroke="#2b303a"
+           points="217.26,-132.93 223.31,-129.4 215.25,-122.52 "
+           id="polygon137" />
+      </g>
+      <g
+         id="g139"
+         class="node"
+         transform="translate(702.70842,1379.355)">
+        <title
+           id="title138">graph_t14q</title>
+        <path
+           fill="#ff1744"
+           stroke="#000000"
+           stroke-opacity="0.333333"
+           d="m 350.21,-121.05 c 0,0 -93.6,0 -93.6,0 -6,0 -12,6 -12,12 0,0 0,26 0,26 0,6 6,12 12,12 0,0 93.6,0 93.6,0 6,0 12,-6 12,-12 0,0 0,-26 0,-26 0,-6 -6,-12 -12,-12"
+           id="path138"
+           style="fill:#990000;fill-opacity:1" />
+        <text
+           text-anchor="start"
+           x="286.91"
+           y="-98.150002"
+           font-family="'Red Hat Display', sans-serif"
+           font-weight="bold"
+           font-size="11px"
+           fill="#ffffff"
+           fill-opacity="0.733333"
+           id="text138">ITEMS</text>
+        <text
+           text-anchor="start"
+           x="258.51001"
+           y="-87.150002"
+           font-family="'Red Hat Display', sans-serif"
+           font-size="11px"
+           fill="#ffffff"
+           fill-opacity="0.733333"
+           id="text139">order_id, item, price</text>
+      </g>
+      <g
+         id="g140"
+         class="edge"
+         transform="translate(702.70842,1379.355)">
+        <title
+           id="title139">graph_e2rv-&gt;graph_t14q</title>
+        <path
+           fill="none"
+           stroke="#2b303a"
+           d="m 265.89,-160.2 c 5.52,9.29 11.91,20.05 17.84,30.02"
+           id="path139" />
+        <polygon
+           fill="#2b303a"
+           stroke="#2b303a"
+           points="280.88,-128.11 286.9,-131.69 289,-121.3 "
+           id="polygon139" />
+      </g>
+      <g
+         id="g141"
+         class="node"
+         transform="translate(702.70842,1379.355)">
+        <title
+           id="title140">graph_o1uq</title>
+        <circle
+           fill="#ff7f0e"
+           stroke="#000000"
+           stroke-opacity="0.333333"
+           cx="303.41"
+           cy="-18.389999"
+           id="ellipse140"
+           r="18.290001"
+           style="fill:#ff7f0e;fill-opacity:0.5" />
+        <text
+           text-anchor="start"
+           x="296.51999"
+           y="-15.99"
+           font-family="'Red Hat Display', sans-serif"
+           font-size="8px"
+           id="text140">PUP</text>
+      </g>
+      <g
+         id="g142"
+         class="edge"
+         transform="translate(702.70842,1379.355)">
+        <title
+           id="title141">graph_t14q-&gt;graph_o1uq</title>
+        <path
+           fill="none"
+           stroke="#2b303a"
+           stroke-dasharray="1, 5"
+           d="m 303.41,-70.7 c 0,7.4 0,15.59 0,23.21"
+           id="path141" />
+        <polygon
+           fill="#2b303a"
+           stroke="#2b303a"
+           points="299.91,-47.23 306.91,-47.23 303.41,-37.23 "
+           id="polygon141" />
+      </g>
+    </g>
+  </g>
+  <path
+     style="fill:none;stroke:#000000;stroke-width:3.00283158;stroke-linecap:round;stroke-linejoin:miter;stroke-opacity:1;stroke-dasharray:none;marker-end:url(#ConcaveTriangle)"
+     d="M 324.60704,280.63651 V 460.12488"
+     id="path1" />
+  <path
+     style="fill:none;stroke:#000000;stroke-width:3.00283;stroke-linecap:round;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#ConcaveTriangle)"
+     d="M 474.91151,803.23523 V 982.7236"
+     id="path3" />
+  <text
+     xml:space="preserve"
+     transform="matrix(0.7507079,0,0,0.7507079,-0.65364767,0)"
+     id="text56"
+     style="font-style:normal;font-weight:normal;font-size:18.6667px;line-height:1.25;font-family:sans-serif;white-space:pre;shape-inside:url(#rect56);fill:#000000;fill-opacity:1;stroke:none"><tspan
+       x="494.03516"
+       y="554.65715"
+       id="tspan50"><tspan
+         style="font-weight:bold"
+         id="tspan48">Rule Elimination</tspan><tspan
+         style="font-family:'Red Hat Display';-inkscape-font-specification:'Red Hat Display'"
+         id="tspan49">&#10;</tspan></tspan><tspan
+       x="494.03516"
+       y="578.32402"
+       id="tspan54"><tspan
+         style="font-family:'Red Hat Display';-inkscape-font-specification:'Red Hat Display'"
+         id="tspan51">Only </tspan><tspan
+         style="font-style:italic"
+         id="tspan52">Rewriting Rules</tspan><tspan
+         style="font-family:'Red Hat Display';-inkscape-font-specification:'Red Hat Display'"
+         id="tspan53"> that are </tspan></tspan><tspan
+       x="494.03516"
+       y="601.99089"
+       id="tspan56"><tspan
+         style="font-family:'Red Hat Display';-inkscape-font-specification:'Red Hat Display'"
+         id="tspan55">compatible with the output properties </tspan></tspan><tspan
+       x="494.03516"
+       y="625.65776"
+       id="tspan60"><tspan
+         style="font-family:'Red Hat Display';-inkscape-font-specification:'Red Hat Display'"
+         id="tspan57">of one of the input </tspan><tspan
+         style="font-style:italic"
+         id="tspan58">Rules</tspan><tspan
+         style="font-family:'Red Hat Display';-inkscape-font-specification:'Red Hat Display'"
+         id="tspan59"> are preserved</tspan></tspan></text>
+  <text
+     xml:space="preserve"
+     transform="matrix(0.7507079,0,0,0.7507079,332.54023,-351.04355)"
+     id="text61"
+     style="font-style:normal;font-weight:normal;font-size:18.6667px;line-height:1.25;font-family:sans-serif;white-space:pre;shape-inside:url(#rect61);fill:#000000;fill-opacity:1;stroke:none"><tspan
+       x="494.03516"
+       y="554.65715"
+       id="tspan63"><tspan
+         style="font-weight:bold"
+         id="tspan61">Rewriting Rule Setting</tspan><tspan
+         style="font-family:'Red Hat Display';-inkscape-font-specification:'Red Hat Display'"
+         id="tspan62">&#10;</tspan></tspan><tspan
+       x="494.03516"
+       y="578.32402"
+       id="tspan68"><tspan
+         style="font-family:'Red Hat Display';-inkscape-font-specification:'Red Hat Display'"
+         id="tspan64">Each </tspan><tspan
+         style="font-style:italic"
+         id="tspan65">Relation</tspan><tspan
+         style="font-family:'Red Hat Display';-inkscape-font-specification:'Red Hat Display'"
+         id="tspan66"> gets assigned </tspan><tspan
+         style="font-style:italic"
+         id="tspan67">Rewriting </tspan></tspan><tspan
+       x="494.03516"
+       y="601.99089"
+       id="tspan71"><tspan
+         style="font-style:italic"
+         id="tspan69">Rules</tspan><tspan
+         style="font-family:'Red Hat Display';-inkscape-font-specification:'Red Hat Display'"
+         id="tspan70"> depending on their properties.&#10;</tspan></tspan><tspan
+       x="494.03516"
+       y="625.65776"
+       id="tspan74"><tspan
+         style="font-style:italic"
+         id="tspan72">Map</tspan><tspan
+         style="font-family:'Red Hat Display';-inkscape-font-specification:'Red Hat Display'"
+         id="tspan73"> can usually easily be PUP and </tspan></tspan><tspan
+       x="494.03516"
+       y="649.32463"
+       id="tspan77"><tspan
+         style="font-style:italic"
+         id="tspan75">Reduces</tspan><tspan
+         style="font-family:'Red Hat Display';-inkscape-font-specification:'Red Hat Display'"
+         id="tspan76"> can become DP if their input is </tspan></tspan><tspan
+       x="494.03516"
+       y="672.9915"
+       id="tspan79"><tspan
+         style="font-family:'Red Hat Display';-inkscape-font-specification:'Red Hat Display'"
+         id="tspan78">PUP.</tspan></tspan></text>
+  <text
+     xml:space="preserve"
+     transform="matrix(0.7507079,0,0,0.7507079,-224.76619,441.28355)"
+     id="text95"
+     style="font-style:normal;font-weight:normal;font-size:18.6667px;line-height:1.25;font-family:sans-serif;white-space:pre;shape-inside:url(#rect95);fill:#000000;fill-opacity:1;stroke:none"><tspan
+       x="494.03516"
+       y="554.65715"
+       id="tspan82"><tspan
+         style="font-weight:bold"
+         id="tspan80">Rule Selection</tspan><tspan
+         style="font-family:'Red Hat Display';-inkscape-font-specification:'Red Hat Display'"
+         id="tspan81">&#10;</tspan></tspan><tspan
+       x="494.03516"
+       y="578.32402"
+       id="tspan84"><tspan
+         style="font-family:'Red Hat Display';-inkscape-font-specification:'Red Hat Display'"
+         id="tspan83">The selection consists in iterating over all </tspan></tspan><tspan
+       x="494.03516"
+       y="601.99089"
+       id="tspan89"><tspan
+         style="font-family:'Red Hat Display';-inkscape-font-specification:'Red Hat Display'"
+         id="tspan85">the </tspan><tspan
+         style="font-family:'Red Hat Display';-inkscape-font-specification:'Red Hat Display'"
+         id="tspan86">feasible allocations of </tspan><tspan
+         style="font-style:italic"
+         id="tspan87">Rewriting Rules</tspan><tspan
+         style="font-family:'Red Hat Display';-inkscape-font-specification:'Red Hat Display'"
+         id="tspan88"> </tspan></tspan><tspan
+       x="494.03516"
+       y="625.65776"
+       id="tspan92"><tspan
+         style="font-family:'Red Hat Display';-inkscape-font-specification:'Red Hat Display'"
+         id="tspan90">and </tspan><tspan
+         style="font-family:'Red Hat Display';-inkscape-font-specification:'Red Hat Display'"
+         id="tspan91">chose the one with the hichest score.&#10;</tspan></tspan><tspan
+       x="494.03516"
+       y="649.32463"
+       id="tspan94"><tspan
+         style="font-family:'Red Hat Display';-inkscape-font-specification:'Red Hat Display'"
+         id="tspan93">The score is computed using heuristic rules.</tspan></tspan></text>
+  <text
+     xml:space="preserve"
+     transform="matrix(0.7507079,0,0,0.7507079,73.719993,654.48796)"
+     id="text99"
+     style="font-style:normal;font-weight:normal;font-size:96px;line-height:1.25;font-family:sans-serif;white-space:pre;shape-inside:url(#rect99);fill:#000000;fill-opacity:1;stroke:none"><tspan
+       x="494.03516"
+       y="625.21066"
+       id="tspan96"><tspan
+         style="font-family:'Red Hat Display';-inkscape-font-specification:'Red Hat Display'"
+         id="tspan95">...</tspan></tspan></text>
+</svg>

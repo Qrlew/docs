@@ -8,7 +8,8 @@
 maxdepth: 2
 caption: Contents:
 ---
-tutorials/range_propagation
+tutorials/getting_started
+tutorials/user_guide
 api
 ```
 ## What is [Qrlew](https://qrlew.github.io/)?

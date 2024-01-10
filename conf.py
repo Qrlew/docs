@@ -51,19 +51,25 @@ html_theme_options = {
         {
             'name': 'GitHub',
             'url': 'https://github.com/Qrlew',
-            'icon': 'fab fa-github',
+            'icon': 'fa-brands fa-github',
+            'type': 'fontawesome',
+        },
+        {
+            'name': 'Web Page',
+            'url': 'https://qrlew.github.io/',
+            'icon': 'fa-solid fa-house',
             'type': 'fontawesome',
         },
         {
             'name': 'Discord',
             'url': 'https://discord.gg/JbvSPgyp',
-            'icon': 'fab fa-discord',
+            'icon': 'fa-brands fa-discord',
             'type': 'fontawesome',
         },
         {
-            'name': 'Twitter',
-            'url': 'https://twitter.com/sarus_tech',
-            'icon': 'fab fa-twitter',
+            'name': 'X',
+            'url': 'https://x.com/sarus_tech',
+            'icon': 'fa-brands fa-twitter',
             # The default for `type` is `fontawesome` so it is not actually required in any of the above examples as it is shown here
         },
     ],

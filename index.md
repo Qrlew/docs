@@ -2,23 +2,35 @@
 
 # Qrlew Documentation
 
-![Qrlew](./_static/qrlew_process.svg)
+## What is Qrlew?
 
-## What is [Qrlew](https://qrlew.github.io/)?
-
-[Qrlew](https://qrlew.github.io/) is an open source library that can parse SQL queries into
+Qrlew is an [open source library](https://github.com/Qrlew) that can parse SQL queries into
 Relations — an intermediate representation — that keeps track of rich data types, value
 ranges, and row ownership; so that they can easily be rewritten into differentially-private
 equivalent and turned back into SQL queries for execution in a variety of standard data
 stores.
-With Qrlew, a data practitioner can express their data queries in standard SQL; the data
-owner can run the rewritten query without any technical integration and with strong privacy
+
+With Qrlew, a *data practitioner* can express their data queries in standard SQL; the *data
+owner* can run the rewritten query without any technical integration and with strong privacy
 guarantees on the output; and the query rewriting can be operated by a privacy-expert who
 must be trusted by the owner, but may belong to a separate organization.
 
-## Why [Qrlew](https://qrlew.github.io/)?
+![Qrlew](./_static/qrlew_process.svg)
 
+Qrlew provides the following features:
 
+* **Qrlew provides automatic output privacy guarantees** With Qrlew a data owner can let
+an analyst (data practitioner ) with no expertise in privacy protection run arbitrary SQL
+queries with strong privacy garantees on the output.
+
+* **Qrlew leverages existing infrastructures** Qrlew rewrites a SQL query into a differentially
+private SQL query that can be run on any data-store with a SQL interface: from lightweight
+DB to big-data stores. This removes the need for a custom execution engine and enables
+differentially private analytics with virtually no technical integration.
+
+* **Qrlew leverages synthetic data** Synthetic data are an increasingly popular way of privatizing a dataset. Using jointly: differentially
+private mechanisms and differentially private synthetic data can be a simple, yet powerful,
+way of managing a privacy budget and reaching better utility-privacy tradeoffs.
 
 ### SQL Query IR
 [Qrlew](https://qrlew.github.io/) transforms a SQL query into a combination of simple operations such as Map, Reduce and Join that are applied to Tables. This representation simplifies the process of rewriting queries and reduces dependencies on the diverse range of syntactic constructs present in SQL.

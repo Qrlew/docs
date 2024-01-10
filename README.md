@@ -4,3 +4,5 @@ Read [Qrlew](https://qrlew.github.io/) documentation on [qrlew.readthedocs.io](h
 
 * The [Rust library](https://crates.io/crates/qrlew) is documented [here](https://docs.rs/qrlew/latest/qrlew/)
 * The [Python library](https://pypi.org/project/pyqrlew/) is documented [here](https://pyqrlew.readthedocs.io/en/latest/)
+
+Learn more about [Sarus Technologies](https://sarus.tech/).

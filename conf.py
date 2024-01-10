@@ -31,6 +31,8 @@ myst_enable_extensions = [
     'dollarmath',
     'amsmath',
 ]
+myst_dmath_allow_labels = True
+myst_dmath_double_inline = True
 
 # Controls notebook execution
 jupyter_execute_notebooks = "cache"

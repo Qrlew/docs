@@ -2,6 +2,8 @@
 
 # Qrlew Documentation
 
+![Qrlew](./_static/qrlew_process.svg)
+
 ## What is [Qrlew](https://qrlew.github.io/)?
 
 [Qrlew](https://qrlew.github.io/) is an open source library that can parse SQL queries into
@@ -14,9 +16,9 @@ owner can run the rewritten query without any technical integration and with str
 guarantees on the output; and the query rewriting can be operated by a privacy-expert who
 must be trusted by the owner, but may belong to a separate organization.
 
-![Qrlew](./_static/qrlew_process.svg)
+## Why [Qrlew](https://qrlew.github.io/)?
 
-[Qrlew](https://qrlew.github.io/) is an open source library that aims to parse and translate SQL queries into an Intermediate Representation (IR) that is well-suited for various rewriting tasks. Although it was originally designed for privacy-focused applications, it can be utilized for a wide range of purposes.
+
 
 ### SQL Query IR
 [Qrlew](https://qrlew.github.io/) transforms a SQL query into a combination of simple operations such as Map, Reduce and Join that are applied to Tables. This representation simplifies the process of rewriting queries and reduces dependencies on the diverse range of syntactic constructs present in SQL.
@@ -43,7 +45,17 @@ Read [Qrlew white paper](https://hal.science/hal-04350665v1/file/qrlew.pdf).
 
 And cite us:
 ```bibtex
-
+@article{grislain2023qrlew,
+  title={Qrlew: Rewriting SQL into Differentially Private SQL},
+  author={Grislain, Nicolas and Roussel, Paul and de Sainte Agathe, Victoria},
+  url={https://hal.science/hal-04350665},
+  year={2023},
+  month=Dec,
+  keywords={SQL ; Privacy ; Differential Privacy ; Rewritting system ; Rust ; Privacy Enhancing Technology ; Privacy by Design},
+  pdf={https://hal.science/hal-04350665/file/qrlew.pdf},
+  hal_id={hal-04350665},
+  hal_version={v1},
+}
 ```
 
 # Indices and tables

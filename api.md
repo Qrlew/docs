@@ -2,7 +2,7 @@
 
 ## Python API
 
-Python API [reference documentation]().
+Python API [reference documentation](https://pyqrlew.readthedocs.io/en/latest/).
 
 ## Rust API
 

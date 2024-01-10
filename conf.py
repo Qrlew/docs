@@ -32,6 +32,9 @@ myst_enable_extensions = [
     'amsmath',
 ]
 
+# Controls notebook execution
+jupyter_execute_notebooks = "cache"
+
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
@@ -43,5 +46,25 @@ html_theme_options = {
     'navbar_start': ['navbar-logo'],
     'navbar_center': ['navbar-nav'],
     'navbar_end': ['navbar-icon-links'],
-    'navbar_persistent': ['search-button']
+    'navbar_persistent': ['search-button'],
+    'icon_links': [
+        {
+            'name': 'GitHub',
+            'url': 'https://github.com/Qrlew',
+            'icon': 'fab fa-github',
+            'type': 'fontawesome',
+        },
+        {
+            'name': 'Discord',
+            'url': 'https://discord.gg/JbvSPgyp',
+            'icon': 'fab fa-discord',
+            'type': 'fontawesome',
+        },
+        {
+            'name': 'Twitter',
+            'url': 'https://twitter.com/sarus_tech',
+            'icon': 'fab fa-twitter',
+            # The default for `type` is `fontawesome` so it is not actually required in any of the above examples as it is shown here
+        },
+    ],
 }

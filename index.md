@@ -2,16 +2,6 @@
 
 # Qrlew Documentation
 
-
-```{toctree}
----
-maxdepth: 2
-caption: Contents:
----
-tutorials/getting_started
-tutorials/user_guide
-api
-```
 ## What is [Qrlew](https://qrlew.github.io/)?
 
 [Qrlew](https://qrlew.github.io/) is an open source library that can parse SQL queries into
@@ -23,6 +13,8 @@ With Qrlew, a data practitioner can express their data queries in standard SQL; 
 owner can run the rewritten query without any technical integration and with strong privacy
 guarantees on the output; and the query rewriting can be operated by a privacy-expert who
 must be trusted by the owner, but may belong to a separate organization.
+
+![Qrlew](./_static/qrlew_process.svg)
 
 [Qrlew](https://qrlew.github.io/) is an open source library that aims to parse and translate SQL queries into an Intermediate Representation (IR) that is well-suited for various rewriting tasks. Although it was originally designed for privacy-focused applications, it can be utilized for a wide range of purposes.
 
@@ -45,8 +37,28 @@ Differential Privacy (DP) guarantees are hard to obtain without destroying too m
 
 To contribute to this code, follow the [instructions](contributing)
 
+# Qrlew white paper
+
+Read [Qrlew white paper](https://hal.science/hal-04350665v1/file/qrlew.pdf).
+
+And cite us:
+```bibtex
+
+```
+
 # Indices and tables
 
 - {ref}`genindex`
 - {ref}`modindex`
 - {ref}`search`
+
+```{toctree}
+---
+maxdepth: 2
+hidden:
+titlesonly:
+---
+tutorials/getting_started
+tutorials/user_guide
+api
+```

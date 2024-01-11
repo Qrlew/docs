@@ -92,7 +92,7 @@ And cite us:
   url={https://hal.science/hal-04350665},
   year={2023},
   month=Dec,
-  keywords={SQL ; Privacy ; Differential Privacy ; Rewritting system ; Rust ; Privacy Enhancing Technology ; Privacy by Design},
+  keywords={SQL ; Privacy ; Differential Privacy ; Rewriting system ; Rust ; Privacy Enhancing Technology ; Privacy by Design},
   pdf={https://hal.science/hal-04350665/file/qrlew.pdf},
   hal_id={hal-04350665},
   hal_version={v1},

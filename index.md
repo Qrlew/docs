@@ -299,22 +299,6 @@ This last point comes with some limitations (see section~\ref{sec:limitations}),
 
 \qrlew{} uses the floating-point numbers of the host SQL engine, therefore it is liable to the vulnerabilities described in \cite{casacuberta2022widespread}.
 
-## Tutorials
-
-- {doc}`tutorials/range_propagation`
-- {doc}`tutorials/dataset_from_queries`
-- {doc}`tutorials/rewrite_with_dp`
-
-## Definitions
-
-Useful *definitions* can be found [there](/definitions.md).
-
-[White paper](https://hal.science/hal-04350665v1/document)
-
-## Contributing
-
-To contribute to this code, follow the [instructions](contributing)
-
 # Qrlew white paper
 
 Read [Qrlew white paper](https://hal.science/hal-04350665v1/file/qrlew.pdf).
@@ -333,6 +317,22 @@ And cite us:
   hal_version={v1},
 }
 ```
+
+# Tutorials
+
+- {doc}`tutorials/range_propagation`
+- {doc}`tutorials/dataset_from_queries`
+- {doc}`tutorials/rewrite_with_dp`
+
+# Definitions
+
+Useful *definitions* can be found [there](/definitions.md).
+
+[White paper](https://hal.science/hal-04350665v1/document)
+
+# Contributing
+
+To contribute to this code, follow the [instructions](contributing)
 
 # Indices and tables
 

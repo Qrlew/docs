@@ -182,7 +182,7 @@ The \qrlew{} library, solves the problem of running a SQL query with DP guarante
 \begin{figure*}[t]
     \centering
     \includegraphics[width=0.9\textwidth]{figures/qrlew_process} % Reduce the figure size so that it is slightly narrower than the column.
-    \caption{The rewritting process occurs in three stages: The \emph{data practitioner}'s query is parsed into a \emph{Relation}, which is rewritten into a DP equivalent and finally executed by the the \emph{data owner} which returns the privacy-safe result.}
+    \caption{The rewriting process occurs in three stages: The \emph{data practitioner}'s query is parsed into a \emph{Relation}, which is rewritten into a DP equivalent and finally executed by the the \emph{data owner} which returns the privacy-safe result.}
     \label{fig:process}
 \end{figure*}
 
@@ -193,7 +193,7 @@ As the SQL language is very rich and complex, simply parsing a query into an abs
 \begin{description}
     \item[\emph{Tables}] This is simply a data source from a database.
     \item[\emph{Maps}] A \emph{Map} takes an input \emph{Relation}, filters the rows and transform them one by one. The filtering conditions and row transforms are expressed with expressions similar to those of SQL. It acts as a \texttt{SELECT exprs FROM input WHERE expr LIMIT value} and therefore preserve the \emph{privacy unit} ownership structure.
-    \item[\emph{Reduces}] A \emph{Reduce} takes an input \emph{Relation} and aggregates some columns, possibly group by group. It acts as a \texttt{SELECT aggregates FROM input GROUP BY expr}. This is where the rewriting into DP will happen as described in section~\ref{sec:rewritting}.
+    \item[\emph{Reduces}] A \emph{Reduce} takes an input \emph{Relation} and aggregates some columns, possibly group by group. It acts as a \texttt{SELECT aggregates FROM input GROUP BY expr}. This is where the rewriting into DP will happen as described in section~\ref{sec:rewriting}.
     \item[\emph{Joins}] This \emph{Relation} combines two input \emph{Relations} as a \texttt{SELECT * FROM left JOIN right ON expr} would do it. The privacy properties are more complex to propagate in this case.
 \end{description}
 It may also be a static list of values or a set operation between two \emph{Relations}, but those are less important for our uses.
@@ -268,7 +268,7 @@ privacy_unit = [
 \end{listing}
 
 \subsection{Rewriting}
-\label{sec:rewritting}
+\label{sec:rewriting}
 
 Rewriting in \qrlew{}, refers to the process of altering the \emph{computation graph} by substituting computation \emph{sub-graphs} to \emph{Relations} (see figure~\ref{fig:rewriting}) to alter the properties of the result. This substitution aims to achieve specific objectives, such as ensuring privacy through the incorporation of differentially private mechanisms. The rewriting process (see figure~\ref{fig:rewriting}) happens in two phases:
 \begin{itemize}

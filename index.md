@@ -10,19 +10,26 @@ ranges, and row ownership; so that they can easily be rewritten into [differenti
 equivalent and turned back into SQL queries for execution in a variety of standard data
 stores.
 
-With Qrlew, a *data practitioner* can express their data queries in standard SQL; the *data
+With Qrlew, a [data practitioners](/definitions.md#data-practitioner) can express their data queries in standard SQL; the *data
 owner* can run the rewritten query without any technical integration and with strong privacy
 guarantees on the output; and the query rewriting can be operated by a privacy-expert who
 must be trusted by the owner, but may belong to a separate organization.
 
+:::{figure-md}
 ![Qrlew](./_static/qrlew_process.svg)
+
+The rewriting process occurs in three stages: The [data practitioners](#data-practitioner)’s query is parsed
+into a Relation, which is rewritten into a DP equivalent and finally executed by the the data
+owner which returns the privacy-safe result.
+:::
+
 
 ## Main Features
 
 Qrlew provides the following features:
 
 * **Qrlew provides automatic output privacy guarantees** With Qrlew a data owner can let
-an analyst (data practitioner ) with no expertise in privacy protection run arbitrary SQL
+an analyst ([data practitioners](#data-practitioner)) with no expertise in privacy protection run arbitrary SQL
 queries with strong privacy garantees on the output.
 
 * **Qrlew leverages existing infrastructures** Qrlew rewrites a SQL query into a differentially
@@ -41,13 +48,13 @@ In this chapter the following [definitions](/definitions.md) will hold.
 ### Design Goals
 
 
-Qrlew assumes the *central model of differential privacy* [^1], where a trusted central organization: hospital, insurance company, utility provider, called the *data owner*, collects and stores personal data in a secure database and whishes to let untrusted *data practitioners* run SQL queries on its data.
+Qrlew assumes the *central model of differential privacy* [^1], where a trusted central organization: hospital, insurance company, utility provider, called the *data owner*, collects and stores personal data in a secure database and whishes to let untrusted [data practitioners](#data-practitioner) run SQL queries on its data.
 
 [^1]: Arvind Narayanan and Vitaly Shmatikov. Robust de-anonymization of large sparse datasets. In 2008 IEEE Symposium on Security and Privacy (sp 2008), pages 111–125. IEEE, 2008.
 
 At a high level we pursued the following requirements:
 
-* Ease of use for the *data practitioners*. The *data practitioners* are assumed to be a data experts but no privacy experts. They should be able to express their queries in a standard way. We chose SQL as the query language as it is very commonly used for analytics tasks.
+* Ease of use for the [data practitioners](#data-practitioner). The [data practitioners](#data-practitioner) are assumed to be a data experts but no privacy experts. They should be able to express their queries in a standard way. We chose SQL as the query language as it is very commonly used for analytics tasks.
 * Ease of integration for the *data owner*. As SQL is a common language to express data analysis tasks, many data-stores support it from small embedded databases to big data stores.
 * Simplicity for the *data owner* to setup privacy protection. Differential privacy is about capping the sensitivity of a result to the addition or removal of an individual that we call *privacy unit*. \qrlew{} assumes that the *data owner* can tell if a table is public and, if it is not, that it can assign exactly one \emph{privacy unit} to each row of data. In the case there are multiple related tables, \qrlew{} enables to define easily the \emph{privacy units} for each tables transitively.
 * Simple integration with other privacy enhancing technologies such as *synthetic data*. To avoid repeated privacy losses or give result when a DP rewriting is not easily available (e.g. when the query is: \texttt{SELECT * FROM table}) \qrlew{} can use *synthetic data* to blend in the computation.

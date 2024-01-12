@@ -15,13 +15,13 @@ owner* can run the rewritten query without any technical integration and with st
 guarantees on the output; and the query rewriting can be operated by a privacy-expert who
 must be trusted by the owner, but may belong to a separate organization.
 
-:::{figure-md}
+```{figure-md}
 ![Qrlew](./_static/qrlew_process.svg)
 
 The rewriting process occurs in three stages: The [data practitioners](/definitions.md#data-practitioner)’s query is parsed
 into a Relation, which is rewritten into a DP equivalent and finally executed by the the data
 owner which returns the privacy-safe result.
-:::
+```
 
 ## Main Features
 
@@ -69,17 +69,17 @@ As the SQL language is very rich and complex, simply parsing a query into an abs
 
 It may also be a static list of values or a set operation between two *Relations*, but those are less important for our uses.
 
-:::{figure-md}
+```{figure-md}
 ![Qrlew](./_static/relation.svg)
 
 *Relation* (*Map*) associated to the query: `SELECT a, count(abs(10*a+b)) AS x FROM table_1 WHERE b>-0.1 AND a IN (1,2,3) GROUP BY a`. The arrows point to the inputs of each *Relation*. Note the propagation of the data type ranges.
-:::
+```
 
 This representation is central to [qrlew](https://qrlew.github.io/); all the features described below are built upon it. A *Relation*, along with all the sub-*Relations* it depends on, will be called the *computation graph* or the *graph* of a *Relation*.
 
 ### Range Propagation
 
-Most [DP](/definitions.md#differential-privacy-dp) mechanisms aggregating numbers require the knowledge of some bounds on the values (see [^2]).
+Most [DP](/definitions.md#differential-privacy-dp) mechanisms aggregating numbers require the knowledge of some bounds on the values[^2].
 Even if some bounds are known for some *Relations* like source `Tables`, it is not trivial to propagate these bounds through the steps of the computation.
 
 To help with range propagation, [qrlew](https://qrlew.github.io/) introduces two useful concepts:
@@ -100,27 +100,25 @@ where $\text{Conv}\left(f\left( \left\{a_{i_1}, b_{i_1}\right\}\times \ldots \ti
 Then $f(I) = \bigcup_j f(I_j)$, of which we can derive the bounding: $f(I) \subseteq \text{Conv}\left(\bigcup_j f(I_j)\right)$ when the number of terms in the union exceeds $k$.
 
 The notion of *$k$-Interval* is convenient for tracking value bounds as it can express natural patterns in SQL such as:
-\begin{itemize}
-    \item `WHERE x>0 AND x<=1}, which translates into the implied $x\in \left[0, 1\right]$ ;
-    \item `WHERE x IN (1,2,3)}, which is also easily expressed as a *k-Interval*: $x \in \left[1, 1\right] \cup \left[2, 2\right] \cup \left[3, 3\right]$
-\end{itemize}
+* `WHERE x>0 AND x<=1`, which translates into the implied $x\in \left[0, 1\right]$ ;
+* `WHERE x IN (1,2,3)`, which is also easily expressed as a *k-Interval*: $x \in \left[1, 1\right] \cup \left[2, 2\right] \cup \left[3, 3\right]$
 
-The idea of *piecewise-monotonic-function* is also very useful as in SQL many standard arithmetic operators (`+`, `-`, `\*`, `/`, `<`, `>`, `=`, `!=`, \ldots) and functions (`EXP`, `LOG`, `ABS`, `SIN`, `COS`, `LEAST`, `GREATEST`, \ldots) are trivially *piecewise-monotonic-function* (in one, two or many variables).
+The idea of *piecewise-monotonic-function* is also very useful as in SQL many standard arithmetic operators (`+`, `-`, `\*`, `/`, `<`, `>`, `=`, `!=`, ...) and functions (`EXP`, `LOG`, `ABS`, `SIN`, `COS`, `LEAST`, `GREATEST`, ...) are trivially *piecewise-monotonic-function* (in one, two or many variables).
 
 Most of the range propagation in [qrlew](https://qrlew.github.io/) is based on these concepts. It enables a rather simple and efficient range propagation mechanism, leading to better utility / privacy tradeoffs.
 
 ### Privacy Unit Definition
 
-Tables in a database rarely come properly formatted for privacy-preserving applications. Many rows in many tables may refer to the same individual, hence, *adding or removing an individual* means *adding or removing many rows*. To help the definition of the privacy unit [qrlew](https://qrlew.github.io/) introduces a small Privacy Unit (PU) description language.
-As exemplified in listing~\ref{lst:pe}, PU definition associates to each private table in a database a path defining the PID of each row. For a table containing the PU itself, like a `users} table for example, the PU definition will look like `("users",[],"id"),} where `id} is the name of a column identifying the user, like its name. If the database defines tables related to this tables, the way the tables are related should be specified following this scheme: $(\mathtt{tab}_1, path, \mathtt{pid})$ where $\mathtt{tab}_1$ is the name of the table for which the PID is defined, $\mathtt{pid}$ is the name of the column defining the PID in the table referred by $path$ and $path$ is a list of elements of the form $[(\mathtt{ref}_1, \mathtt{tab}_2, \mathtt{id}_2),\ldots, (\mathtt{ref}_{m-1}, \mathtt{tab}_m, \mathtt{id}_m)]$
-where $\mathtt{ref}_{i-1}$ is a column in $\mathtt{tab}_{i-1}$ --- usually a foreign key --- referring to $\mathtt{tab}_i$ with a column of referred id $\mathtt{id}_i$ --- usually a primary key. Following the path of tables referring to one another, we end up with the table defining the PID (e.g. `users}).
+Tables in a database rarely come properly formatted for privacy-preserving applications. Many rows in many tables may refer to the same individual, hence, *adding or removing an individual* means *adding or removing many rows*. To help the definition of the [privacy unit](/definitions.md#datasets-and-privacy-units-pu) [qrlew](https://qrlew.github.io/) introduces a small [Privacy Unit (PU)](/definitions.md#datasets-and-privacy-units-pu) description language.
+As exemplified in listing~\ref{lst:pe}, [PU](/definitions.md#datasets-and-privacy-units-pu) definition associates to each private table in a database a path defining the PID of each row. For a table containing the [PU](/definitions.md#datasets-and-privacy-units-pu) itself, like a `users` table for example, the PU definition will look like `("users",[],"id"),` where `id` is the name of a column identifying the user, like its name. If the database defines tables related to this tables, the way the tables are related should be specified following this scheme: $(\mathtt{tab}_1, path, \mathtt{pid})$ where $\mathtt{tab}_1$ is the name of the table for which the PID is defined, $\mathtt{pid}$ is the name of the column defining the PID in the table referred by $path$ and $path$ is a list of elements of the form $[(\mathtt{ref}_1, \mathtt{tab}_2, \mathtt{id}_2),\ldots, (\mathtt{ref}_{m-1}, \mathtt{tab}_m, \mathtt{id}_m)]$
+where $\mathtt{ref}_{i-1}$ is a column in $\mathtt{tab}_{i-1}$ --- usually a foreign key --- referring to $\mathtt{tab}_i$ with a column of referred id $\mathtt{id}_i$ --- usually a primary key. Following the path of tables referring to one another, we end up with the table defining the PID (e.g. `users`).
 
-This small PU description language allows for a variety of useful PID scenarii, beyond the simple, but restrictive *privacy per row*.
+This small [PU](/definitions.md#datasets-and-privacy-units-pu) description language allows for a variety of useful PID scenarii, beyond the simple, but restrictive *privacy per row*.
 
-\begin{listing}[tb]
-\caption{Example of *privacy unit* definition for a database with three tables holding users, orders and items records. Each user is protected individually by designating their `id}s as PID. Orders are attached to a user through the foreign key: `user\_id}. Items's ownership is defined the same way by specifying the lineage: `item -> order -> user}.}%
-\label{lst:pe}
-\begin{lstlisting}[language=Python]
+```{code-block} python
+---
+caption: "Example of *privacy unit* definition for a database with three tables holding users, orders and items records. Each user is protected individually by designating their `id`s as PID. Orders are attached to a user through the foreign key: `user_id`. Items's ownership is defined the same way by specifying the lineage: `item -> order -> user`."
+---
 privacy_unit = [
     ("users",[],"id"),
     ("orders",[
@@ -131,29 +129,25 @@ privacy_unit = [
     ("user_id", "users", "id")
     ],"id")
 ]
-\end{lstlisting}
-\end{listing}
+```
 
-\subsection{Rewriting}
-\label{sec:rewriting}
+### Rewriting
 
-Rewriting in [qrlew](https://qrlew.github.io/), refers to the process of altering the *computation graph* by substituting computation *sub-graphs* to *Relations* (see figure~\ref{fig:rewriting}) to alter the properties of the result. This substitution aims to achieve specific objectives, such as ensuring privacy through the incorporation of differentially private mechanisms. The rewriting process (see figure~\ref{fig:rewriting}) happens in two phases:
+Rewriting in [qrlew](https://qrlew.github.io/), refers to the process of altering the *computation graph* by substituting computation *sub-graphs* to *Relations* (see [figure](#rewriting)) to alter the properties of the result. This substitution aims to achieve specific objectives, such as ensuring privacy through the incorporation of differentially private mechanisms. The rewriting process (see figure~\ref{fig:rewriting}) happens in two phases:
 \begin{itemize}
     \item a *rewriting rule allocation* phase, where each *Relation* in the *computation graph* gets allocated a *rewriting rule* (RR) compatible with its input and with the desired output property;
     \item a *rule application* phase, where each *Relation* is rewritten to a small *computation graph* implementing the logic of the rewriting and stitched together with the other rewritten *Relations*.
 \end{itemize}
 
-\begin{figure*}[t]
-    \centering
-    \includegraphics[width=\textwidth]{figures/rewriting} % Reduce the figure size so that it is slightly narrower than the column.
-    \caption{The rewriting process happens in two phases: a *rewriting rule allocation* phase, where each node in the *computation graph* gets allocated a *rewriting rule* (RR) compatible with its input and with the desired output property; and a *rule application* phase, where each *Relation* is rewritten according to its allocated RR.}
-    \label{fig:rewriting}
-\end{figure*}
+```{figure-md}
+![Qrlew](./_static/rewriting.svg)
 
-Before we decribe these phases into more details, let's define the various properties we may want to guarantee on each *Relation* and the ones we need for the output.
+The rewriting process happens in two phases: a *rewriting rule allocation* phase, where each node in the *computation graph* gets allocated a *rewriting rule* (RR) compatible with its input and with the desired output property; and a *rule application* phase, where each *Relation* is rewritten according to its allocated RR.
+```
 
-\subsubsection{Privacy Properties and Rewriting Rules}
-\label{sec:privacy_properties}
+Before we describe these phases into more details, let's define the various properties we may want to guarantee on each *Relation* and the ones we need for the output.
+
+#### Privacy Properties and Rewriting Rules
 
 Each *Relation* can have one of the following properties:
 \begin{description}
@@ -179,7 +173,7 @@ Another key *Rewriting Rules* is $PUP \rightarrow DP$ for *Reduces*, it simply m
 
 One easily see that by simply applying $PUP \rightarrow PUP$ and $PUP \rightarrow DP$ rules, one can propagate the privacy unit across the computation graph of a *Relation* and compute some DP aggregate such as a noisy sum or average.
 
-\subsubsection{Rewriting Rule Allocation}
+#### Rewriting Rule Allocation
 
 The first phase of the rewriting process consists in allocating one and only one rule to each *Relation*.
 This is done in three steps illustrated in figure~\ref{fig:set_eliminate_select}:
@@ -198,13 +192,12 @@ In the computation graph, while each node's multiple rewriting rules might sugge
     \label{fig:set_eliminate_select}
 \end{figure*}
 
-\subsubsection{Rule Application}
+#### Rule Application
 
 Once the first phase of rule allocation is achieved, starts the second phase: *rule application*, as illustrated in figure~\ref{fig:rewriting}.
 In the allocation phase, a *global rewriting scheme* was set in the form of an allocation satisfying a system of requirements; in the rewriting phase, each rewriting rule is applied *independently* for each *Relation*. This is possible because once a rewriting rule is applied to a *Relation*, the *Relation* is transformed into a computation graph of *Relations* whose ultimate inputs are compatible (same schema, i.e. same columns with same types, plus the new columns provided by the property achieved) with the inputs of the original *Relation* and the ultimate output is also compatible with the output of the original *Relation* so that rewritten *Relations* can be stitched together in a larger graph the same way the original *Relations* were connected: see figure~\ref{fig:rewriting}.
 
-\section{Privacy Analysis}
-\label{sec:privacy_analysis}
+## Privacy Analysis
 
 When rewriting, a user can require the output *Relation* to have the *Published* property. All *rewriting rules* with *Published* outputs require their inputs to be either *Public*, *DP*, *SD* or *Published* themselves. We assume synthetic data provided to the system are differentially private, so the privacy of the result depends on the way [qrlew](https://qrlew.github.io/) rewrites *Reduces* into *DP* equivalent *Relations*.
 
@@ -214,7 +207,7 @@ All *rewriting rules* with *DP* outputs require the input of the *Reduce* to be 
     \item Making sure the grouping keys of the `GROUP BY} clause are either public or released through a differentially private mechanism.
 \end{itemize}
 
-\subsubsection{Protecting aggregation results}
+### Protecting aggregation results
 
 The protection of aggregation functions is carried out in two steps. Given that all currently supported aggregations (`COUNT`, `SUM`, `AVG`, `VARIANCE` `STDDEV`) can be reduced to sums, our focus will be on `SUM` aggregations, i.e. the computation of partial sums of a column for different groups: $j\in\{1,\ldots,m\}$, of rows.
 
@@ -238,7 +231,7 @@ with some DP guarantees. To this end we:
     Note that the vector of sums has $\ell^2$ *Global Sensitivity* of $c$, so this is an application of the *Gaussian Mechanism* (see: theorem A.1. in \cite{dwork2014algorithmic}) and the mechanism is $\varepsilon, \delta$-differentially private.
 \end{enumerate}
 
-\subsubsection{Protecting grouping keys}
+### Protecting grouping keys
 
 When the grouping keys from a are derived from the data, they are not safe for publication.
 Following \cite{korolova2009releasing, wilson2019differentially}, we use a mechanism called *$\tau$-thresholding* to safely release these grouping keys.
@@ -250,7 +243,7 @@ the rewriting of *Reduces* with $PUP \rightarrow DP$ rules requires the use of *
 then the DP mechanisms used in all the rewritings are aggregated by the [qrlew](https://qrlew.github.io/) rewriter as a composed mechanism.
 The overall privacy loss is aggregated in a RDP accountant \cite{mironov2017renyi}.
 
-\section{Comparison to other systems}
+## Comparison to other systems
 
 There are a few existing open-source libraries for differential privacy.
 
@@ -284,8 +277,7 @@ Beyond that, [qrlew](https://qrlew.github.io/) brings unique functionalities, su
 
 This last point comes with some limitations (see section~\ref{sec:limitations}), but opens new possibilities like the delegation of the rewriting to a trusted third party. The data practitioner could simply write his desired query in SQL, send it to the rewriter that would keep track of the privacy losses and use [qrlew](https://qrlew.github.io/) to rewrite the query, sign it, and send it back to the data practitioner that can then send the data-owner, who will check the signature certifying the DP properties of the rewritten query\footnote{A proof of concept is available at: \url{https://github.com/Qrlew/server}}.
 
-\section{Known Limitations}
-\label{sec:limitations}
+## Known Limitations
 
 [qrlew](https://qrlew.github.io/) still implements a limited number of DP mechanisms, it is still lacking basic functionalities such as: quantile estimation, exponential mechanisms.
 

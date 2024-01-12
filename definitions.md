@@ -28,7 +28,7 @@ Or the [United Nations PET Guide](https://unstats.un.org/bigdata/task-teams/priv
 
 ## Privacy Enhancing Technologies (PET)
 
-As defined by the [United Nations PET Guide](https://unstats.un.org/bigdata/task-teams/privacy/guide/2023_UN%20PET%20Guide.pdf)
+As defined by the [United Nations PET Guide](https://unstats.un.org/bigdata/task-teams/privacy/guide/2023_UN%20PET%20Guide.pdf),
 Privacy-enhancing technologies (PETs) are technologies
 designed to safely process and share sensitive data.
 There are two broad categories of PETs,

@@ -1,4 +1,6 @@
-% Qrlew documentation master file.
+---
+title: Qrlew Documentation
+---
 
 # Qrlew Documentation
 
@@ -10,13 +12,12 @@ ranges, and row ownership; so that they can easily be rewritten into [differenti
 equivalent and turned back into SQL queries for execution in a variety of standard data
 stores.
 
-With [qrlew](https://qrlew.github.io/), a [data practitioners](/definitions.md#data-practitioner) can express their data queries in standard SQL; the *data
-owner* can run the rewritten query without any technical integration and with strong privacy
+With [qrlew](https://qrlew.github.io/), a [data practitioners](/definitions.md#data-practitioner) can express their data queries in standard SQL; the *data owner* can run the rewritten query without any technical integration and with strong privacy
 guarantees on the output; and the query rewriting can be operated by a privacy-expert who
 must be trusted by the owner, but may belong to a separate organization.
 
-```{figure-md}
-![Qrlew](./_static/qrlew_process.svg)
+```{figure} ./_static/qrlew_process.svg
+:name: fig_qrlew_process
 
 The rewriting process occurs in three stages: The [data practitioners](/definitions.md#data-practitioner)’s query is parsed
 into a Relation, which is rewritten into a DP equivalent and finally executed by the the data
@@ -42,7 +43,7 @@ way of managing a privacy budget and reaching better utility-privacy tradeoffs.
 
 ## Design Goals
 
-[Qrlew](https://qrlew.github.io/) assumes the *central model of differential privacy* [^1], where a trusted central organization: hospital, insurance company, utility provider, called the [data owner](/definitions.md#data-owner), collects and stores personal data in a secure database and whishes to let untrusted [data practitioners](/definitions.md#data-practitioner) run SQL queries on its data.
+[Qrlew](https://qrlew.github.io/) assumes the *central model of differential privacy* [@archie2018s], where a trusted central organization: hospital, insurance company, utility provider, called the [data owner](/definitions.md#data-owner), collects and stores personal data in a secure database and whishes to let untrusted [data practitioners](/definitions.md#data-practitioner) run SQL queries on its data.
 
 At a high level we pursued the following requirements:
 
@@ -56,7 +57,7 @@ These requirements dictated the overall *query rewriting* architecture and many 
 ## How does [qrlew](https://qrlew.github.io/) work?
 
 The [qrlew](https://qrlew.github.io/) library, solves the problem of running a SQL query with [DP](/definitions.md#differential-privacy-dp) guarantees in three steps.
-First the SQL query submitted by the [data practitioners](#data-practitioner) is parsed and converted into a [Relation](#qrlew-intermediate-representation), this [Relation](#qrlew-intermediate-representation) is an intermediate representation that is designed to ease the tracking of data types ranges or possible values, to ease the tracking of the [privacy unit](/definitions.md#datasets-and-privacy-units-pu) and to ease the rewriting into a DP *Relation*. Then, the rewriting into DP happens. Once the relation is rewritten into a DP one, it can be rendered as an SQL query string and submitted to the data store of the *data owner*. The output can then safely be shared with the *data practitioner*. This process is illustrated in figure~\ref{fig:process}.
+First the SQL query submitted by the [data practitioners](#data-practitioner) is parsed and converted into a [Relation](#qrlew-intermediate-representation), this [Relation](#qrlew-intermediate-representation) is an intermediate representation that is designed to ease the tracking of data types ranges or possible values, to ease the tracking of the [privacy unit](/definitions.md#datasets-and-privacy-units-pu) and to ease the rewriting into a DP *Relation*. Then, the rewriting into DP happens. Once the relation is rewritten into a DP one, it can be rendered as an SQL query string and submitted to the data store of the *data owner*. The output can then safely be shared with the *data practitioner*. This process is illustrated in {numref}`fig_qrlew_process`.
 
 ### Qrlew Intermediate Representation
 
@@ -69,8 +70,8 @@ As the SQL language is very rich and complex, simply parsing a query into an abs
 
 It may also be a static list of values or a set operation between two *Relations*, but those are less important for our uses.
 
-```{figure-md}
-![Qrlew](./_static/relation.svg)
+```{figure} ./_static/relation.svg
+:name: fig_relation
 
 *Relation* (*Map*) associated to the query: `SELECT a, count(abs(10*a+b)) AS x FROM table_1 WHERE b>-0.1 AND a IN (1,2,3) GROUP BY a`. The arrows point to the inputs of each *Relation*. Note the propagation of the data type ranges.
 ```
@@ -116,9 +117,8 @@ where $\mathtt{ref}_{i-1}$ is a column in $\mathtt{tab}_{i-1}$ --- usually a for
 This small [PU](/definitions.md#datasets-and-privacy-units-pu) description language allows for a variety of useful PID scenarii, beyond the simple, but restrictive *privacy per row*.
 
 ```{code-block} python
----
-caption: "Example of *privacy unit* definition for a database with three tables holding users, orders and items records. Each user is protected individually by designating their `id`s as PID. Orders are attached to a user through the foreign key: `user_id`. Items's ownership is defined the same way by specifying the lineage: `item -> order -> user`."
----
+:caption: "Example of *privacy unit* definition for a database with three tables holding users, orders and items records. Each user is protected individually by designating their `id`s as PID. Orders are attached to a user through the foreign key: `user_id`. Items's ownership is defined the same way by specifying the lineage: `item -> order -> user`."
+
 privacy_unit = [
     ("users",[],"id"),
     ("orders",[
@@ -133,14 +133,14 @@ privacy_unit = [
 
 ### Rewriting
 
-Rewriting in [qrlew](https://qrlew.github.io/), refers to the process of altering the *computation graph* by substituting computation *sub-graphs* to *Relations* (see [figure](#rewriting)) to alter the properties of the result. This substitution aims to achieve specific objectives, such as ensuring privacy through the incorporation of differentially private mechanisms. The rewriting process (see figure~\ref{fig:rewriting}) happens in two phases:
+Rewriting in [qrlew](https://qrlew.github.io/), refers to the process of altering the *computation graph* by substituting computation *sub-graphs* to *Relations* (see {numref}`fig_rewriting`) to alter the properties of the result. This substitution aims to achieve specific objectives, such as ensuring privacy through the incorporation of differentially private mechanisms. The rewriting process (see {numref}`fig_rewriting`) happens in two phases:
 \begin{itemize}
     \item a *rewriting rule allocation* phase, where each *Relation* in the *computation graph* gets allocated a *rewriting rule* (RR) compatible with its input and with the desired output property;
     \item a *rule application* phase, where each *Relation* is rewritten to a small *computation graph* implementing the logic of the rewriting and stitched together with the other rewritten *Relations*.
 \end{itemize}
 
-```{figure-md}
-![Qrlew](./_static/rewriting.svg)
+```{figure} ./_static/rewriting.svg
+:name: fig_rewriting
 
 The rewriting process happens in two phases: a *rewriting rule allocation* phase, where each node in the *computation graph* gets allocated a *rewriting rule* (RR) compatible with its input and with the desired output property; and a *rule application* phase, where each *Relation* is rewritten according to its allocated RR.
 ```
@@ -185,12 +185,11 @@ This is done in three steps illustrated in figure~\ref{fig:set_eliminate_select}
 
 In the computation graph, while each node's multiple rewriting rules might suggest a combinatorial explosion in the number of possible feasible allocations, this is mitigated in practice. The pruning of infeasible rules, dictated by the requirement for most relations to have a PUP input for a DP or PUP outcome, significantly reduces the complexity. Hence, despite the theoretical breadth of possibilities, the actual number of feasible paths remains manageable, avoiding substantial computational problems in practice.
 
-\begin{figure*}[t]
-    \centering
-    \includegraphics[width=0.9\textwidth]{figures/set_eliminate_select} % Reduce the figure size so that it is slightly narrower than the column.
-    \caption{The rewriting happens in three steps: *Rule Setting* when we assign the set of potential rewriting rules to each *Relation* in a computation graph; *Rule Elimination*, when only feasible rewriting rules are preserved; and *Rule Selection*, when an actual allocation is selected.}
-    \label{fig:set_eliminate_select}
-\end{figure*}
+```{figure} ./_static/set_eliminate_select.svg
+:name: set_eliminate_select
+
+The rewriting happens in three steps: *Rule Setting* when we assign the set of potential rewriting rules to each *Relation* in a computation graph; *Rule Elimination*, when only feasible rewriting rules are preserved; and *Rule Selection*, when an actual allocation is selected.
+```
 
 #### Rule Application
 
@@ -325,6 +324,12 @@ To contribute to this code, follow the [instructions](contributing)
 - {ref}`genindex`
 - {ref}`modindex`
 - {ref}`search`
+
+{cite}`dwork2017exposed`
+@dwork2017exposed
+
+```{bibliography} ./qrlew.bib
+```
 
 ```{toctree}
 ---

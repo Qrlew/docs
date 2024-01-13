@@ -20,10 +20,14 @@ extensions = [
     'sphinx.ext.autodoc',
     'sphinx.ext.autosummary',
     'sphinx.ext.mathjax',
+    'sphinxcontrib.bibtex',
 ]
 
 templates_path = ['_templates']
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
+# Enable numref
+numfig = True
+bibtex_bibfiles = ['qrlew.bib']
 
 # MyST conf
 myst_enable_extensions = [
@@ -34,7 +38,7 @@ myst_dmath_allow_labels = True
 myst_dmath_double_inline = True
 
 # Controls notebook execution
-jupyter_execute_notebooks = "cache"
+nb_execution_mode = "cache"
 
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output

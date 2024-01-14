@@ -160,8 +160,8 @@ Each *Relation* can be assigned different *rewriting rules* depending on their n
 
 *Rewriting Rules* can be --- for instance --- PU propagation rules of the form:
 * $\varnothing \rightarrow PUP$ for private *Tables* with a simple rewriting consisting in taking the definition of the privacy unit and computing the PID column.
-* $PUP \rightarrow PUP$ for *Maps* (or for *Reduce* when the PID is in the `GROUP BY} part) with a rewriting consisting in propagating the PID column from the input to the output.
-    \item $(PUP, PUP) \rightarrow PUP$ (or its variants with one published input) for *Join* and a rewriting consisting in adding the PID in the `ON} clause.
+* $PUP \rightarrow PUP$ for *Maps* (or for *Reduce* when the PID is in the `GROUP BY` part) with a rewriting consisting in propagating the PID column from the input to the output.
+    \item $(PUP, PUP) \rightarrow PUP$ (or its variants with one published input) for *Join* and a rewriting consisting in adding the PID in the `ON` clause.
 \end{itemize}
 
 Another key *Rewriting Rules* is $PUP \rightarrow DP$ for *Reduces*, it simply means that if the parent of the *Relation* can be rewritten as PUP, then we can rewrite the relation to be DP by substituting DP aggregations to the original aggregations of the *Reduce*.

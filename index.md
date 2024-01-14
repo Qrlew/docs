@@ -303,11 +303,7 @@ Useful *definitions* can be found [there](/definitions.md).
 
 To contribute to this code, follow the [instructions](/contributing.md)
 
-# Indices and tables
-
-- {ref}`genindex`
-- {ref}`modindex`
-- {ref}`search`
+# Bibliography
 
 ```{toctree}
 ---
@@ -320,8 +316,6 @@ tutorials/user_guide
 api
 contributing
 ```
-
-# Bibliography
 
 ```{bibliography} ./qrlew.bib
 ```

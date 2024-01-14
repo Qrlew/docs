@@ -25,6 +25,7 @@ extensions = [
 
 templates_path = ['_templates']
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
+
 # Enable numref
 numfig = True
 bibtex_bibfiles = ['qrlew.bib']

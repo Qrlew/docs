@@ -161,8 +161,7 @@ Each *Relation* can be assigned different *rewriting rules* depending on their n
 *Rewriting Rules* can be --- for instance --- PU propagation rules of the form:
 * $\varnothing \rightarrow PUP$ for private *Tables* with a simple rewriting consisting in taking the definition of the privacy unit and computing the PID column.
 * $PUP \rightarrow PUP$ for *Maps* (or for *Reduce* when the PID is in the `GROUP BY` part) with a rewriting consisting in propagating the PID column from the input to the output.
-    \item $(PUP, PUP) \rightarrow PUP$ (or its variants with one published input) for *Join* and a rewriting consisting in adding the PID in the `ON` clause.
-\end{itemize}
+* $(PUP, PUP) \rightarrow PUP$ (or its variants with one published input) for *Join* and a rewriting consisting in adding the PID in the `ON` clause.
 
 Another key *Rewriting Rules* is $PUP \rightarrow DP$ for *Reduces*, it simply means that if the parent of the *Relation* can be rewritten as PUP, then we can rewrite the relation to be DP by substituting DP aggregations to the original aggregations of the *Reduce*.
 
@@ -171,35 +170,31 @@ One easily see that by simply applying $PUP \rightarrow PUP$ and $PUP \rightarro
 #### Rewriting Rule Allocation
 
 The first phase of the rewriting process consists in allocating one and only one rule to each *Relation*.
-This is done in three steps illustrated in figure~\ref{fig:set_eliminate_select}:
-\begin{description}
-    \item[Rule Setting] We assign the set of potential rewriting rules to each *Relation* in a computation graph.
-    \item[Rule Elimination] Only feasible rewriting rules are preserved. A rewriting rule that would require a PUP input is only feasible if its input Relation has a feasible rule outputting a PUP *Relation*.
-    \item[Rule Selection] All feasible allocations of one rewriting rule per *Relation* are listed, a score depending on the desired ultimate output property is assigned to each allocation and the highest scoring allocation is selected. Then, a simple split $\left(\frac{\varepsilon}{n}, \frac{\delta}{n}\right)$ of the overall privacy budget $\left(\varepsilon, \delta\right)$ depending on the number of $PUP \rightarrow DP$ rules: $n$ is chosen.
-\end{description}
+This is done in three steps illustrated in {numref}`fig_set_eliminate_select`:
+* **Rule Setting:** We assign the set of potential rewriting rules to each *Relation* in a computation graph.
+* **Rule Elimination:** Only feasible rewriting rules are preserved. A rewriting rule that would require a PUP input is only feasible if its input Relation has a feasible rule outputting a PUP *Relation*.
+* **Rule Selection:** All feasible allocations of one rewriting rule per *Relation* are listed, a score depending on the desired ultimate output property is assigned to each allocation and the highest scoring allocation is selected. Then, a simple split $\left(\frac{\varepsilon}{n}, \frac{\delta}{n}\right)$ of the overall privacy budget $\left(\varepsilon, \delta\right)$ depending on the number of $PUP \rightarrow DP$ rules: $n$ is chosen.
 
 In the computation graph, while each node's multiple rewriting rules might suggest a combinatorial explosion in the number of possible feasible allocations, this is mitigated in practice. The pruning of infeasible rules, dictated by the requirement for most relations to have a PUP input for a DP or PUP outcome, significantly reduces the complexity. Hence, despite the theoretical breadth of possibilities, the actual number of feasible paths remains manageable, avoiding substantial computational problems in practice.
 
 ```{figure} ./_static/set_eliminate_select.svg
-:name: set_eliminate_select
+:name: fig_set_eliminate_select
 
 The rewriting happens in three steps: *Rule Setting* when we assign the set of potential rewriting rules to each *Relation* in a computation graph; *Rule Elimination*, when only feasible rewriting rules are preserved; and *Rule Selection*, when an actual allocation is selected.
 ```
 
 #### Rule Application
 
-Once the first phase of rule allocation is achieved, starts the second phase: *rule application*, as illustrated in figure~\ref{fig:rewriting}.
-In the allocation phase, a *global rewriting scheme* was set in the form of an allocation satisfying a system of requirements; in the rewriting phase, each rewriting rule is applied *independently* for each *Relation*. This is possible because once a rewriting rule is applied to a *Relation*, the *Relation* is transformed into a computation graph of *Relations* whose ultimate inputs are compatible (same schema, i.e. same columns with same types, plus the new columns provided by the property achieved) with the inputs of the original *Relation* and the ultimate output is also compatible with the output of the original *Relation* so that rewritten *Relations* can be stitched together in a larger graph the same way the original *Relations* were connected: see figure~\ref{fig:rewriting}.
+Once the first phase of rule allocation is achieved, starts the second phase: *rule application*, as illustrated in {numref}`fig_rewriting`.
+In the allocation phase, a *global rewriting scheme* was set in the form of an allocation satisfying a system of requirements; in the rewriting phase, each rewriting rule is applied *independently* for each *Relation*. This is possible because once a rewriting rule is applied to a *Relation*, the *Relation* is transformed into a computation graph of *Relations* whose ultimate inputs are compatible (same schema, i.e. same columns with same types, plus the new columns provided by the property achieved) with the inputs of the original *Relation* and the ultimate output is also compatible with the output of the original *Relation* so that rewritten *Relations* can be stitched together in a larger graph the same way the original *Relations* were connected: see {numref}`fig_rewriting`.
 
 ## Privacy Analysis
 
 When rewriting, a user can require the output *Relation* to have the *Published* property. All *rewriting rules* with *Published* outputs require their inputs to be either *Public*, *DP*, *SD* or *Published* themselves. We assume synthetic data provided to the system are differentially private, so the privacy of the result depends on the way [qrlew](https://qrlew.github.io/) rewrites *Reduces* into *DP* equivalent *Relations*.
 
 All *rewriting rules* with *DP* outputs require the input of the *Reduce* to be *PUP* so we can assume a PID column clearly assign one and only one PU to each rows of the rewritten input. The *Reduce* is made DP by:
-\begin{itemize}
-    \item Making sure the aggregate columns of the *Reduce* are computed with differentially private mechanisms.
-    \item Making sure the grouping keys of the `GROUP BY} clause are either public or released through a differentially private mechanism.
-\end{itemize}
+* Making sure the aggregate columns of the *Reduce* are computed with differentially private mechanisms.
+* Making sure the grouping keys of the `GROUP BY` clause are either public or released through a differentially private mechanism.
 
 ### Protecting aggregation results
 
@@ -210,20 +205,18 @@ We want to compute all the sums:
 $$S_j = \sum_{g_k = j} x_k$$
 with some DP guarantees. To this end we:
 
-\begin{enumerate}
-    \item *Limit the contribution of each \emph{privacy unit* to the sum}:
-    We represent the contribution of each PU: $i$, by a vector: $s_i$ whose components are the partial sums within each of the $m$ groups: $s_i = \left(s_{i,1},\ldots, s_{i,m}\right)$, where:
-    $$s_{i,j} = \sum_{\substack{\pi_k = i\\g_k = j}}x_k$$
-    The $s_i$'s $\ell^2$ norms are then clipped to $c$:
-    $$\overline{s_i} = \left(\overline{s_{i,j}}\right)_j = \left(\frac{s_{i,j}}{\max\left(1, \frac{\|s_i\|_2}{c}\right)}\right)_j$$
-    See section~\ref{sec:limit_contrib_per_user} for more details.
+* **Limit the contribution of each *privacy unit* to the sum**:
+We represent the contribution of each PU: $i$, by a vector: $s_i$ whose components are the partial sums within each of the $m$ groups: $s_i = \left(s_{i,1},\ldots, s_{i,m}\right)$, where:
+$$s_{i,j} = \sum_{\substack{\pi_k = i\\g_k = j}}x_k$$
+The $s_i$'s $\ell^2$ norms are then clipped to $c$:
+$$\overline{s_i} = \left(\overline{s_{i,j}}\right)_j = \left(\frac{s_{i,j}}{\max\left(1, \frac{\|s_i\|_2}{c}\right)}\right)_j$$
+See the [whitepaper](#qrlew-white-paper) for more details.
 
-    \item *Add gaussian noise to each group*:
-    The clipped contributions are summed and perturbed with gaussian noise $\nu = \left(\nu_1,\ldots \nu_m\right) \sim \mathcal{N}\left(0, \sigma^2I_m\right)$:
-    $$\widetilde{S_j} = \sum_{i=1}^n \overline{s_{i,j}} + \nu_j$$
-    With $\sigma^2={\frac {2\ln(1.25/\delta )\cdot c^{2}}{\varepsilon ^{2}}}$.
-    Note that the vector of sums has $\ell^2$ *Global Sensitivity* of $c$, so this is an application of the *Gaussian Mechanism* (see: theorem A.1. in {cite}`dwork2014algorithmic`) and the mechanism is $\varepsilon, \delta$-differentially private.
-\end{enumerate}
+* **Add gaussian noise to each group**:
+The clipped contributions are summed and perturbed with gaussian noise $\nu = \left(\nu_1,\ldots \nu_m\right) \sim \mathcal{N}\left(0, \sigma^2I_m\right)$:
+$$\widetilde{S_j} = \sum_{i=1}^n \overline{s_{i,j}} + \nu_j$$
+With $\sigma^2={\frac {2\ln(1.25/\delta )\cdot c^{2}}{\varepsilon ^{2}}}$.
+Note that the vector of sums has $\ell^2$ *Global Sensitivity* of $c$, so this is an application of the *Gaussian Mechanism* (see: theorem A.1. in {cite}`dwork2014algorithmic`) and the mechanism is $\varepsilon, \delta$-differentially private.
 
 ### Protecting grouping keys
 
@@ -261,15 +254,13 @@ Google built several higher-level tools on top of {cite}`GoogleDP`.
 Other systems such as *PINQ* {cite}`mcsherry2009privacy` and *Chorus* {cite}`johnson2020chorus` are prototypes that do not seem to be actively maintained. *Chorus* shares many of the design goals of [qrlew](https://qrlew.github.io/), but requires post-processing outside of the DB, which can make the integration more complex on the data-owner side (as the computation happens in two distinct places).
 
 Beyond that, [qrlew](https://qrlew.github.io/) brings unique functionalities, such as:
-\begin{itemize}
-    \item advanced automated range propagation;
-    \item the possibility to automatically blend in synthetic data;
-    \item advanced privacy unit definition capabilities across many related tables;
-    \item the possibility for the non-expert to simply write standard SQL, but for the DP aware analyst to improve its utility by adding `WHERE x < b} or `WHERE x IN (1,2,3)} to give hints to the [qrlew](https://qrlew.github.io/);
-    \item all the compute happens in the DB.
-\end{itemize}
+* advanced automated range propagation;
+* the possibility to automatically blend in synthetic data;
+* advanced privacy unit definition capabilities across many related tables;
+* the possibility for the non-expert to simply write standard SQL, but for the DP aware analyst to improve its utility by adding `WHERE x < b} or `WHERE x IN (1,2,3)} to give hints to the [qrlew](https://qrlew.github.io/);
+* all the compute happens in the DB.
 
-This last point comes with some limitations (see section~\ref{sec:limitations}), but opens new possibilities like the delegation of the rewriting to a trusted third party. The data practitioner could simply write his desired query in SQL, send it to the rewriter that would keep track of the privacy losses and use [qrlew](https://qrlew.github.io/) to rewrite the query, sign it, and send it back to the data practitioner that can then send the data-owner, who will check the signature certifying the DP properties of the rewritten query\footnote{A proof of concept is available at: \url{https://github.com/Qrlew/server}}.
+This last point comes with some limitations (see section~\ref{sec:limitations}), but opens new possibilities like the delegation of the rewriting to a trusted third party. The data practitioner could simply write his desired query in SQL, send it to the rewriter that would keep track of the privacy losses and use [qrlew](https://qrlew.github.io/) to rewrite the query, sign it, and send it back to the data practitioner that can then send the data-owner, who will check the signature certifying the DP properties of the rewritten query[^poc_server].
 
 ## Known Limitations
 
@@ -308,11 +299,9 @@ And cite us:
 
 Useful *definitions* can be found [there](/definitions.md).
 
-[White paper](https://hal.science/hal-04350665v1/document)
-
 # Contributing
 
-To contribute to this code, follow the [instructions](contributing)
+To contribute to this code, follow the [instructions](/contributing.md)
 
 # Indices and tables
 
@@ -329,6 +318,7 @@ titlesonly:
 tutorials/getting_started
 tutorials/user_guide
 api
+contributing
 ```
 
 # Bibliography
@@ -337,3 +327,4 @@ api
 ```
 
 [^pcmf]: Which is a shorthand name for what would be better called: *piecewise-coordinatewise-monotonic-functions*
+[^poc_server]: A proof of concept is available at: <https://github.com/Qrlew/server>

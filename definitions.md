@@ -2,7 +2,7 @@
 
 ## Adjacent datasets
 
-Datasets $D, D' \in \mathcal{D}$ are adjacent if they are equal up to the addition or removal of all entries sharing the same PID. Note that this is a slightly unusual and restricted definition of adjacency, suited to our practical needs. It is close to that used in the *user-level differential privacy* literature {cite}`liu2020learning` {cite}`wilson2019differentially` where one user can have many samples.
+Datasets $D, D' \in \mathcal{D}$ are adjacent if they are equal up to the addition or removal of all entries sharing the same PID. Note that this is a slightly unusual and restricted definition of adjacency, suited to our practical needs. It is close to that used in the *user-level differential privacy* literature {cite}`liu2020learning, wilson2019differentially` where one user can have many samples.
 
 ## Data Owner
 The Data Owner is the person in charge of managing and protecting the datasets in a database.

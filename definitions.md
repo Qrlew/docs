@@ -2,7 +2,7 @@
 
 ## Adjacent datasets
 
-Datasets $D, D' \in \mathcal{D}$ are adjacent if they are equal up to the addition or removal of all entries sharing the same PID. Note that this is a slightly unusual and restricted definition of adjacency, suited to our practical needs. It is close to that used in the *user-level differential privacy* literature [^1] [^2] where one user can have many samples.
+Datasets $D, D' \in \mathcal{D}$ are adjacent if they are equal up to the addition or removal of all entries sharing the same PID. Note that this is a slightly unusual and restricted definition of adjacency, suited to our practical needs. It is close to that used in the *user-level differential privacy* literature {cite}`liu2020learning` {cite}`wilson2019differentially` where one user can have many samples.
 
 ## Data Owner
 The Data Owner is the person in charge of managing and protecting the datasets in a database.
@@ -57,12 +57,6 @@ fitted on the source data.
 Samples are then drawn from this generative model.
 
 Synthetic Date will not protect privacy per se, unless the generative model
-is fitted with a Differentially Private procedure such as DP-SGD [^3].
+is fitted with a Differentially Private procedure such as DP-SGD {cite}`ponomareva2023dp`.
 
 In this documentation — focused on privacy — we will assume that 
-
-[^1]: Yuhan Liu, Ananda Theertha Suresh, Felix Xinnan X Yu, Sanjiv Kumar, and Michael Riley. Learning discrete distributions: user vs item-level privacy. Advances in Neural Information Processing Systems, 33:20965–20976, 2020.
-
-[^2]: Royce J Wilson, Celia Yuxin Zhang, William Lam, Damien Desfontaines, Daniel Simmons-Marengo, and Bryant Gipson. Diﬀerentially private sql with bounded user contribution. arXiv preprint arXiv:1909.01917, 2019.
-
-[^3]: PONOMAREVA, Natalia, HAZIMEH, Hussein, KURAKIN, Alex, et al. How to dp-fy ml: A practical guide to machine learning with differential privacy. Journal of Artificial Intelligence Research, 2023, vol. 77, p. 1113-1201.

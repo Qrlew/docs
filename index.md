@@ -43,7 +43,7 @@ way of managing a privacy budget and reaching better utility-privacy tradeoffs.
 
 ## Design Goals
 
-[Qrlew](https://qrlew.github.io/) assumes the *central model of differential privacy* [@archie2018s], where a trusted central organization: hospital, insurance company, utility provider, called the [data owner](/definitions.md#data-owner), collects and stores personal data in a secure database and whishes to let untrusted [data practitioners](/definitions.md#data-practitioner) run SQL queries on its data.
+[Qrlew](https://qrlew.github.io/) assumes the *central model of differential privacy* {cite}`archie2018s`, where a trusted central organization: hospital, insurance company, utility provider, called the [data owner](/definitions.md#data-owner), collects and stores personal data in a secure database and whishes to let untrusted [data practitioners](/definitions.md#data-practitioner) run SQL queries on its data.
 
 At a high level we pursued the following requirements:
 
@@ -63,10 +63,10 @@ First the SQL query submitted by the [data practitioners](#data-practitioner) is
 
 As the SQL language is very rich and complex, simply parsing a query into an abstract syntax tree does not produce a convenient representation for our needs. Therefore, it is converted into a simpler normalized representation with properties well aligned with the requirements of Differential Privacy: the *Relation*. A *Relation* is a collection of rows adhering to a given *schema*. It is a recursively defined structure composed of:
 
-* `Tables` This is simply a data source from a database.
-* `Maps` A Map takes an input *Relation*, filters the rows and transform them one by one. The filtering conditions and row transforms are expressed with expressions similar to those of SQL. It acts as a `SELECT exprs FROM input WHERE expr LIMIT value` and therefore preserve the [privacy unit](/definitions.md#datasets-and-privacy-units-pu) ownership structure.
-* `Reduces` A *Reduce* takes an input *Relation* and aggregates some columns, possibly group by group. It acts as a `SELECT aggregates FROM input GROUP BY expr`. This is where the rewriting into DP will happen as described bellow.
-* `Joins` This *Relation* combines two input *Relations* as a `SELECT * FROM left JOIN right ON expr` would do it. The privacy properties are more complex to propagate in this case.
+* **Tables:** This is simply a data source from a database.
+* **Maps:** A Map takes an input *Relation*, filters the rows and transform them one by one. The filtering conditions and row transforms are expressed with expressions similar to those of SQL. It acts as a `SELECT exprs FROM input WHERE expr LIMIT value` and therefore preserve the [privacy unit](/definitions.md#datasets-and-privacy-units-pu) ownership structure.
+* **Reduces:** A *Reduce* takes an input *Relation* and aggregates some columns, possibly group by group. It acts as a `SELECT aggregates FROM input GROUP BY expr`. This is where the rewriting into DP will happen as described bellow.
+* **Joins:** This *Relation* combines two input *Relations* as a `SELECT * FROM left JOIN right ON expr` would do it. The privacy properties are more complex to propagate in this case.
 
 It may also be a static list of values or a set operation between two *Relations*, but those are less important for our uses.
 
@@ -80,8 +80,8 @@ This representation is central to [qrlew](https://qrlew.github.io/); all the fea
 
 ### Range Propagation
 
-Most [DP](/definitions.md#differential-privacy-dp) mechanisms aggregating numbers require the knowledge of some bounds on the values[^2].
-Even if some bounds are known for some *Relations* like source `Tables`, it is not trivial to propagate these bounds through the steps of the computation.
+Most [DP](/definitions.md#differential-privacy-dp) mechanisms aggregating numbers require the knowledge of some bounds on the values (see {cite}`dwork2014algorithmic`).
+Even if some bounds are known for some *Relations* like source **Tables**, it is not trivial to propagate these bounds through the steps of the computation.
 
 To help with range propagation, [qrlew](https://qrlew.github.io/) introduces two useful concepts:
 
@@ -90,7 +90,7 @@ $$I = \bigcup_{i=1}^{j\leq k}\left[a_i, b_i\right]$$
 Note that the union of *$k$-Intervals* may not be a *$k$-Interval* as it may be the union of more than $k$ intervals.
 Unions of many intervals can be simplified into their convex envelope interval, which are often sufficient bounds approximations for our use cases:
 $$J = \bigcup_{i=1}^{j> k}\left[a_i, b_i\right] \subseteq \left[\min_i a_i, \max_i b_i\right]$$
-* And the concept of *piecewise-monotonic-functions*[^3], which are functions $f: \mathbb{R}^n \rightarrow \mathbb{R}$ whose domain can be partitioned in cartesian products of intervals: $P_j$ on which they are *coordinatewise-monotonic*.
+* And the concept of *piecewise-monotonic-functions*[^pcmf], which are functions $f: \mathbb{R}^n \rightarrow \mathbb{R}$ whose domain can be partitioned in cartesian products of intervals: $P_j$ on which they are *coordinatewise-monotonic*.
 The image of a cartesian product of $n$ *$k$-Intervals* by a *piecewise-monotonic-function* can be easily computed as a *$k$-Interval*.
 Indeed, let $I$ be:
 $$I = I_1\times I_2\times \ldots \times I_n = \bigcup_{\substack{1\leq i_1\leq k\\\ldots\\1\leq i_n\leq k}}\left[a_{i_1}, b_{i_1}\right]\times \ldots \times \left[a_{i_n}, b_{i_n}\right]$$
@@ -134,10 +134,8 @@ privacy_unit = [
 ### Rewriting
 
 Rewriting in [qrlew](https://qrlew.github.io/), refers to the process of altering the *computation graph* by substituting computation *sub-graphs* to *Relations* (see {numref}`fig_rewriting`) to alter the properties of the result. This substitution aims to achieve specific objectives, such as ensuring privacy through the incorporation of differentially private mechanisms. The rewriting process (see {numref}`fig_rewriting`) happens in two phases:
-\begin{itemize}
-    \item a *rewriting rule allocation* phase, where each *Relation* in the *computation graph* gets allocated a *rewriting rule* (RR) compatible with its input and with the desired output property;
-    \item a *rule application* phase, where each *Relation* is rewritten to a small *computation graph* implementing the logic of the rewriting and stitched together with the other rewritten *Relations*.
-\end{itemize}
+* a *rewriting rule allocation* phase, where each *Relation* in the *computation graph* gets allocated a *rewriting rule* (RR) compatible with its input and with the desired output property;
+* a *rule application* phase, where each *Relation* is rewritten to a small *computation graph* implementing the logic of the rewriting and stitched together with the other rewritten *Relations*.
 
 ```{figure} ./_static/rewriting.svg
 :name: fig_rewriting
@@ -150,22 +148,19 @@ Before we describe these phases into more details, let's define the various prop
 #### Privacy Properties and Rewriting Rules
 
 Each *Relation* can have one of the following properties:
-\begin{description}
-    \item[Privacy Unit Preserving (PUP)]: A *Relation* is PUP if each row is associated with a PU. In practice it will have a column containing the PID identifying the PU.
-    \item[Differentially Private (DP)] A *Relation* will be DP if it implements a DP mechanism. A DP *Relation* can be safely  executed on private data and the result be published. Note that the *privacy loss* associated with the DP mechanism has to be accurately accounted for (see section~\ref{sec:privacy_analysis}).
-    \item[Synthetic Data (SD)] In some contexts a *synthetic data* version of source tables is available. Any *Relation* derived from other SD or Public *Relations* is itself SD.
-    \item[Public (Pub)] A relation derived from public tables is labeled as such and does not require any further protection to be disclosed.
-    \item[Published (Pubd)] A relation is considered Published if its input relations are either Public, DP, in some cases SD, or Published themselves. It can be considered as Published but with some more care like the need to account for the privacy loss incurred by its DP ancestors.
-\end{description}
+* **Privacy Unit Preserving (PUP):** A *Relation* is PUP if each row is associated with a PU. In practice it will have a column containing the PID identifying the PU.
+* **Differentially Private (DP):** A *Relation* will be DP if it implements a DP mechanism. A DP *Relation* can be safely  executed on private data and the result be published. Note that the *privacy loss* associated with the DP mechanism has to be accurately accounted for (see section~\ref{sec:privacy_analysis}).
+* **Synthetic Data (SD):** In some contexts a *synthetic data* version of source tables is available. Any *Relation* derived from other SD or Public *Relations* is itself SD.
+* **Public (Pub)** A relation derived from public tables is labeled as such and does not require any further protection to be disclosed.
+* **Published (Pubd):** A relation is considered Published if its input relations are either Public, DP, in some cases SD, or Published themselves. It can be considered as Published but with some more care like the need to account for the privacy loss incurred by its DP ancestors.
 
 These properties usually require some rewriting of the computation graph to be achieved. The requirements for a specific *Relation* to meet some property are embodied in what we call: *rewriting rules*.
 A *rewriting rule* has input requirements, and an achievable output *property* that tells what *property* can be achieved by rewriting provided the input *property* requirements are fulfilled.
 Each *Relation* can be assigned different *rewriting rules* depending on their nature: *Map*, *Reduce*, etc. and the way they are parametrized.
 
 *Rewriting Rules* can be --- for instance --- PU propagation rules of the form:
-\begin{itemize}
-    \item $\varnothing \rightarrow PUP$ for private *Tables* with a simple rewriting consisting in taking the definition of the privacy unit and computing the PID column.
-    \item $PUP \rightarrow PUP$ for *Maps* (or for *Reduce* when the PID is in the `GROUP BY} part) with a rewriting consisting in propagating the PID column from the input to the output.
+* $\varnothing \rightarrow PUP$ for private *Tables* with a simple rewriting consisting in taking the definition of the privacy unit and computing the PID column.
+* $PUP \rightarrow PUP$ for *Maps* (or for *Reduce* when the PID is in the `GROUP BY} part) with a rewriting consisting in propagating the PID column from the input to the output.
     \item $(PUP, PUP) \rightarrow PUP$ (or its variants with one published input) for *Join* and a rewriting consisting in adding the PID in the `ON} clause.
 \end{itemize}
 
@@ -227,43 +222,43 @@ with some DP guarantees. To this end we:
     The clipped contributions are summed and perturbed with gaussian noise $\nu = \left(\nu_1,\ldots \nu_m\right) \sim \mathcal{N}\left(0, \sigma^2I_m\right)$:
     $$\widetilde{S_j} = \sum_{i=1}^n \overline{s_{i,j}} + \nu_j$$
     With $\sigma^2={\frac {2\ln(1.25/\delta )\cdot c^{2}}{\varepsilon ^{2}}}$.
-    Note that the vector of sums has $\ell^2$ *Global Sensitivity* of $c$, so this is an application of the *Gaussian Mechanism* (see: theorem A.1. in \cite{dwork2014algorithmic}) and the mechanism is $\varepsilon, \delta$-differentially private.
+    Note that the vector of sums has $\ell^2$ *Global Sensitivity* of $c$, so this is an application of the *Gaussian Mechanism* (see: theorem A.1. in {cite}`dwork2014algorithmic`) and the mechanism is $\varepsilon, \delta$-differentially private.
 \end{enumerate}
 
 ### Protecting grouping keys
 
 When the grouping keys from a are derived from the data, they are not safe for publication.
-Following \cite{korolova2009releasing, wilson2019differentially}, we use a mechanism called *$\tau$-thresholding* to safely release these grouping keys.
+Following {cite}`korolova2009releasing, wilson2019differentially`, we use a mechanism called *$\tau$-thresholding* to safely release these grouping keys.
 Note that, thanks to *range propagation* (see section~\ref{sec:range_propagation}), some groups are already public and need no differentially private mechanism to be published.
 Ultimately, the rewriting of: `SELECT sum(x) FROM table GROUP BY g WHERE g IN (1, 2, 3)` as a DP equivalent will not use *$\tau$-thresholding*, while `SELECT sum(x) FROM table GROUP BY g` will most certainly do if nothing more is known about `g` beforehand.
 
 To summarize the various mechanisms used in [qrlew](https://qrlew.github.io/) to date:
 the rewriting of *Reduces* with $PUP \rightarrow DP$ rules requires the use of *gaussian mechanisms* and *$\tau$-thresholding* mechanisms;
 then the DP mechanisms used in all the rewritings are aggregated by the [qrlew](https://qrlew.github.io/) rewriter as a composed mechanism.
-The overall privacy loss is aggregated in a RDP accountant \cite{mironov2017renyi}.
+The overall privacy loss is aggregated in a RDP accountant {cite}`mironov2017renyi`.
 
 ## Comparison to other systems
 
 There are a few existing open-source libraries for differential privacy.
 
-Some libraries focus on deep learning and *DP-SGD* \cite{abadi2016deep}, such as: *Opacus* \cite{yousefpour2021opacus}, *Tensorflow Privacy* \cite{TensorFlowPrivacy} or *Optax's DP-SGD* \cite{deepmind2020jax}. [qrlew](https://qrlew.github.io/) has a very different goal: analytics and SQL.
+Some libraries focus on deep learning and *DP-SGD* {cite}`abadi2016deep`, such as: *Opacus* {cite}`yousefpour2021opacus`, *Tensorflow Privacy* {cite}`TensorFlowPrivacy` or *Optax's DP-SGD* {cite}`deepmind2020jax`. [qrlew](https://qrlew.github.io/) has a very different goal: analytics and SQL.
 
-*GoogleDP* \cite{GoogleDP} is a library implementing many differentially private mechanisms in various languages (C++, Go and Java).
-*IBM's diffprivlib* \cite{diffprivlib} is also a rich library implementing a wide variety of DP primitives in python and in particular many DP versions of classical machine learning algorithms. 
+*GoogleDP* {cite}`GoogleDP` is a library implementing many differentially private mechanisms in various languages (C++, Go and Java).
+*IBM's diffprivlib* {cite}`diffprivlib` is also a rich library implementing a wide variety of DP primitives in python and in particular many DP versions of classical machine learning algorithms. 
 These libraries provide the bricks for experts to build DP algorithms. [qrlew](https://qrlew.github.io/) has a very different approach, it is a high level tool designed to take queries written in SQL by a data practitioner with no expertise in privacy and to rewrite them into DP equivalent able to run on any SQL-enabled data store. [qrlew](https://qrlew.github.io/) implemented very few DP mechanisms to date, but automated the whole process of rewriting a query, while these library offer a rich variety of DP mechanism, and give full control to the user to use them as they wish.
 
-Google built several higher-level tools on top of \cite{GoogleDP}.
-*PrivacyOnBeam* \cite{PrivacyOnBeam} is a framework to run DP jobs written in Apache Beam with its Go SDK.
-*PipelineDP* \cite{PipelineDP} is a framework that let analysts write Beam-like or Spark-like programs and have them run on Apache Spark or Apache Beam as back-end. It focuses on the Beam and Spark ecosystem, while [qrlew](https://qrlew.github.io/) tries to provide an SQL interface to the analyst and runs on SQL-enabled back-ends (including Spark, a variety of data warehouses, and more traditional databases).
-\cite{ZetaSQL}, gives the user a way to write SQL-like queries and have them executed on tables using GoogleDB custom code, so it is not  compatible with any SQL data store and support relatively simple queries only.
+Google built several higher-level tools on top of {cite}`GoogleDP`.
+*PrivacyOnBeam* {cite}`PrivacyOnBeam` is a framework to run DP jobs written in Apache Beam with its Go SDK.
+*PipelineDP* {cite}`PipelineDP` is a framework that let analysts write Beam-like or Spark-like programs and have them run on Apache Spark or Apache Beam as back-end. It focuses on the Beam and Spark ecosystem, while [qrlew](https://qrlew.github.io/) tries to provide an SQL interface to the analyst and runs on SQL-enabled back-ends (including Spark, a variety of data warehouses, and more traditional databases).
+{cite}`ZetaSQL`, gives the user a way to write SQL-like queries and have them executed on tables using GoogleDB custom code, so it is not  compatible with any SQL data store and support relatively simple queries only.
 
-*OpenDP* \cite{OpenDP} is a powerful Rust library with a python bindings. It offers many possibilities of building complex DP computations by composing basic elements. Nonetheless, it require both expertise in privacy and to learn a new API to describe a query. Also, the computations are handled by the Rust core, so it does not integrate easily with existing data stores and may not scale well either.
+*OpenDP* {cite}`OpenDP` is a powerful Rust library with a python bindings. It offers many possibilities of building complex DP computations by composing basic elements. Nonetheless, it require both expertise in privacy and to learn a new API to describe a query. Also, the computations are handled by the Rust core, so it does not integrate easily with existing data stores and may not scale well either.
 
-*Tumult Analytics* \cite{berghel2022tumult} shares many of the nice composable design of OpenDP, but runs on Apache Spark, making it a scalable alternative to OpenDP. Still, it require the learning of a specific API (close to that of Spark) and cannot leverage any SQL back-end.
+*Tumult Analytics* {cite}`berghel2022tumult` shares many of the nice composable design of OpenDP, but runs on Apache Spark, making it a scalable alternative to OpenDP. Still, it require the learning of a specific API (close to that of Spark) and cannot leverage any SQL back-end.
 
-*SmartNoise SQL* is a library that share some of the design choices of [qrlew](https://qrlew.github.io/). An analyst can write SQL queries, but the scope of possible queries is relatively limited: no `JOIN}s, no sub-queries, no CTEs (`WITH}) that [qrlew](https://qrlew.github.io/) supports. Also, it does not run the full computation in the DB so the integration with existing systems may not be straightforward.
+*SmartNoise SQL* is a library that share some of the design choices of [qrlew](https://qrlew.github.io/). An analyst can write SQL queries, but the scope of possible queries is relatively limited: no `JOIN`s, no sub-queries, no CTEs (`WITH`) that [qrlew](https://qrlew.github.io/) supports. Also, it does not run the full computation in the DB so the integration with existing systems may not be straightforward.
 
-Other systems such as *PINQ* \cite{mcsherry2009privacy} and *Chorus* \cite{johnson2020chorus} are prototypes that do not seem to be actively maintained. *Chorus* shares many of the design goals of [qrlew](https://qrlew.github.io/), but requires post-processing outside of the DB, which can make the integration more complex on the data-owner side (as the computation happens in two distinct places).
+Other systems such as *PINQ* {cite}`mcsherry2009privacy` and *Chorus* {cite}`johnson2020chorus` are prototypes that do not seem to be actively maintained. *Chorus* shares many of the design goals of [qrlew](https://qrlew.github.io/), but requires post-processing outside of the DB, which can make the integration more complex on the data-owner side (as the computation happens in two distinct places).
 
 Beyond that, [qrlew](https://qrlew.github.io/) brings unique functionalities, such as:
 \begin{itemize}
@@ -282,7 +277,7 @@ This last point comes with some limitations (see section~\ref{sec:limitations}),
 
 [qrlew](https://qrlew.github.io/) relies on the random number generator of the SQL engine used. It is usually not a cryptographic secure random number generator.
 
-[qrlew](https://qrlew.github.io/) uses the floating-point numbers of the host SQL engine, therefore it is liable to the vulnerabilities described in \cite{casacuberta2022widespread}.
+[qrlew](https://qrlew.github.io/) uses the floating-point numbers of the host SQL engine, therefore it is liable to the vulnerabilities described in {cite}`casacuberta2022widespread`.
 
 # Qrlew white paper
 
@@ -325,12 +320,6 @@ To contribute to this code, follow the [instructions](contributing)
 - {ref}`modindex`
 - {ref}`search`
 
-{cite}`dwork2017exposed`
-@dwork2017exposed
-
-```{bibliography} ./qrlew.bib
-```
-
 ```{toctree}
 ---
 maxdepth: 2
@@ -342,8 +331,9 @@ tutorials/user_guide
 api
 ```
 
-[^1]: Arvind Narayanan and Vitaly Shmatikov. Robust de-anonymization of large sparse datasets. In 2008 IEEE Symposium on Security and Privacy (sp 2008), pages 111–125. IEEE, 2008.
+# Bibliography
 
-[^2]: Cynthia Dwork, Aaron Roth, et al. The algorithmic foundations of differential privacy. Foundations and Trends® in Theoretical Computer Science, 9(3–4):211–407, 2014.
+```{bibliography} ./qrlew.bib
+```
 
-[^3]: Which is a shorthand name for what would be better called: *piecewise-coordinatewise-monotonic-functions*
+[^pcmf]: Which is a shorthand name for what would be better called: *piecewise-coordinatewise-monotonic-functions*

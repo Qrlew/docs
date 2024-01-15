@@ -272,10 +272,21 @@ This last point comes with some limitations (see section~\ref{sec:limitations}),
 
 # Qrlew white paper
 
-Read [Qrlew white paper](https://hal.science/hal-04350665v1/file/qrlew.pdf).
+Read [Qrlew white paper](https://arxiv.org/pdf/2401.06273.pdf).
 
 And cite us:
 ```bibtex
+@misc{grislain2024qrlew,
+  title={Qrlew: Rewriting SQL into Differentially Private SQL}, 
+  author={Nicolas Grislain and Paul Roussel and Victoria de Sainte Agathe},
+  year={2024},
+  eprint={2401.06273},
+  archivePrefix={arXiv},
+  primaryClass={cs.DB}
+  url={https://arxiv.org/pdf/2401.06273.pdf},
+}
+```
+<!-- ```bibtex
 @article{grislain2023qrlew,
   title={Qrlew: Rewriting SQL into Differentially Private SQL},
   author={Grislain, Nicolas and Roussel, Paul and de Sainte Agathe, Victoria},
@@ -287,7 +298,7 @@ And cite us:
   hal_id={hal-04350665},
   hal_version={v1},
 }
-```
+``` -->
 
 # Tutorials
 

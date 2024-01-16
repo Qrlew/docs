@@ -16,6 +16,16 @@ With [qrlew](https://qrlew.github.io/), a [data practitioners](/definitions.md#d
 guarantees on the output; and the query rewriting can be operated by a privacy-expert who
 must be trusted by the owner, but may belong to a separate organization.
 
+=> Suggestions MA
+Qrlew (/ˈkɜrlu/) is data analysis library that rewrites SQL queries into privacy-preserving variants using Differential Privacy.
+
+Use Qrlew if you want to bring privacy guarantees to your SQL pipelines. It is:
+- SQL-first: Qrlew turns SQL queries into differentially-private SQL queries that can be in SQL engines of any dialect.
+- Feature-rich: Qrlew covers the broadest range of SQL queries, including JOIN and nested queries
+- Privacy-optimized: Qrlew keeps track of tight bounds and ranges throughout each step, minimizing the amount of noise needed to achieve differential privacy.
+
+
+
 ```{figure} ./_static/qrlew_process.svg
 :name: fig_qrlew_process
 
@@ -41,34 +51,48 @@ differentially private analytics with virtually no technical integration.
 private mechanisms and differentially private [synthetic data](/definitions.md#synthetic-data-sd) can be a simple, yet powerful,
 way of managing a privacy budget and reaching better utility-privacy tradeoffs.
 
+MA: the SD part is very confusing, I would skip it
+
 ## Design Goals
 
 [Qrlew](https://qrlew.github.io/) assumes the *central model of differential privacy* {cite}`archie2018s`, where a trusted central organization: hospital, insurance company, utility provider, called the [data owner](/definitions.md#data-owner), collects and stores personal data in a secure database and whishes to let untrusted [data practitioners](/definitions.md#data-practitioner) run SQL queries on its data.
 
 At a high level we pursued the following requirements:
 
-* Ease of use for the [data practitioners](#data-practitioner). The [data practitioners](#data-practitioner) are assumed to be a data experts but no privacy experts. They should be able to express their queries in a standard way. We chose SQL as the query language as it is very commonly used for analytics tasks.
-* Ease of integration for the [data owner](/definitions.md#data-owner). As SQL is a common language to express data analysis tasks, many data-stores support it from small embedded databases to big data stores.
-* Simplicity for the [data owner](/definitions.md#data-owner) to setup privacy protection. Differential privacy is about capping the sensitivity of a result to the addition or removal of an individual that we call [privacy unit](/definitions.md#datasets-and-privacy-units-pu). [Qrlew](https://qrlew.github.io/) assumes that the [data owner](/definitions.md#data-owner) can tell if a table is public and, if it is not, that it can assign exactly one [privacy unit](/definitions.md#datasets-and-privacy-units-pu) to each row of data. In the case there are multiple related tables, [qrlew](https://qrlew.github.io/) enables to define easily the [privacy units](/definitions.md#datasets-and-privacy-units-pu) for each tables transitively.
-* Simple integration with other privacy enhancing technologies such as [synthetic data](/definitions.md#synthetic-data-sd). To avoid repeated privacy losses or give result when a DP rewriting is not easily available (e.g. when the query is: `SELECT * FROM table`) [qrlew](https://qrlew.github.io/) can use [synthetic data](/definitions.md#synthetic-data-sd) to blend in the computation.
+* Ease of use for the [data practitioners](#data-practitioner). The [data practitioners](#data-practitioner) are assumed to be a data experts but no privacy experts. They should be able to express their queries using the most common dialect for data analysis: SQL.
+* Ease of integration for the [data owner](/definitions.md#data-owner). SQL is a common language to express data analysis tasks supported by most datastores of all scale.
+* Simplicity for the [data owner](/definitions.md#data-owner) to setup privacy protection. Differential privacy is about capping the sensitivity of a result to the addition or removal of an individual that we call [privacy unit](/definitions.md#datasets-and-privacy-units-pu). [Qrlew](https://qrlew.github.io/) assumes that the [data owner](/definitions.md#data-owner) can tell if a table is public and, if it is not, that it can assign exactly one [privacy unit](/definitions.md#datasets-and-privacy-units-pu) to each row of data. In the case there are multiple related tables, [qrlew](https://qrlew.github.io/) enables to define easily the [privacy units](/definitions.md#datasets-and-privacy-units-pu) for each table transitively.
+* Simple integration with [synthetic data](/definitions.md#synthetic-data-sd) when available. Some queries are not very suitable for DP-rewriting (e.g.: `SELECT * FROM table`), in those cases [qrlew](https://qrlew.github.io/) can use [synthetic data](/definitions.md#synthetic-data-sd) as a fallback if provided.
 
-These requirements dictated the overall *query rewriting* architecture and many features, the most important of which, are detailed below.
+These requirements dictated the overall *query rewriting* architecture and features.
 
 ## How does [qrlew](https://qrlew.github.io/) work?
 
-The [qrlew](https://qrlew.github.io/) library, solves the problem of running a SQL query with [DP](/definitions.md#differential-privacy-dp) guarantees in three steps.
-First the SQL query submitted by the [data practitioners](#data-practitioner) is parsed and converted into a [Relation](#qrlew-intermediate-representation), this [Relation](#qrlew-intermediate-representation) is an intermediate representation that is designed to ease the tracking of data types ranges or possible values, to ease the tracking of the [privacy unit](/definitions.md#datasets-and-privacy-units-pu) and to ease the rewriting into a DP *Relation*. Then, the rewriting into DP happens. Once the relation is rewritten into a DP one, it can be rendered as an SQL query string and submitted to the data store of the *data owner*. The output can then safely be shared with the *data practitioner*. This process is illustrated in {numref}`fig_qrlew_process`.
+The [qrlew](https://qrlew.github.io/) library, solves the problem of running a SQL query with [DP](/definitions.md#differential-privacy-dp) guarantees in three steps:
+1/ the SQL query submitted by the [data practitioners](#data-practitioner) is parsed and converted into an intermediate representation called [Relation](#qrlew-intermediate-representation), this [Relation](#qrlew-intermediate-representation) is designed to ease the tracking of data types ranges or possible values, to ease the tracking of the [privacy unit](/definitions.md#datasets-and-privacy-units-pu) in the next step. 
+2/ The Relation is rewritten into a DP variant
+3/ The DP variant of the Relation can be rendered as an SQL query string in any dialect.
 
-### Qrlew Intermediate Representation
+At the end of this process, the query string can submitted to the data store of the *data owner*. The output can be shared with the *data practitioner* or published without worrying about privacy leakage. This process is illustrated in {numref}`fig_qrlew_process`.
 
-As the SQL language is very rich and complex, simply parsing a query into an abstract syntax tree does not produce a convenient representation for our needs. Therefore, it is converted into a simpler normalized representation with properties well aligned with the requirements of Differential Privacy: the *Relation*. A *Relation* is a collection of rows adhering to a given *schema*. It is a recursively defined structure composed of:
+### Qrlew Intermediate Representation: Relations
+
+As the SQL language is very rich and complex, simply parsing a query into an abstract syntax tree does not produce a convenient representation for our needs. Therefore, it is converted into a simpler normalized representation with properties well aligned with the requirements of Differential Privacy: the *Relation*. 
+
+A *Relation* is a collection of rows adhering to a given *schema*. It is a recursively defined structure composed of:
 
 * **Tables:** This is simply a data source from a database.
+
+MA: it's a weird definition I see what a Table from a database is, I can understand what a database from a data source may be, but I don't see what a data source from a database may look like. Don't we have something more intuitive? straightforward?
+
 * **Maps:** A Map takes an input *Relation*, filters the rows and transform them one by one. The filtering conditions and row transforms are expressed with expressions similar to those of SQL. It acts as a `SELECT exprs FROM input WHERE expr LIMIT value` and therefore preserve the [privacy unit](/definitions.md#datasets-and-privacy-units-pu) ownership structure.
+
 * **Reduces:** A *Reduce* takes an input *Relation* and aggregates some columns, possibly group by group. It acts as a `SELECT aggregates FROM input GROUP BY expr`. This is where the rewriting into DP will happen as described bellow.
 * **Joins:** This *Relation* combines two input *Relations* as a `SELECT * FROM left JOIN right ON expr` would do it. The privacy properties are more complex to propagate in this case.
 
 It may also be a static list of values or a set operation between two *Relations*, but those are less important for our uses.
+
+MA: what does 'It' refere to in the previous sentence? Reduces?
 
 ```{figure} ./_static/relation.svg
 :name: fig_relation
@@ -76,12 +100,14 @@ It may also be a static list of values or a set operation between two *Relations
 *Relation* (*Map*) associated to the query: `SELECT a, count(abs(10*a+b)) AS x FROM table_1 WHERE b>-0.1 AND a IN (1,2,3) GROUP BY a`. The arrows point to the inputs of each *Relation*. Note the propagation of the data type ranges.
 ```
 
-This representation is central to [qrlew](https://qrlew.github.io/); all the features described below are built upon it. A *Relation*, along with all the sub-*Relations* it depends on, will be called the *computation graph* or the *graph* of a *Relation*.
+Relations are central to [qrlew](https://qrlew.github.io/); all the features described below are built upon it. A *Relation*, along with all the sub-*Relations* it depends on, will be called the *computation graph* or the *graph* of a *Relation*.
 
 ### Range Propagation
 
-Most [DP](/definitions.md#differential-privacy-dp) mechanisms aggregating numbers require the knowledge of some bounds on the values (see {cite}`dwork2014algorithmic`).
+Most [DP](/definitions.md#differential-privacy-dp) mechanisms aggregating numbers require the knowledge of some bounds on the input values (see {cite}`dwork2014algorithmic`).
 Even if some bounds are known for some *Relations* like source **Tables**, it is not trivial to propagate these bounds through the steps of the computation.
+
+MA: "It's not trivial" is not the main argument IMO (it's our problem, not theirs). I would (i) remind the reader that the tightest the bounds, the higher the utility, (ii) explain that even if bounds are know for the input data, they are not available after intermediary steps. A powerful feature of Qrlew is to propagate bounds and ranges across every intermediary step (filters, maps, reduces).
 
 To help with range propagation, [qrlew](https://qrlew.github.io/) introduces two useful concepts:
 
@@ -110,11 +136,27 @@ Most of the range propagation in [qrlew](https://qrlew.github.io/) is based on t
 
 ### Privacy Unit Definition
 
-Tables in a database rarely come properly formatted for privacy-preserving applications. Many rows in many tables may refer to the same individual, hence, *adding or removing an individual* means *adding or removing many rows*. To help the definition of the [privacy unit](/definitions.md#datasets-and-privacy-units-pu) [qrlew](https://qrlew.github.io/) introduces a small [Privacy Unit (PU)](/definitions.md#datasets-and-privacy-units-pu) description language.
-As exemplified in listing~\ref{lst:pe}, [PU](/definitions.md#datasets-and-privacy-units-pu) definition associates to each private table in a database a path defining the PID of each row. For a table containing the [PU](/definitions.md#datasets-and-privacy-units-pu) itself, like a `users` table for example, the PU definition will look like `("users",[],"id"),` where `id` is the name of a column identifying the user, like its name. If the database defines tables related to this tables, the way the tables are related should be specified following this scheme: $(\mathtt{tab}_1, path, \mathtt{pid})$ where $\mathtt{tab}_1$ is the name of the table for which the PID is defined, $\mathtt{pid}$ is the name of the column defining the PID in the table referred by $path$ and $path$ is a list of elements of the form $[(\mathtt{ref}_1, \mathtt{tab}_2, \mathtt{id}_2),\ldots, (\mathtt{ref}_{m-1}, \mathtt{tab}_m, \mathtt{id}_m)]$
+Tables in a database rarely come properly formatted for privacy-preserving applications. Many rows in many tables may refer to the same individual, hence, *adding or removing an individual* means *adding or removing many rows*. To help the definition of privacy units, [qrlew](https://qrlew.github.io/) introduces a small [Privacy Unit (PU)](/definitions.md#datasets-and-privacy-units-pu) description language.
+As exemplified in listing~\ref{lst:pe}, [PU](/definitions.md#datasets-and-privacy-units-pu) definition associates to each private table in a database a path defining the PID of each row.
+
+MA: define PID first. I think the syntax is awkward "associate to X Y" (more conventional is "associate Y to X")
+MA: listing~\ref{lst:pe} not rendered well
+
+For a table containing the [PU](/definitions.md#datasets-and-privacy-units-pu) itself, like a `users` table for example, the PU definition will look like `("users",[],"id"),` where `id` is the name of a column identifying the user, like its name. If the database defines tables related to this tables, the way the tables are related should be specified following this scheme: $(\mathtt{tab}_1, path, \mathtt{pid})$ where $\mathtt{tab}_1$ is the name of the table for which the PID is defined, $\mathtt{pid}$ is the name of the column defining the PID in the table referred by $path$ and $path$ is a list of elements of the form $[(\mathtt{ref}_1, \mathtt{tab}_2, \mathtt{id}_2),\ldots, (\mathtt{ref}_{m-1}, \mathtt{tab}_m, \mathtt{id}_m)]$
 where $\mathtt{ref}_{i-1}$ is a column in $\mathtt{tab}_{i-1}$ --- usually a foreign key --- referring to $\mathtt{tab}_i$ with a column of referred id $\mathtt{id}_i$ --- usually a primary key. Following the path of tables referring to one another, we end up with the table defining the PID (e.g. `users`).
 
-This small [PU](/definitions.md#datasets-and-privacy-units-pu) description language allows for a variety of useful PID scenarii, beyond the simple, but restrictive *privacy per row*.
+MA: ouch this is hard
+MA: "id is the name of a column identifying the user like its name" is very confusing. Either the column name is <user_id> or it's <name> it cannot be "id" to mean "name".
+MA: add new lines
+MA: "If the database defines tables related to this tables" is confusing (I guess you mean "realted to this table", singular). I would say something, "If other tables are related to this table through foreign keys." but I'm not 100% sure that's what you mean.
+MA: I would work backward in this description: (i) explain the problem (users can be in many tables with links with one another), (ii) explain the case of foreign keys, (iii) possibly explain the case of non related PU (I assume this is where all the confusion comes from). And then only explain how PU are defined and linked with one another.
+
+This small [PU](/definitions.md#datasets-and-privacy-units-pu) description language allows for a variety of useful PID scenarii, beyond the simple, but restrictive *privacy per row*, e.g.:
+- each individual may have multiple rows in the main table
+- the users table is in a 1-to-many relationship with an event table
+- two separate tables have a userId column that belong to the same id space (like two events tables possibly relating to the same individuals in absence of a users table)
+- two separate tables have a userId column that belong to different id spaces (like two events tables for individuals in two countries that do not overlap)
+- any complex relational structure that are common in any database (think [[OMOP]])
 
 ```{code-block} python
 :caption: "Example of *privacy unit* definition for a database with three tables holding users, orders and items records. Each user is protected individually by designating their `id`s as PID. Orders are attached to a user through the foreign key: `user_id`. Items's ownership is defined the same way by specifying the lineage: `item -> order -> user`."
@@ -154,18 +196,22 @@ Each *Relation* can have one of the following properties:
 * **Public (Pub)** A relation derived from public tables is labeled as such and does not require any further protection to be disclosed.
 * **Published (Pubd):** A relation is considered Published if its input relations are either Public, DP, in some cases SD, or Published themselves. It can be considered as Published but with some more care like the need to account for the privacy loss incurred by its DP ancestors.
 
-These properties usually require some rewriting of the computation graph to be achieved. The requirements for a specific *Relation* to meet some property are embodied in what we call: *rewriting rules*.
+These properties usually require rewriting the computation graph. The requirements for a specific *Relation* to meet some property are embodied in what we call: *rewriting rules*.
 A *rewriting rule* has input requirements, and an achievable output *property* that tells what *property* can be achieved by rewriting provided the input *property* requirements are fulfilled.
 Each *Relation* can be assigned different *rewriting rules* depending on their nature: *Map*, *Reduce*, etc. and the way they are parametrized.
 
-*Rewriting Rules* can be --- for instance --- PU propagation rules of the form:
+For instance, *Rewriting Rules* can be PU propagation rules of the form:
 * $\varnothing \rightarrow PUP$ for private *Tables* with a simple rewriting consisting in taking the definition of the privacy unit and computing the PID column.
 * $PUP \rightarrow PUP$ for *Maps* (or for *Reduce* when the PID is in the `GROUP BY` part) with a rewriting consisting in propagating the PID column from the input to the output.
 * $(PUP, PUP) \rightarrow PUP$ (or its variants with one published input) for *Join* and a rewriting consisting in adding the PID in the `ON` clause.
 
-Another key *Rewriting Rules* is $PUP \rightarrow DP$ for *Reduces*, it simply means that if the parent of the *Relation* can be rewritten as PUP, then we can rewrite the relation to be DP by substituting DP aggregations to the original aggregations of the *Reduce*.
+MA: je ne comprends pas les exemples précédents, je devrais y arriver en me concentrant beaucoup mais je pense que c'est complètement hors d'atteinte de notre audience. A ce moment de la lecture je suis perdu sur ce qu'est une private Table vs une Relation, je ne sais pas trop ce qu'on cherche à faire avec la PU propagation (on n'en a jamais parlé)...
 
-One easily see that by simply applying $PUP \rightarrow PUP$ and $PUP \rightarrow DP$ rules, one can propagate the privacy unit across the computation graph of a *Relation* and compute some DP aggregate such as a noisy sum or average.
+Another key *Rewriting Rules* is $PUP \rightarrow DP$ for *Reduces*, it means that if the parent of the *Relation* can be rewritten as PUP, then we can rewrite the *Relation* to be DP by substituting DP aggregations to the original aggregations of the *Reduce*.
+MA: not sure this is the proper syntax for substituting, a bit hard to read this way, maybe "replace X with Y" or "substituting X with Y"
+
+By simply applying $PUP \rightarrow PUP$ and $PUP \rightarrow DP$ rules, one can propagate the privacy unit across the computation graph of a *Relation* and compute DP aggregates such as a noisy sum or average.
+MA: nothing is easy at this stage, I'll try not to make the reader feel misearable.
 
 #### Rewriting Rule Allocation
 
@@ -175,7 +221,11 @@ This is done in three steps illustrated in {numref}`fig_set_eliminate_select`:
 * **Rule Elimination:** Only feasible rewriting rules are preserved. A rewriting rule that would require a PUP input is only feasible if its input Relation has a feasible rule outputting a PUP *Relation*.
 * **Rule Selection:** All feasible allocations of one rewriting rule per *Relation* are listed, a score depending on the desired ultimate output property is assigned to each allocation and the highest scoring allocation is selected. Then, a simple split $\left(\frac{\varepsilon}{n}, \frac{\delta}{n}\right)$ of the overall privacy budget $\left(\varepsilon, \delta\right)$ depending on the number of $PUP \rightarrow DP$ rules: $n$ is chosen.
 
-In the computation graph, while each node's multiple rewriting rules might suggest a combinatorial explosion in the number of possible feasible allocations, this is mitigated in practice. The pruning of infeasible rules, dictated by the requirement for most relations to have a PUP input for a DP or PUP outcome, significantly reduces the complexity. Hence, despite the theoretical breadth of possibilities, the actual number of feasible paths remains manageable, avoiding substantial computational problems in practice.
+MA: this is the first time we talk about privacy budget, it's probably strange for the reader. It's not obvious why it's "simple". I would have introduced the notion of budget before, mention that the rewriting process takes the budget as input. Then you could explicitly say that in the case where there are multiple DP mechanisms, the budget needs to be allocated across all of them. Finally mention that the current implementation simply splits the total budget equally across all DP mechanism, which is guaranteed to be bounded by the overall budget (a note on the fact that this is not a tight bound would be appreciated by the DP-aware reader, I'll spend a bit of time on this too).
+
+In the computation graph, while each node's multiple rewriting rules might suggest a combinatorial explosion in the number of possible feasible allocations, this is mitigated in practice. The pruning of infeasible rules, dictated by the requirement for most relations to have a PUP input for a DP or PUP outcome, significantly reduces the complexity. Hence, despite the theoretical breadth of possibilities, the actual number of feasible paths remains manageable, avoiding computational problems in practice.
+
+MA: I don't understand this part (maybe the syntax is off, maybe I just don't see it) "for most relations to have a PUP input for a DP or PUP outcome" 
 
 ```{figure} ./_static/set_eliminate_select.svg
 :name: fig_set_eliminate_select
@@ -188,11 +238,13 @@ The rewriting happens in three steps: *Rule Setting* when we assign the set of p
 Once the first phase of rule allocation is achieved, starts the second phase: *rule application*, as illustrated in {numref}`fig_rewriting`.
 In the allocation phase, a *global rewriting scheme* was set in the form of an allocation satisfying a system of requirements; in the rewriting phase, each rewriting rule is applied *independently* for each *Relation*. This is possible because once a rewriting rule is applied to a *Relation*, the *Relation* is transformed into a computation graph of *Relations* whose ultimate inputs are compatible (same schema, i.e. same columns with same types, plus the new columns provided by the property achieved) with the inputs of the original *Relation* and the ultimate output is also compatible with the output of the original *Relation* so that rewritten *Relations* can be stitched together in a larger graph the same way the original *Relations* were connected: see {numref}`fig_rewriting`.
 
+MA: got lost here
+
 ## Privacy Analysis
 
 When rewriting, a user can require the output *Relation* to have the *Published* property. All *rewriting rules* with *Published* outputs require their inputs to be either *Public*, *DP*, *SD* or *Published* themselves. We assume synthetic data provided to the system are differentially private, so the privacy of the result depends on the way [qrlew](https://qrlew.github.io/) rewrites *Reduces* into *DP* equivalent *Relations*.
 
-All *rewriting rules* with *DP* outputs require the input of the *Reduce* to be *PUP* so we can assume a PID column clearly assign one and only one PU to each rows of the rewritten input. The *Reduce* is made DP by:
+All *rewriting rules* with *DP* outputs require the input of the *Reduce* to be *PUP* so we can assume a PID column clearly assigns one and only one PU to each row of the rewritten input. The *Reduce* is made DP by:
 * Making sure the aggregate columns of the *Reduce* are computed with differentially private mechanisms.
 * Making sure the grouping keys of the `GROUP BY` clause are either public or released through a differentially private mechanism.
 
@@ -213,20 +265,22 @@ $$\overline{s_i} = \left(\overline{s_{i,j}}\right)_j = \left(\frac{s_{i,j}}{\max
 See the [whitepaper](#qrlew-white-paper) for more details.
 
 * **Add gaussian noise to each group**:
-The clipped contributions are summed and perturbed with gaussian noise $\nu = \left(\nu_1,\ldots \nu_m\right) \sim \mathcal{N}\left(0, \sigma^2I_m\right)$:
+The clipped contributions are summed and perturbed with Gaussian noise $\nu = \left(\nu_1,\ldots \nu_m\right) \sim \mathcal{N}\left(0, \sigma^2I_m\right)$:
 $$\widetilde{S_j} = \sum_{i=1}^n \overline{s_{i,j}} + \nu_j$$
 With $\sigma^2={\frac {2\ln(1.25/\delta )\cdot c^{2}}{\varepsilon ^{2}}}$.
 Note that the vector of sums has $\ell^2$ *Global Sensitivity* of $c$, so this is an application of the *Gaussian Mechanism* (see: theorem A.1. in {cite}`dwork2014algorithmic`) and the mechanism is $\varepsilon, \delta$-differentially private.
 
 ### Protecting grouping keys
 
-When the grouping keys from a are derived from the data, they are not safe for publication.
+When the grouping keys from a ???????? are derived from the data, they are not safe for publication.
 Following {cite}`korolova2009releasing, wilson2019differentially`, we use a mechanism called *$\tau$-thresholding* to safely release these grouping keys.
-Note that, thanks to *range propagation* (see section~\ref{sec:range_propagation}), some groups are already public and need no differentially private mechanism to be published.
+Note that, thanks to *range propagation* (see section~\ref{sec:range_propagation}), some groups are already public and do not need a differentially private mechanism to be published.
 Ultimately, the rewriting of: `SELECT sum(x) FROM table GROUP BY g WHERE g IN (1, 2, 3)` as a DP equivalent will not use *$\tau$-thresholding*, while `SELECT sum(x) FROM table GROUP BY g` will most certainly do if nothing more is known about `g` beforehand.
 
+MA: can you explain the "most certainly"? what heuristic do we follow?
+
 To summarize the various mechanisms used in [qrlew](https://qrlew.github.io/) to date:
-the rewriting of *Reduces* with $PUP \rightarrow DP$ rules requires the use of *gaussian mechanisms* and *$\tau$-thresholding* mechanisms;
+the rewriting of *Reduces* with $PUP \rightarrow DP$ rules requires the use of *Gaussian mechanisms* and *$\tau$-thresholding* mechanisms;
 then the DP mechanisms used in all the rewritings are aggregated by the [qrlew](https://qrlew.github.io/) rewriter as a composed mechanism.
 The overall privacy loss is aggregated in a RDP accountant {cite}`mironov2017renyi`.
 

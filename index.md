@@ -290,39 +290,51 @@ There are a few existing open-source libraries for differential privacy.
 
 Some libraries focus on deep learning and *DP-SGD* {cite}`abadi2016deep`, such as: *Opacus* {cite}`yousefpour2021opacus`, *Tensorflow Privacy* {cite}`TensorFlowPrivacy` or *Optax's DP-SGD* {cite}`deepmind2020jax`. [qrlew](https://qrlew.github.io/) has a very different goal: analytics and SQL.
 
+MA: on est d'accord que tu ne couvriras que les libraires d'analytics ensuite ? Je mettrais ici, cette comparaison s'intéresse exclusivement aux outils d'analytics et de SQL. Nous ne couvrons pas les libraires DP de machine learning: DP-SGD, Opacus, TF Privacy, DP XGBoost ;) , DP-SDV (https://pypi.org/project/DPSDV/).
+D'ailleurs, on pourrait peut-être mettre les titres de section:
+- Low level libraries for DP mechanisms
+- High level libraries for SQL, Spark, and Beam jobs and queries
+- Machine learning libraries (not covered here)
+
 *GoogleDP* {cite}`GoogleDP` is a library implementing many differentially private mechanisms in various languages (C++, Go and Java).
 *IBM's diffprivlib* {cite}`diffprivlib` is also a rich library implementing a wide variety of DP primitives in python and in particular many DP versions of classical machine learning algorithms. 
-These libraries provide the bricks for experts to build DP algorithms. [qrlew](https://qrlew.github.io/) has a very different approach, it is a high level tool designed to take queries written in SQL by a data practitioner with no expertise in privacy and to rewrite them into DP equivalent able to run on any SQL-enabled data store. [qrlew](https://qrlew.github.io/) implemented very few DP mechanisms to date, but automated the whole process of rewriting a query, while these library offer a rich variety of DP mechanism, and give full control to the user to use them as they wish.
+These libraries provide the bricks for experts to build DP algorithms. [qrlew](https://qrlew.github.io/) has a very different approach, it is a high level tool designed to take queries written in SQL by a data practitioner with no expertise in privacy and to rewrite them into DP equivalent that can run on any SQL-enabled data store. [qrlew](https://qrlew.github.io/) implemented very few DP mechanisms to date, but automated the whole process of rewriting a query, while these library offer a rich variety of DP mechanism, and give full control to the user to use them as they wish.
+MA: cette dernière phrase donne vraiment l'impression que qrlew est beaucoup moins bien
 
-Google built several higher-level tools on top of {cite}`GoogleDP`.
-*PrivacyOnBeam* {cite}`PrivacyOnBeam` is a framework to run DP jobs written in Apache Beam with its Go SDK.
-*PipelineDP* {cite}`PipelineDP` is a framework that let analysts write Beam-like or Spark-like programs and have them run on Apache Spark or Apache Beam as back-end. It focuses on the Beam and Spark ecosystem, while [qrlew](https://qrlew.github.io/) tries to provide an SQL interface to the analyst and runs on SQL-enabled back-ends (including Spark, a variety of data warehouses, and more traditional databases).
-{cite}`ZetaSQL`, gives the user a way to write SQL-like queries and have them executed on tables using GoogleDB custom code, so it is not  compatible with any SQL data store and support relatively simple queries only.
+Google built several higher-level tools on top of {cite}`GoogleDP`:
+- *PrivacyOnBeam* {cite}`PrivacyOnBeam` is a framework to run DP jobs written in Apache Beam with its Go SDK.
+- *PipelineDP* {cite}`PipelineDP` is a framework that let analysts write Beam-like or Spark-like programs and have them run on Apache Spark or Apache Beam as back-end. It focuses on the Beam and Spark ecosystems, while [qrlew](https://qrlew.github.io/) tries to provide an SQL interface to the analyst and runs on SQL-enabled back-ends (including Spark, a variety of data warehouses, and more traditional databases).
+- {cite}`ZetaSQL`, gives the user a way to write SQL-like queries and have them executed on tables using GoogleDB custom code, so it is not  compatible with any SQL data store and support relatively simple queries only.
 
 *OpenDP* {cite}`OpenDP` is a powerful Rust library with a python bindings. It offers many possibilities of building complex DP computations by composing basic elements. Nonetheless, it require both expertise in privacy and to learn a new API to describe a query. Also, the computations are handled by the Rust core, so it does not integrate easily with existing data stores and may not scale well either.
 
-*Tumult Analytics* {cite}`berghel2022tumult` shares many of the nice composable design of OpenDP, but runs on Apache Spark, making it a scalable alternative to OpenDP. Still, it require the learning of a specific API (close to that of Spark) and cannot leverage any SQL back-end.
+*Tumult Analytics* {cite}`berghel2022tumult` shares many of the nice composable design of OpenDP, but runs on Apache Spark, making it a scalable alternative to OpenDP. Still, it requires learning a specific API (close to that of Spark) and cannot leverage any SQL back-end.
 
-*SmartNoise SQL* is a library that share some of the design choices of [qrlew](https://qrlew.github.io/). An analyst can write SQL queries, but the scope of possible queries is relatively limited: no `JOIN`s, no sub-queries, no CTEs (`WITH`) that [qrlew](https://qrlew.github.io/) supports. Also, it does not run the full computation in the DB so the integration with existing systems may not be straightforward.
+*SmartNoise SQL* is a library that share some of the design choices of [qrlew](https://qrlew.github.io/) and can take SQL queries as input. However, the scope of possible queries is relatively limited. It lacks `JOIN`s, sub-queries, or CTEs (`WITH`) that [qrlew](https://qrlew.github.io/) supports. Also, it does not run the full computation in the DB so the integration with existing systems may not be straightforward.
+MA: pas compris ce que veut dire la dernière phrase
 
 Other systems such as *PINQ* {cite}`mcsherry2009privacy` and *Chorus* {cite}`johnson2020chorus` are prototypes that do not seem to be actively maintained. *Chorus* shares many of the design goals of [qrlew](https://qrlew.github.io/), but requires post-processing outside of the DB, which can make the integration more complex on the data-owner side (as the computation happens in two distinct places).
 
 Beyond that, [qrlew](https://qrlew.github.io/) brings unique functionalities, such as:
 * advanced automated range propagation;
-* the possibility to automatically blend in synthetic data;
 * advanced privacy unit definition capabilities across many related tables;
 * the possibility for the non-expert to simply write standard SQL, but for the DP aware analyst to improve its utility by adding `WHERE x < b} or `WHERE x IN (1,2,3)} to give hints to the [qrlew](https://qrlew.github.io/);
-* all the compute happens in the DB.
+* all the compute happens in the DB;
+* possibility to combine with synthetic data if available.
+
 
 This last point comes with some limitations (see section~\ref{sec:limitations}), but opens new possibilities like the delegation of the rewriting to a trusted third party. The data practitioner could simply write his desired query in SQL, send it to the rewriter that would keep track of the privacy losses and use [qrlew](https://qrlew.github.io/) to rewrite the query, sign it, and send it back to the data practitioner that can then send the data-owner, who will check the signature certifying the DP properties of the rewritten query[^poc_server].
 
 ## Known Limitations
 
 [qrlew](https://qrlew.github.io/) still implements a limited number of DP mechanisms, it is still lacking basic functionalities such as: quantile estimation, exponential mechanisms.
+MA: pourquoi est-ce une limitation? si tu veux faire du SQL tu ne veux pas faire des mécanismes DP bas niveau (à part peut-être les quantiles qui pourraient être ajoutés plus tard).
 
 [qrlew](https://qrlew.github.io/) relies on the random number generator of the SQL engine used. It is usually not a cryptographic secure random number generator.
 
 [qrlew](https://qrlew.github.io/) uses the floating-point numbers of the host SQL engine, therefore it is liable to the vulnerabilities described in {cite}`casacuberta2022widespread`.
+
+MA: size of the source data is considered public
 
 # Qrlew white paper
 

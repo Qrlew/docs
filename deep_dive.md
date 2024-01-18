@@ -1,8 +1,8 @@
 ---
-title: Qrlew Deep Dive
+title: Deep Dive
 ---
 
-# Qrlew Deep Dive
+# Deep Dive
 
 ## What is Qrlew?
 
@@ -12,14 +12,14 @@ ranges, and row ownership; so that they can easily be rewritten into [differenti
 equivalent and turned back into SQL queries for execution in a variety of standard data
 stores.
 
-With [qrlew](https://qrlew.github.io/), a [data practitioners](/definitions.md#data-practitioner) can express their data queries in standard SQL; the *data owner* can run the rewritten query without any technical integration and with strong privacy
+With [qrlew](https://qrlew.github.io/), a [data practitioner](/definitions.md#data-practitioner) can express their data queries in standard SQL; the [data owner](/definitions.md#data-owner) can run the rewritten query without any technical integration and with strong privacy
 guarantees on the output; and the query rewriting can be operated by a privacy-expert who
 must be trusted by the owner, but may belong to a separate organization.
 
 ```{figure} ./_static/qrlew_process.svg
 :name: fig_qrlew_process
 
-The rewriting process occurs in three stages: The [data practitioners](/definitions.md#data-practitioner)’s query is parsed
+The rewriting process occurs in three stages: The [data practitioner](/definitions.md#data-practitioner)’s query is parsed
 into a Relation, which is rewritten into a DP equivalent and finally executed by the the data
 owner which returns the privacy-safe result.
 ```
@@ -28,8 +28,8 @@ owner which returns the privacy-safe result.
 
 [Qrlew](https://qrlew.github.io/) provides the following features:
 
-* **[Qrlew](https://qrlew.github.io/) provides automatic [output privacy](/definitions.md#privacy-enhancing-technologies-pet) guarantees:** With [qrlew](https://qrlew.github.io/) a data owner can let
-an analyst ([data practitioners](/definitions.md#data-practitioner)) with no expertise in privacy protection run arbitrary SQL
+* **[Qrlew](https://qrlew.github.io/) provides automatic [output privacy](/definitions.md#privacy-enhancing-technologies-pet) guarantees:** With [qrlew](https://qrlew.github.io/) a [data owner](/definitions.md#data-owner) can let
+an analyst ([data practitioner](/definitions.md#data-practitioner)) with no expertise in privacy protection run arbitrary SQL
 queries with strong privacy guarantees on the output.
 
 * **[Qrlew](https://qrlew.github.io/) leverages existing infrastructures:** Qrlew rewrites a SQL query into a differentially
@@ -57,14 +57,14 @@ These requirements dictated the overall *query rewriting* architecture and many 
 ## How does [qrlew](https://qrlew.github.io/) work?
 
 The [qrlew](https://qrlew.github.io/) library, solves the problem of running a SQL query with [DP](/definitions.md#differential-privacy-dp) guarantees in three steps.
-First the SQL query submitted by the [data practitioners](#data-practitioner) is parsed and converted into a [Relation](#qrlew-intermediate-representation), this [Relation](#qrlew-intermediate-representation) is an intermediate representation that is designed to ease the tracking of data types ranges or possible values, to ease the tracking of the [privacy unit](/definitions.md#datasets-and-privacy-units-pu) and to ease the rewriting into a DP *Relation*. Then, the rewriting into DP happens. Once the relation is rewritten into a DP one, it can be rendered as an SQL query string and submitted to the data store of the *data owner*. The output can then safely be shared with the *data practitioner*. This process is illustrated in {numref}`fig_qrlew_process`.
+First the SQL query submitted by the [data practitioner](#data-practitioner) is parsed and converted into a [Relation](#qrlew-intermediate-representation), this [Relation](#qrlew-intermediate-representation) is an intermediate representation that is designed to ease the tracking of data types ranges or possible values, to ease the tracking of the [privacy unit](/definitions.md#datasets-and-privacy-units-pu) and to ease the rewriting into a DP *Relation*. Then, the rewriting into DP happens. Once the relation is rewritten into a DP one, it can be rendered as an SQL query string and submitted to the data store of the *data owner*. The output can then safely be shared with the *data practitioner*. This process is illustrated in {numref}`fig_qrlew_process`.
 
 ### Qrlew Intermediate Representation
 
 As the SQL language is very rich and complex, simply parsing a query into an abstract syntax tree does not produce a convenient representation for our needs. Therefore, it is converted into a simpler normalized representation with properties well aligned with the requirements of Differential Privacy: the *Relation*. A *Relation* is a collection of rows adhering to a given *schema*. It is a recursively defined structure composed of:
 
 * **Tables:** This is simply a data source from a database.
-* **Maps:** A Map takes an input *Relation*, filters the rows and transform them one by one. The filtering conditions and row transforms are expressed with expressions similar to those of SQL. It acts as a `SELECT exprs FROM input WHERE expr LIMIT value` and therefore preserve the [privacy unit](/definitions.md#datasets-and-privacy-units-pu) ownership structure.
+* **Maps:** A Map takes an input *Relation*, filters the rows and transform them one by one. The filtering conditions and row transforms are expressed with expressions similar to those of SQL. It acts as a `SELECT exprs FROM input WHERE expr LIMIT value` and therefore preserves the [privacy unit](/definitions.md#datasets-and-privacy-units-pu) ownership structure.
 * **Reduces:** A *Reduce* takes an input *Relation* and aggregates some columns, possibly group by group. It acts as a `SELECT aggregates FROM input GROUP BY expr`. This is where the rewriting into DP will happen as described bellow.
 * **Joins:** This *Relation* combines two input *Relations* as a `SELECT * FROM left JOIN right ON expr` would do it. The privacy properties are more complex to propagate in this case.
 

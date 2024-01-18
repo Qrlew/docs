@@ -34,12 +34,12 @@ At a high level we pursued the following requirements:
 
 These requirements dictated the overall *query rewriting* architecture and features.
 
-## How does [qrlew](https://qrlew.github.io/) work?
+## How does [Qrlew](https://qrlew.github.io/) work?
 
-The [qrlew](https://qrlew.github.io/) library, solves the problem of running a SQL query with [DP](/definitions.md#differential-privacy-dp) guarantees in three steps:
+The [Qrlew](https://qrlew.github.io/) library, solves the problem of running a SQL query with [DP](/definitions.md#differential-privacy-dp) guarantees in three steps:
 1. the SQL query submitted by the [data practitioners](#data-practitioner) is parsed and converted into an intermediate representation called [Relation](https://en.wikipedia.org/wiki/Relation_(database)), this [Relation](https://en.wikipedia.org/wiki/Relation_(database)) is designed to ease the tracking of data types ranges or possible values, to ease the tracking of the [privacy unit](/definitions.md#datasets-and-privacy-units-pu) in the next step. 
-2. The Relation is rewritten into a DP variant
-3. The DP variant of the Relation can be rendered as an SQL query string in any dialect.
+2. The [Relation](https://en.wikipedia.org/wiki/Relation_(database)) is rewritten into a DP variant
+3. The DP variant of the [Relation](https://en.wikipedia.org/wiki/Relation_(database)) can be rendered as an SQL query string in any dialect.
 
 At the end of this process, the query string can submitted to the data store of the *data owner*. The output can be shared with the *data practitioner* or published without worrying about privacy leakage. This process is illustrated in {numref}`fig_qrlew_process`.
 

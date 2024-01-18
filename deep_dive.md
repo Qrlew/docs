@@ -1,8 +1,8 @@
 ---
-title: Qrlew Documentation
+title: Qrlew Deep Dive
 ---
 
-# Qrlew Documentation
+# Qrlew Deep Dive
 
 ## What is Qrlew?
 
@@ -300,19 +300,9 @@ And cite us:
 }
 ``` -->
 
-# Tutorials
-
-- {doc}`tutorials/range_propagation`
-- {doc}`tutorials/dataset_from_queries`
-- {doc}`tutorials/rewrite_with_dp`
-
 # Definitions
 
 Useful *definitions* can be found [there](/definitions.md).
-
-# Contributing
-
-To contribute to this code, follow the [instructions](/contributing.md)
 
 # Bibliography
 
@@ -326,7 +316,6 @@ tutorials/getting_started
 tutorials/user_guide
 api
 contributing
-deep_dive
 ```
 
 ```{bibliography} ./qrlew.bib

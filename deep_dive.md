@@ -257,7 +257,7 @@ Beyond that, [Qrlew](https://qrlew.github.io/) brings unique functionalities, su
 * advanced automated range propagation;
 * the possibility to automatically blend in synthetic data;
 * advanced privacy unit definition capabilities across many related tables;
-* the possibility for the non-expert to simply write standard SQL, but for the DP aware analyst to improve its utility by adding `WHERE x < b} or `WHERE x IN (1,2,3)} to give hints to the [Qrlew](https://qrlew.github.io/);
+* the possibility for the non-expert to simply write standard SQL, but for the DP aware analyst to improve its utility by adding `WHERE x < b` or `WHERE x IN (1,2,3)` to give hints to the [Qrlew](https://qrlew.github.io/);
 * all the compute happens in the DB.
 
 This last point comes with some limitations (see section~\ref{sec:limitations}), but opens new possibilities like the delegation of the rewriting to a trusted third party. The data practitioner could simply write his desired query in SQL, send it to the rewriter that would keep track of the privacy losses and use [Qrlew](https://qrlew.github.io/) to rewrite the query, sign it, and send it back to the data practitioner that can then send the data-owner, who will check the signature certifying the DP properties of the rewritten query[^poc_server].

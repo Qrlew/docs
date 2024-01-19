@@ -76,7 +76,7 @@ html_theme_options = {
         {
             'name': 'X',
             'url': 'https://x.com/sarus_tech',
-            'icon': 'fa-brands fa-twitter',
+            'icon': 'fa-brands fa-x-twitter',
             # The default for `type` is `fontawesome` so it is not actually required in any of the above examples as it is shown here
         },
     ],

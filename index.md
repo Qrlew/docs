@@ -6,7 +6,7 @@ title: Qrlew Documentation
 
 ## The open-source DP layer for SQL
 
-[Qrlew](https://qrlew.github.io/) (/ˈkɝlu/) is the [open source library](https://github.com/Qrlew) library that rewrites SQL queries into privacy-preserving variants using [Differential Privacy (DP)](https://en.wikipedia.org/wiki/Differential_privacy).
+[Qrlew](https://qrlew.github.io/) (/ˈkɝlu/) is the [open source library](https://github.com/Qrlew) that rewrites SQL queries into privacy-preserving variants using [Differential Privacy (DP)](https://en.wikipedia.org/wiki/Differential_privacy).
 
 Use Qrlew if you want to bring privacy guarantees to your SQL pipelines. It is:
 - **SQL-to-SQL**: Qrlew turns SQL queries into differentially-private SQL queries that can be executed at scale on many SQL datastore, in many SQL dialects.

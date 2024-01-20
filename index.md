@@ -62,9 +62,13 @@ You can cite us:
 
 # Tutorials
 
-- {doc}`tutorials/range_propagation`
 - {doc}`tutorials/dataset_from_queries`
+- {doc}`tutorials/getting_started`
+- {doc}`tutorials/mssql_translator`
+- {doc}`tutorials/postgres_simple_table`
+- {doc}`tutorials/range_propagation`
 - {doc}`tutorials/rewrite_with_dp`
+- {doc}`tutorials/user_guide`
 
 # Definitions
 

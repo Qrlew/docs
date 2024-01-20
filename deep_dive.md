@@ -283,22 +283,8 @@ And cite us:
   eprint={2401.06273},
   archivePrefix={arXiv},
   primaryClass={cs.DB},
-  url={https://arxiv.org/pdf/2401.06273.pdf},
+  url={https://arxiv.org/pdf/2401.06273.pdf}
 }
-```
-<!-- ```bibtex
-@article{grislain2023qrlew,
-  title={Qrlew: Rewriting SQL into Differentially Private SQL},
-  author={Grislain, Nicolas and Roussel, Paul and de Sainte Agathe, Victoria},
-  url={https://hal.science/hal-04350665},
-  year={2023},
-  month=Dec,
-  keywords={SQL ; Privacy ; Differential Privacy ; Rewriting system ; Rust ; Privacy Enhancing Technology ; Privacy by Design},
-  pdf={https://hal.science/hal-04350665/file/qrlew.pdf},
-  hal_id={hal-04350665},
-  hal_version={v1},
-}
-``` -->
 
 # Definitions
 

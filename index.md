@@ -56,7 +56,7 @@ You can cite us:
   eprint={2401.06273},
   archivePrefix={arXiv},
   primaryClass={cs.DB},
-  url={https://arxiv.org/pdf/2401.06273.pdf},
+  url={https://arxiv.org/pdf/2401.06273.pdf}
 }
 ```
 

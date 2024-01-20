@@ -282,7 +282,7 @@ And cite us:
   year={2024},
   eprint={2401.06273},
   archivePrefix={arXiv},
-  primaryClass={cs.DB}
+  primaryClass={cs.DB},
   url={https://arxiv.org/pdf/2401.06273.pdf},
 }
 ```

@@ -37,7 +37,7 @@ myst_enable_extensions = [
 ]
 myst_dmath_allow_labels = True
 myst_dmath_double_inline = True
-myst_heading_anchors = 3
+myst_heading_anchors = 4
 
 # Controls notebook execution
 nb_execution_mode = 'off'

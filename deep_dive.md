@@ -1,6 +1,5 @@
 ---
 title: Deep Dive
-orphan: true
 ---
 # Deep Dive
 
@@ -17,7 +16,6 @@ guarantees on the output; and the query rewriting can be operated by a privacy-e
 must be trusted by the owner, but may belong to a separate organization.
 
 ```{figure} ./_static/qrlew_process.svg
-:name: fig_qrlew_process_deep_dive
 
 The rewriting process occurs in three stages: The [data practitioner](/definitions.md#data-practitioner)’s query is parsed
 into a [Relation](/definitions.md#relation), which is rewritten into a DP equivalent and finally executed by the the data
@@ -57,7 +55,7 @@ These requirements dictated the overall *query rewriting* architecture and many 
 ## How does [Qrlew] work?
 
 The [Qrlew] library, solves the problem of running a SQL query with [DP](/definitions.md#differential-privacy-dp) guarantees in three steps.
-First the SQL query submitted by the [data practitioner](/definitions.md#data-practitioner) is parsed and converted into a [Relation](#qrlew-intermediate-representation), this [Relation](#qrlew-intermediate-representation) is an intermediate representation that is designed to ease the tracking of data types ranges or possible values, to ease the tracking of the [privacy unit](/definitions.md#datasets-and-privacy-units-pu) and to ease the rewriting into a DP *Relation*. Then, the rewriting into DP happens. Once the relation is rewritten into a DP one, it can be rendered as an SQL query string and submitted to the data store of the *data owner*. The output can then safely be shared with the *data practitioner*. This process is illustrated in {numref}`fig_qrlew_process_deep_dive`.
+First the SQL query submitted by the [data practitioner](/definitions.md#data-practitioner) is parsed and converted into a [Relation](#qrlew-intermediate-representation), this [Relation](#qrlew-intermediate-representation) is an intermediate representation that is designed to ease the tracking of data types ranges or possible values, to ease the tracking of the [privacy unit](/definitions.md#datasets-and-privacy-units-pu) and to ease the rewriting into a DP *Relation*. Then, the rewriting into DP happens. Once the relation is rewritten into a DP one, it can be rendered as an SQL query string and submitted to the data store of the *data owner*. The output can then safely be shared with the *data practitioner*. This process is illustrated in {numref}`fig_qrlew_process`.
 
 ### Qrlew Intermediate Representation
 
@@ -149,7 +147,7 @@ Before we describe these phases into more details, let's define the various prop
 
 Each *Relation* can have one of the following properties:
 * **Privacy Unit Preserving (PUP):** A *Relation* is PUP if each row is associated with a PU. In practice it will have a column containing the PID identifying the PU.
-* **Differentially Private (DP):** A *Relation* will be DP if it implements a DP mechanism. A DP *Relation* can be safely  executed on private data and the result be published. Note that the *privacy loss* associated with the DP mechanism has to be accurately accounted for (see section {ref}`#privacy-analysis`).
+* **Differentially Private (DP):** A *Relation* will be DP if it implements a DP mechanism. A DP *Relation* can be safely  executed on private data and the result be published. Note that the *privacy loss* associated with the DP mechanism has to be accurately accounted for (see section [](#privacy-analysis)).
 * **Synthetic Data (SD):** In some contexts a *synthetic data* version of source tables is available. Any *Relation* derived from other SD or Public *Relations* is itself SD.
 * **Public (Pub)** A relation derived from public tables is labeled as such and does not require any further protection to be disclosed.
 * **Published (Pubd):** A relation is considered Published if its input relations are either Public, DP, in some cases SD, or Published themselves. It can be considered as Published but with some more care like the need to account for the privacy loss incurred by its DP ancestors.

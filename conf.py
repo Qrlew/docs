@@ -24,7 +24,7 @@ extensions = [
 ]
 
 templates_path = ['_templates']
-exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
+exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store', '.venv']
 
 # Enable numref
 numfig = True
@@ -37,6 +37,7 @@ myst_enable_extensions = [
 ]
 myst_dmath_allow_labels = True
 myst_dmath_double_inline = True
+myst_heading_anchors = 3
 
 # Controls notebook execution
 nb_execution_mode = 'off'

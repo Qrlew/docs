@@ -1,6 +1,5 @@
 ---
 title: Deep Dive
-orphan: true
 ---
 # Deep Dive
 

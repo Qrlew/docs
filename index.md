@@ -86,6 +86,7 @@ titlesonly:
 ---
 tutorials/getting_started
 tutorials/user_guide
+deep_dive
 api
 contributing
 ```

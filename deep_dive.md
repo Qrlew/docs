@@ -1,5 +1,6 @@
 ---
 title: Deep Dive
+orphan: true
 ---
 # Deep Dive
 
@@ -16,6 +17,7 @@ guarantees on the output; and the query rewriting can be operated by a privacy-e
 must be trusted by the owner, but may belong to a separate organization.
 
 ```{figure} ./_static/qrlew_process.svg
+:name: fig_qrlew_process_deep_dive
 
 The rewriting process occurs in three stages: The [data practitioner](/definitions.md#data-practitioner)’s query is parsed
 into a [Relation](/definitions.md#relation), which is rewritten into a DP equivalent and finally executed by the the data
@@ -55,7 +57,7 @@ These requirements dictated the overall *query rewriting* architecture and many 
 ## How does [Qrlew] work?
 
 The [Qrlew] library, solves the problem of running a SQL query with [DP](/definitions.md#differential-privacy-dp) guarantees in three steps.
-First the SQL query submitted by the [data practitioner](/definitions.md#data-practitioner) is parsed and converted into a [Relation](#qrlew-intermediate-representation), this [Relation](#qrlew-intermediate-representation) is an intermediate representation that is designed to ease the tracking of data types ranges or possible values, to ease the tracking of the [privacy unit](/definitions.md#datasets-and-privacy-units-pu) and to ease the rewriting into a DP *Relation*. Then, the rewriting into DP happens. Once the relation is rewritten into a DP one, it can be rendered as an SQL query string and submitted to the data store of the *data owner*. The output can then safely be shared with the *data practitioner*. This process is illustrated in {numref}`fig_qrlew_process`.
+First the SQL query submitted by the [data practitioner](/definitions.md#data-practitioner) is parsed and converted into a [Relation](#qrlew-intermediate-representation), this [Relation](#qrlew-intermediate-representation) is an intermediate representation that is designed to ease the tracking of data types ranges or possible values, to ease the tracking of the [privacy unit](/definitions.md#datasets-and-privacy-units-pu) and to ease the rewriting into a DP *Relation*. Then, the rewriting into DP happens. Once the relation is rewritten into a DP one, it can be rendered as an SQL query string and submitted to the data store of the *data owner*. The output can then safely be shared with the *data practitioner*. This process is illustrated in {numref}`fig_qrlew_process_deep_dive`.
 
 ### Qrlew Intermediate Representation
 
@@ -109,12 +111,13 @@ Most of the range propagation in [Qrlew] is based on these concepts. It enables 
 ### Privacy Unit Definition
 
 Tables in a database rarely come properly formatted for privacy-preserving applications. Many rows in many tables may refer to the same individual, hence, *adding or removing an individual* means *adding or removing many rows*. To help the definition of the [privacy unit](/definitions.md#datasets-and-privacy-units-pu) [Qrlew] introduces a small [Privacy Unit (PU)](/definitions.md#datasets-and-privacy-units-pu) description language.
-As exemplified in listing~\ref{lst:pe}, [PU](/definitions.md#datasets-and-privacy-units-pu) definition associates to each private table in a database a path defining the PID of each row. For a table containing the [PU](/definitions.md#datasets-and-privacy-units-pu) itself, like a `users` table for example, the PU definition will look like `("users",[],"id"),` where `id` is the name of a column identifying the user, like its name. If the database defines tables related to this tables, the way the tables are related should be specified following this scheme: $(\mathtt{tab}_1, path, \mathtt{pid})$ where $\mathtt{tab}_1$ is the name of the table for which the PID is defined, $\mathtt{pid}$ is the name of the column defining the PID in the table referred by $path$ and $path$ is a list of elements of the form $[(\mathtt{ref}_1, \mathtt{tab}_2, \mathtt{id}_2),\ldots, (\mathtt{ref}_{m-1}, \mathtt{tab}_m, \mathtt{id}_m)]$
+As exemplified in {numref}`privacy_unit`, [PU](/definitions.md#datasets-and-privacy-units-pu) definition associates to each private table in a database a path defining the PID of each row. For a table containing the [PU](/definitions.md#datasets-and-privacy-units-pu) itself, like a `users` table for example, the PU definition will look like `("users",[],"id"),` where `id` is the name of a column identifying the user, like its name. If the database defines tables related to this tables, the way the tables are related should be specified following this scheme: $(\mathtt{tab}_1, path, \mathtt{pid})$ where $\mathtt{tab}_1$ is the name of the table for which the PID is defined, $\mathtt{pid}$ is the name of the column defining the PID in the table referred by $path$ and $path$ is a list of elements of the form $[(\mathtt{ref}_1, \mathtt{tab}_2, \mathtt{id}_2),\ldots, (\mathtt{ref}_{m-1}, \mathtt{tab}_m, \mathtt{id}_m)]$
 where $\mathtt{ref}_{i-1}$ is a column in $\mathtt{tab}_{i-1}$ --- usually a foreign key --- referring to $\mathtt{tab}_i$ with a column of referred id $\mathtt{id}_i$ --- usually a primary key. Following the path of tables referring to one another, we end up with the table defining the PID (e.g. `users`).
 
 This small [PU](/definitions.md#datasets-and-privacy-units-pu) description language allows for a variety of useful PID scenarii, beyond the simple, but restrictive *privacy per row*.
 
 ```{code-block} python
+:name: privacy_unit
 :caption: "Example of *privacy unit* definition for a database with three tables holding users, orders and items records. Each user is protected individually by designating their `id`s as PID. Orders are attached to a user through the foreign key: `user_id`. Items's ownership is defined the same way by specifying the lineage: `item -> order -> user`."
 
 privacy_unit = [

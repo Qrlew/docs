@@ -223,7 +223,7 @@ Note that the vector of sums has $\ell^2$ *Global Sensitivity* of $c$, so this i
 
 When the grouping keys from a are derived from the data, they are not safe for publication.
 Following {cite}`korolova2009releasing, wilson2019differentially`, we use a mechanism called *$\tau$-thresholding* to safely release these grouping keys.
-Note that, thanks to *range propagation* (see section~\ref{sec:range_propagation}), some groups are already public and need no differentially private mechanism to be published.
+Note that, thanks to *range propagation* (see section [](#range-propagation)), some groups are already public and need no differentially private mechanism to be published.
 Ultimately, the rewriting of: `SELECT sum(x) FROM table GROUP BY g WHERE g IN (1, 2, 3)` as a DP equivalent will not use *$\tau$-thresholding*, while `SELECT sum(x) FROM table GROUP BY g` will most certainly do if nothing more is known about `g` beforehand.
 
 To summarize the various mechanisms used in [Qrlew] to date:
@@ -261,7 +261,7 @@ Beyond that, [Qrlew] brings unique functionalities, such as:
 * the possibility for the non-expert to simply write standard SQL, but for the DP aware analyst to improve its utility by adding `WHERE x < b` or `WHERE x IN (1,2,3)` to give hints to the [Qrlew];
 * all the compute happens in the DB.
 
-This last point comes with some limitations (see section~\ref{sec:limitations}), but opens new possibilities like the delegation of the rewriting to a trusted third party. The data practitioner could simply write his desired query in SQL, send it to the rewriter that would keep track of the privacy losses and use [Qrlew] to rewrite the query, sign it, and send it back to the data practitioner that can then send the data-owner, who will check the signature certifying the DP properties of the rewritten query[^poc_server].
+This last point comes with some limitations (see section [](#known-limitations)), but opens new possibilities like the delegation of the rewriting to a trusted third party. The data practitioner could simply write his desired query in SQL, send it to the rewriter that would keep track of the privacy losses and use [Qrlew] to rewrite the query, sign it, and send it back to the data practitioner that can then send the data-owner, who will check the signature certifying the DP properties of the rewritten query[^poc_server].
 
 ## Known Limitations
 
@@ -293,18 +293,6 @@ And cite us:
 Useful *definitions* can be found [there](/definitions.md).
 
 # Bibliography
-
-```{toctree}
----
-maxdepth: 2
-hidden:
-titlesonly:
----
-tutorials/getting_started
-tutorials/user_guide
-api
-contributing
-```
 
 ```{bibliography} ./qrlew.bib
 ```

@@ -70,7 +70,7 @@ html_theme_options = {
         },
         {
             'name': 'Discord',
-            'url': 'https://discord.gg/JbvSPgyp',
+            'url': 'https://discord.com/invite/XQ9jYshj2p',
             'icon': 'fa-brands fa-discord',
             'type': 'fontawesome',
         },
